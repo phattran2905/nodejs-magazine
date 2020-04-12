@@ -1,0 +1,28 @@
+{
+  "name": "electronic_newspaper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phatductran/nodejs_electronic_newspaper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phatductran/nodejs_electronic_newspaper/issues"
+  },
+  "homepage": "https://github.com/phatductran/nodejs_electronic_newspaper#readme",
+  "dependencies": {
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
