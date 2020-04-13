@@ -2,13 +2,16 @@ const express = require('express')
 const app = express()
 const path = require('path')
 // router
-const backendRouter = require('./routes/admin/index')
+const adminRouter = require('./routes/admin/index')
+const userRouter = require('./routes/user/index')
 
 app.set('view engine','ejs')
 // app.set('views','./views')
 app.use('/static', express.static(path.join(__dirname,'public')))
 
-app.use('/admin', backendRouter)
+// Routes
+app.use('/', userRouter)
+app.use('/admin', adminRouter)
 
 
 // SET PORT

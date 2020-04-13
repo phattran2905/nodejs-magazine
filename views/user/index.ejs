@@ -3,14 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- css -->
+    <%- include('./base/css') %> 
+
     <title>BBC News</title>
 </head>
 <body>
-    <h1>BBC News</h1>
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <img src="/static/assets/svg/blq-orbit-blocks_white.svg" width="100" height="24" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">
+                    <i class="fas fa-user-circle"></i> Sign in
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">News</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Sport</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Reel</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Worklife</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Travel</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Future</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Culture</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+    </div>
+    <div class="container-fluid mt-3">
+        <header class="d-flex flex-row justify-content-between align-items-end">
+            <div class="welcome bg-danger">
+                <h2>Welcome to BBC.com</h2>
+            </div>
+            <div class="date bg-info h-100">
+                <span >Sunday, 12 April</span>
+            </div>
+        </header>
 
-    <script src="/static/js/jquery-3.5.0.min"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="/static/js/bootstrap.bundle.min.css"></script>
+        <section class="top-articles d-flex flex-row">
+            <div class="artcile-1 align-self-stretch">
+              <img src="/static/assets/img/article_1.jpg" alt="">
+            </div>
+            <div class="artcile-2">
+              <img src="/static/assets/img/article_1.jpg" alt="">
+            </div>
+            <div class="artcile-3">
+              <img src="/static/assets/img/article_1.jpg" alt="">
+            </div>
+            <div class="artcile-4">
+              <img src="/static/assets/img/article_1.jpg" alt="">
+            </div>
+            <div class="artcile-5">
+              <img src="/static/assets/img/article_1.jpg" alt="">
+            </div>
+        </section>
+    </div>
+    <!-- script -->
+    <%- include('./base/js') %> 
 </body>
 </html>
