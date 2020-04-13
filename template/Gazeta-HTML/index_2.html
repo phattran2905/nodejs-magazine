@@ -1,15 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if IE 8]>			<html class="ie ie8"> <![endif]-->
+<!--[if IE 9]>			<html class="ie ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html> <!--<![endif]-->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- css -->
-    <%- include('./base/css') %> 
 
-    <title>BBC News</title>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="keywords" content="HTML5 Template" />
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+    <title>Gazeta - Responsive Magazine Blog Template</title>
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Google Fonts & Fontawesome -->
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:400,100,300,300italic,100italic,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+
+	<!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="js/vendor/slick/slick.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<!-- JS - MEDIAQUERIES -->
+	<script src="js/css3-mediaqueries.js"></script>
+	
 </head>
 <body>
-    
+
 <!-- Topbar -->
 <div class="top-bar container">
 	<div class="row">
@@ -200,90 +232,24 @@
 	</div>
 	
 	<!-- Main Content -->
-	<div class="featured-main">
-		<div class="bl-featured-big">
-			<div class="bl-meta">
-				<span><i class="fa fa-comments-o"></i> 4 Comments</span><br>
-				<span><i class="fa fa-heart-o"></i> 23 Likes</span>
-			</div>
-			<img src="images/xtra/10.jpg" class="img-responsive" alt=""/>
-			<div class="bl-info">
-				<span>Entertainment</span>
-				<h3><a href="./single_post.html">Claritas Est Etiam Processus Dynamicus, Qui Sequitur Mutationem </a></h3>
-				<a class="rmore" href="#">Continue Reading <i class="fa fa-arrow-right"></i></a>
-			</div>
-		</div>
-	</div>
-	
-	<div class="p-news-big container">
-		<h5><span>Popular News</span></h5>
-		
-		<div class="col-md-12">
-			<div id="pnews-slider">
-				<div class="ps-info">
-					<div class="psi-thumb">
-						<div class="cat-tag">Business</div>
-						<img src="images/xtra/11.jpg" class="img-responsive" alt="">
-					</div>
-					<h4><a href="./single_post.html">Suspendisse Vulputate Ligula Turpis Fermentum Sollicitudin</a></h4>
-					<span>Posted on November 16, 2014</span>
-					<p>Nunc vel lorem ligula, vitae vestibulum arcu. Suspe ndisse non purus mauris. Suspendis vulputate ligula sed turpis fermentum sollicitudin. Quisque or lorem, porta rutrum sit amet, auctor sodales sapien.</p>
-					<a href="#" class="psi-more">Continue Reading &#8594;</a>
-				</div>
-				
-				<div class="ps-info">
-					<div class="psi-thumb">
-						<div class="cat-tag">World</div>
-						<img src="images/xtra/12.jpg" class="img-responsive" alt="">
-					</div>
-					<h4><a href="./single_post.html">Suspendisse Vulputate Ligula Turpis Fermentum Sollicitudin</a></h4>
-					<span>Posted on November 16, 2014</span>
-					<p>Nunc vel lorem ligula, vitae vestibulum arcu. Suspe ndisse non purus mauris. Suspendis vulputate ligula sed turpis fermentum sollicitudin. Quisque or lorem, porta rutrum sit amet, auctor sodales sapien.</p>
-					<a href="#" class="psi-more">Continue Reading &#8594;</a>
-				</div>
-				
-				<div class="ps-info">
-					<div class="psi-thumb">
-						<div class="cat-tag">Travelling</div>
-						<img src="images/xtra/13.jpg" class="img-responsive" alt="">
-					</div>
-					<h4><a href="./single_post.html">Suspendisse Vulputate Ligula Turpis Fermentum Sollicitudin</a></h4>
-					<span>Posted on November 16, 2014</span>
-					<p>Nunc vel lorem ligula, vitae vestibulum arcu. Suspe ndisse non purus mauris. Suspendis vulputate ligula sed turpis fermentum sollicitudin. Quisque or lorem, porta rutrum sit amet, auctor sodales sapien.</p>
-					<a href="#" class="psi-more">Continue Reading &#8594;</a>
-				</div>
-				
-				<div class="ps-info">
-					<div class="psi-thumb">
-						<div class="cat-tag">Entertainment</div>
-						<img src="images/xtra/11.jpg" class="img-responsive" alt="">
-					</div>
-					<h4><a href="./single_post.html">Suspendisse Vulputate Ligula Turpis Fermentum Sollicitudin</a></h4>
-					<span>Posted on November 16, 2014</span>
-					<p>Nunc vel lorem ligula, vitae vestibulum arcu. Suspe ndisse non purus mauris. Suspendis vulputate ligula sed turpis fermentum sollicitudin. Quisque or lorem, porta rutrum sit amet, auctor sodales sapien.</p>
-					<a href="#" class="psi-more">Continue Reading &#8594;</a>
-				</div>
-				
-				<div class="ps-info">
-					<div class="psi-thumb">
-						<div class="cat-tag">Politic</div>
-						<img src="images/xtra/12.jpg" class="img-responsive" alt="">
-					</div>
-					<h4><a href="./single_post.html">Suspendisse Vulputate Ligula Turpis Fermentum Sollicitudin</a></h4>
-					<span>Posted on November 16, 2014</span>
-					<p>Nunc vel lorem ligula, vitae vestibulum arcu. Suspe ndisse non purus mauris. Suspendis vulputate ligula sed turpis fermentum sollicitudin. Quisque or lorem, porta rutrum sit amet, auctor sodales sapien.</p>
-					<a href="#" class="psi-more">Continue Reading &#8594;</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!-- Main Content -->
 	<div class="main-content container">
 		<div class="col-md-8 block-1">
 			<div class="row">
 				<div class="col-md-9 block-right">
-				
+					<div class="bl-featured-big">
+						<div class="bl-meta">
+							<span><i class="fa fa-comments-o"></i> 4 Comments</span><br>
+							<span><i class="fa fa-heart-o"></i> 23 Likes</span>
+						</div>
+						
+						<img src="images/xtra/2.jpg" class="img-responsive" alt=""/>
+						<div class="bl-info">
+							<span>Entertainment</span>
+							<h3><a href="./single_post.html">Claritas Est Etiam Processus Dynamicus, Qui Sequitur Mutationem </a></h3>
+							<a class="rmore" href="#">Continue Reading <i class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+					
 					<!-- Featured News -->
 					<div class="featured-news2">
 						<h5><span>Featured News</span></h5>
@@ -355,6 +321,7 @@
 							<img src="images/xtra/1.jpg" class="img-responsive" alt=""/>
 							<span class="thumb-cat">Technology</span>
 						</div>
+						
 						<p>Posted on November 02, 2014</p>
 						<h4><a href="./single_post.html">Tempor Cum Soluta Nobis Eleifend Option Congue Nihil</a></h4>
 						<div class="sep"></div>
@@ -375,6 +342,9 @@
 						<h4><a href="./single_post.html">Tempor Cum Soluta Nobis Eleifend Option Congue Nihil</a></h4>
 						<div class="sep"></div>
 						<a href="#" class="btn1">View All Posts</a>
+					</div>
+					<div class="bla-content banner">
+						<img src="images/banner/1.jpg" class="img-responsive" alt=""/>
 					</div>
 				</div>
 			</div>
@@ -398,7 +368,6 @@
 									</div>
 								</div>
 							</div>
-							
 							<div class="col-md-6 cb-info">
 								<span class="cat">Technology</span>									
 								<h5><a href="./single_post.html">Eodem Modo Typi, Qui Nunc Nobis Videntur Parum Clari</a></h5>
@@ -430,7 +399,6 @@
 									</div>
 								</div>
 							</div>
-							
 							<div class="col-md-6 cb-info">
 								<span class="cat">Business</span>									
 								<h5><a href="./single_post.html">Eodem Modo Typi, Qui Nunc Nobis Videntur Parum Clari</a></h5>
@@ -462,7 +430,6 @@
 									</div>
 								</div>
 							</div>
-							
 							<div class="col-md-6 cb-info">
 								<span class="cat">Entertainment</span>									
 								<h5><a href="./single_post.html">Eodem Modo Typi, Qui Nunc Nobis Videntur Parum Clari</a></h5>
@@ -484,13 +451,12 @@
 							<div class="col-md-6">
 								<div class="op-twitter">
 									<div class="opt-inner">
-										<p>Check out 'Gazeta - Magazine HTML Template ' on <a href="#">@EnvatoMarket #themeforest<br> http://themeforest.net/item/gazeta-html-template</a></p>
+										<p>Check out 'Gazeta - Magazine HTML Template ' on <a href="#">@EnvatoMarket #themeforest<br> http://themeforest.net/item/gazeta-magazine-html-template--</a></p>
 										<em>3 Hours . <a href="#">Reply</a></em>
 									</div>
 									<span class="ico"><i class="fa fa-twitter"></i></span>	
 								</div>
 							</div>
-							
 							<div class="col-md-6">
 								<div class="op-info">
 									<div class="opi-inner">
@@ -506,10 +472,54 @@
 				</div>
 			</div>
 		</div>
-
+	
 		<!-- Sidebar -->
 		<aside class="col-md-4">
-
+		
+			<!-- Popular News -->
+			<div class="side-widget p-news">
+				<h5><span>Popular news</span></h5>
+				<div class="sw-inner">
+					<ul>
+						<li>
+							<img src="images/aside/1.jpg" alt=""/>
+							<div class="pn-info">
+								<span>Politic</span>
+								<h4><a href="./single_post.html">Lorem Ipsum Dolor Sit Amet, Consetetuer Adipiscing Elit</a></h4>
+							</div>
+						</li>
+						<li>
+							<img src="images/aside/2.jpg" alt=""/>
+							<div class="pn-info">
+								<span>Politic</span>
+								<h4><a href="./single_post.html">Lorem Ipsum Dolor Sit Amet, Consetetuer Adipiscing Elit</a></h4>
+							</div>
+						</li>
+						<li>
+							<img src="images/aside/3.jpg" alt=""/>
+							<div class="pn-info">
+								<span>Business</span>
+								<h4><a href="./single_post.html">Lorem Ipsum Dolor Sit Amet, Consetetuer Adipiscing Elit</a></h4>
+							</div>
+						</li>
+						<li>
+							<img src="images/aside/4.jpg" alt=""/>
+							<div class="pn-info">
+								<span>Technology</span>
+								<h4><a href="./single_post.html">Lorem Ipsum Dolor Sit Amet, Consetetuer Adipiscing Elit</a></h4>
+							</div>
+						</li>
+						<li>
+							<img src="images/aside/5.jpg" alt=""/>
+							<div class="pn-info">
+								<span>Uncategorized</span>
+								<h4><a href="./single_post.html">Lorem Ipsum Dolor Sit Amet, Consetetuer Adipiscing Elit</a></h4>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
 			<!-- Banner -->
 			<div class="side-widget sw-banner">
 				<a href="#"><img src="images/banner/2.jpg" class="img-responsive" alt=""/></a>
@@ -806,7 +816,13 @@
 </div>
 
 <div class="clearfix space30"></div>
-    <!-- script -->
-    <%- include('./base/js') %> 
+
+<!-- Javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/vendor/slick/slick.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
