@@ -1,9 +1,10 @@
-const express = require('express')
-const adminRouter = express.Router()
+const express = require("express");
+const adminRouter = express.Router();
 
-adminRouter.get('/', (req,res) => {{
-    res.render('admin/index')
-}})
+adminRouter.get("/", (req, res) => {
+  {
+    res.redirect("/admin/login");
+  }
+});
 
-
-module.exports = adminRouter
+module.exports = adminRouter;
