@@ -1,31 +1,28 @@
 {
-  "name": "electronic_newspaper",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/phatductran/nodejs_electronic_newspaper.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/phatductran/nodejs_electronic_newspaper/issues"
-  },
-  "homepage": "https://github.com/phatductran/nodejs_electronic_newspaper#readme",
-  "dependencies": {
-    "ejs": "^3.0.2",
-    "express": "^4.17.1",
-    "mongoose": "^5.9.7",
-    "pg": "^8.0.2",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.6"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.3"
-  }
+    "name": "electronic_newspaper",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/phatductran/nodejs_electronic_newspaper.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/phatductran/nodejs_electronic_newspaper/issues"
+    },
+    "homepage": "https://github.com/phatductran/nodejs_electronic_newspaper#readme",
+    "dependencies": {
+        "ejs": "^3.0.2",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.7"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.3"
+    }
 }
