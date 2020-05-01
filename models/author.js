@@ -12,6 +12,10 @@ const AuthorSchema = mongoose.Schema({
     password: {
         type: String
     },
+    profile_img :{
+        type: String,
+        default: 'default_profile_img.jpg'
+    },
     personal_information: {
         fullname: String,
         gender: String,

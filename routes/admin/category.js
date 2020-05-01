@@ -2,9 +2,9 @@ const express = require('express')
 const categoryRouter = express.Router()
 const Category = require('../../models/category')
 
-categoryRouter.get('/category/add', (req,res) => {{
+categoryRouter.get('/category/add', (req,res) => {
     res.render('admin/add_category')
-}});
+});
 
 
 categoryRouter.post('/category/add',async (req,res) => {{

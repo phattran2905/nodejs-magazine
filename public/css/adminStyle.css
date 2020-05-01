@@ -1,0 +1,8 @@
+#navbarTogglerAdmin ul {
+    flex-direction: column;
+}
+
+.nav-sidebar {
+    position: fixed;
+    height: 100%;
+}

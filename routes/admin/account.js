@@ -1,6 +1,6 @@
 const express = require('express');
 const accountRouter = express.Router();
-const AdminModel = require('../../models/admin');
+const AdminModel = require('../../models/AdministratorModel');
 const bcrypt = require('bcrypt');
 
 accountRouter.get('/account/add', (req,res) =>{

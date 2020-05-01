@@ -1,9 +1,12 @@
 const express = require("express");
 const adminRouter = express.Router();
+const authUtils = require("../../utils/auth");
 
-adminRouter.get("/", (req, res) => {
+adminRouter.get("/",
+authUtils.checkAuthenticatedAdmin,
+(req, res) => {
   {
-    res.redirect("/admin/login");
+    res.render("admin/index")
   }
 });
 
