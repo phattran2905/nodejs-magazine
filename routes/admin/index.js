@@ -6,7 +6,13 @@ adminRouter.get("/",
 authUtils.checkAuthenticatedAdmin,
 (req, res) => {
   {
-    res.render("admin/index")
+    const loggedAdmin = {
+      username: req.user.username,
+      email: req.user.email,
+      role: req.user.role,
+      status: req.user.status
+    };
+    res.render("admin/index", {loggedAdmin: loggedAdmin})
   }
 });
 

@@ -35,9 +35,12 @@ app.use("/admin/static", express.static(path.join(__dirname, "public/admin/")));
 app.use(express.urlencoded({extended: false}));
 app.use(session({
     secret: "Secret key for session",
-    maxAge: 24*3600*1000*7,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 24*3600*1000*7,
+        sameSite: true,
+    }
 }));
 app.use(flash());
 passportSetup(passport);
