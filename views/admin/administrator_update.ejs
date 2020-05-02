@@ -40,7 +40,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18"></h4>
+                                    <h4 class="mb-0 font-size-18">
+                                        <a href="/admin/administrators" class="btn btn-dark">
+                                            <i class="mdi mdi-keyboard-backspace"></i>
+                                        </a>
+                                    </h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -58,68 +62,126 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <% if(messages.info) { %>
+                                        <% if(messages.updateSuccess) { %>
                                             <div class="alert alert-success" role="alert">
-                                                Successfully updated changes.
+                                                <%= messages.updateSuccess %> 
                                             </div>
-                                        <% } %>
+                                        <% } else if (messages.updateFail) { %>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%= messages.updateFail %> 
+                                            </div>
+                                        <% } %> 
                                         
                                         <h4 class="header-title">Update Form</h4>
                                         <p class="card-title-desc">Submit the <code>SAVE</code> button to make changes.</p>
                                         
-                                        <form action="/admin/administrators/update<%= admin.username %>"  method="POST">
+                                        <form action="/admin/administrators/update/<%= admin.username %>" method="POST" class="needs-validation" novalidate>
                                             <div class="form-group row">
                                                 <label for="username" class="col-md-2 col-form-label">Username</label>
                                                 <div class="col-md-10">
-                                                    <% if (admin) { %>
-                                                        <input class="form-control" type="text" id="username" name="username" value="<%= admin.username %>">
-                                                    <% } else { %>
-                                                        <input class="form-control" type="text" id="username" name="username">
-                                                    <% } %>
+                                                    <% if (typeof errors !== 'undefined') { %>
+                                                        <% errors.forEach( (error) => { %>
+                                                            <% if (error.param === 'username') { %> 
+                                                                <input type="text" class="form-control is-invalid" value="<%= error.value %>" name="username" id="username" placeholder="Enter Username" required>
+                                                                <div class="invalid-feedback">
+                                                                    <%= error.msg %>
+                                                                </div>
+                                                            <% } %> 
+                                                        <% }) %>
+                                                    <% } %> 
+
+                                                    <% if (typeof validInput !== 'undefined' && typeof validInput.username !== 'undefined') { %>
+                                                        <input type="text" class="form-control is-valid" name="username" id="username" value="<%= validInput.username %>" placeholder="Enter Username" required>
+                                                    <% } %> 
+
+                                                    <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
+                                                        <input type="text" class="form-control" name="username" id="username" value="<%= admin.username %>" placeholder="Enter Username" required>
+                                                    <% } %> 
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="email" class="col-md-2 col-form-label">Email</label>
                                                 <div class="col-md-10">
-                                                    <% if (admin) { %>
-                                                        <input class="form-control" type="text" id="email" name="email" value="<%= admin.email %>">
-                                                    <% } else { %>
-                                                        <input class="form-control" type="email" id="email">
-                                                    <% } %>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="example-password-input" class="col-md-2 col-form-label">Password</label>
-                                                <div class="col-md-10">
-                                                    <a href="#" class="btn btn-danger">Reset password</a>
+
+                                                    <% if (typeof errors !== 'undefined') { %>
+                                                        <% errors.forEach( (error) => { %>         
+                                                            <% if (error.param === 'email') { %> 
+                                                                <input type="email" class="form-control is-invalid" name="email" id="email" value="<%= error.value %>"  placeholder="Enter Email" required>
+                                                                <div class="invalid-feedback">
+                                                                    <%= error.msg %>
+                                                                </div>
+                                                            <% } %> 
+                                                        <% }) %>
+                                                    <% } %> 
+                                                    
+                                                    <% if (typeof validInput !== 'undefined' && typeof validInput.email !== 'undefined') { %>
+                                                        <input type="text" class="form-control is-valid" name="email" id="email" value="<%= validInput.email %>" placeholder="Enter Email" required>    
+                                                    <% } %> 
+
+                                                    <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
+                                                        <input type="text" class="form-control" value="<%= admin.email %>" name="email" id="email"  placeholder="Enter Email" required>
+                                                    <% } %> 
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-md-2 col-form-label">Role</label>
                                                 <div class="col-md-10">
-                                                    <select class="custom-select">
-                                                    <% if (admin) { %>
-                                                        <% if(admin.role === 'Admin') { %>
-                                                            <option value="SuperAdmin">Moderator</option>
-                                                            <option selected value="Admin">Admin</option>
-                                                            <option value="Moderator">Moderator</option>
-                                                        <% } else if (admin.role === 'SuperAdmin') { %>
-                                                            <option selected value="SuperAdmin">SuperAdmin</option>
-                                                            <option value="Admin">Admin</option>
-                                                            <option value="Moderator">Moderator</option>
-                                                        <% } else if (admin.role === 'Moderator') { %>
-                                                            <option value="SuperAdmin">Moderator</option>
-                                                            <option value="Admin">Admin</option>
-                                                            <option selected value="Moderator">Moderator</option>
-                                                        <% } else { %>
-                                                        <option value="SuperAdmin">SuperAdmin</option>
-                                                        <option value="Admin">Admin</option>
-                                                        <option value="Moderator">Moderator</option>
+                                                    <% if (typeof errors !== 'undefined') { %>
+                                                        <% errors.forEach( (error) => { %>         
+                                                            <% if (error.param === 'role') { %> 
+                                                                <select class="custom-select is-invalid" name="role">
+                                                                    <option selected value="">Choose a role</option>
+                                                                    <option  value="SuperAdmin">SuperAdmin</option>
+                                                                    <option  value="Admin">Admin</option>
+                                                                    <option  value="Moderator">Moderator</option>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    <%= error.msg %>
+                                                                </div>
+                                                            <% } %> 
+                                                        <% }) %> 
+                                                    <% } %> 
+
+                                                        <% if (typeof validInput !== 'undefined' && typeof validInput.role !== 'undefined') { %> 
+                                                            <select class="custom-select is-valid" name="role">
+                                                                <option value="">Choose a role</option>
+                                                            <% if (validInput.role === 'SuperAdmin') { %> 
+                                                                <option selected value="SuperAdmin">SuperAdmin</option>
+                                                                <option value="Admin">Admin</option>
+                                                                <option value="Moderator">Moderator</option>
+                                                            <% } else if (validInput.role === 'Admin') { %> 
+                                                                <option  value="SuperAdmin">SuperAdmin</option>
+                                                                <option selected value="Admin">Admin</option>
+                                                                <option value="Moderator">Moderator</option>
+                                                            <% } else if (validInput.role === 'Moderator') { %> 
+                                                                <option  value="SuperAdmin">SuperAdmin</option>
+                                                                <option  value="Admin">Admin</option>
+                                                                <option selected value="Moderator">Moderator</option>
+                                                            <% } %> 
+                                                            </select>
                                                         <% } %>
-                                                    <% } %>
-                                                    </select>
+
+                                                        <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %> 
+                                                            <select class="custom-select" name="role" required>
+                                                                <option value="">Choose a role</option>
+                                                                <% if (admin.role === 'SuperAdmin') { %> 
+                                                                    <option selected value="SuperAdmin">SuperAdmin</option>
+                                                                    <option value="Admin">Admin</option>
+                                                                    <option value="Moderator">Moderator</option>
+                                                                <% } else if (admin.role === 'Admin') { %> 
+                                                                    <option  value="SuperAdmin">SuperAdmin</option>
+                                                                    <option selected value="Admin">Admin</option>
+                                                                    <option value="Moderator">Moderator</option>
+                                                                <% } else if (admin.role === 'Moderator') { %> 
+                                                                    <option  value="SuperAdmin">SuperAdmin</option>
+                                                                    <option  value="Admin">Admin</option>
+                                                                    <option selected value="Moderator">Moderator</option>
+                                                                <% } %> 
+                                                            </select>
+                                                        <% } %> 
                                                 </div>
                                             </div>
+
                                             <div class="form-group row">
                                                 <label for="status" class="col-md-2 col-form-label">Status</label>
                                                 <div class="col-md-10">
@@ -145,11 +207,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                    </form>
+                                        </form>
                                     </div>
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
+                        
                         
                     </div> <!-- container-fluid -->
                 </div>

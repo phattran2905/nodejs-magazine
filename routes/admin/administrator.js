@@ -3,11 +3,14 @@ const adminRouter = express.Router();
 const AdminModel = require("../../models/AdministratorModel");
 const authUtils = require("../../utils/auth");
 const adminUtils = require("../../utils/administrator");
-const {check, validationResult, matchedData} = require("express-validator");
+const {body, validationResult, matchedData} = require("express-validator");
 
-adminRouter.get("/administrators", authUtils.checkAuthenticatedAdmin, async (req, res) => {
-  const administrators = await AdminModel.find();
-  res.render("admin/administrator", { administrators: administrators });
+adminRouter.get(
+    "/administrators", 
+    authUtils.checkAuthenticatedAdmin, 
+    async (req, res) => {
+    const administrators = await AdminModel.find();
+    res.render("admin/administrator", { administrators: administrators });
 });
 
 adminRouter.get(
@@ -21,19 +24,19 @@ adminRouter.get(
 adminRouter.post(
     "/administrators/add",
     [
-        check('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.")
+        body('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.")
             .trim().escape()
             .bail().custom(adminUtils.checkExistedUsername),
-        check('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
+        body('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
             .bail().custom(adminUtils.checkExistedEmail),
-        check('password').isLength({min: 4}).withMessage('Password must be at least 4 characters.').escape(),
-        check('role').not().isEmpty().withMessage("Assign a role for account.")
+        body('password').isLength({min: 4}).withMessage('Password must be at least 4 characters.').escape(),
+        body('role').not().isEmpty().withMessage("Assign a role for account.")
     ],
     async (req, res) => {
         const errors = validationResult(req);
-        const input = matchedData(req, {location: ['body']});
+        const validInput = matchedData(req, {location: ['body']});
         if (!errors.isEmpty()) {
-            return res.render("admin/administrator_add", {errors: errors.array(), input: input});
+            return res.render("admin/administrator_add", {errors: errors.array(), validInput: validInput});
         }
         try {
             const adminObj = await adminUtils.createNewAdmin(
@@ -44,9 +47,9 @@ adminRouter.post(
             );
 
             if (adminObj) {
-            req.flash("add", "Success");
+                req.flash("addSuccess", "Successfully. A new administrators was added.");
             } else {
-            req.flash("add", "Fail");
+                req.flash("addFail", "Failed. An error occurred during the process.");
             }
 
             return res.redirect("/admin/administrators/add");
@@ -73,14 +76,40 @@ adminRouter.get(
 adminRouter.post(
     "/administrators/update/:username", 
     [
-        check('username'),
+        body('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.").trim()
+            .bail().custom(adminUtils.checkExistedUsername),
+        body('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
+            .bail().custom(adminUtils.checkExistedEmail),
+        body('role').not().isEmpty().withMessage("Must assign a role for the account.")
     ],
     async (req, res) => {
-    try {
-        console.log(req.body);
-    } catch (error) {
-        return res.sendStatus(404);
-    }
+        const errors = validationResult(req);
+        const validInput = matchedData(req, {location: ['body']});
+        try {
+            const admin = await AdminModel.findOne({ username: req.params.username });
+
+            console.log(errors.array());
+            console.log(validInput);
+            if (!errors.isEmpty()) {
+                return res.render("admin/administrator_update", {errors: errors.array(), validInput: validInput, admin: admin});
+            }
+            const updatedAdmin = await AdminModel.findOneAndUpdate(
+                {username: req.params.username},
+                {
+                    username: req.body.username,
+                    email: req.body.email,
+                    role: req.body.role
+                },{new: true});
+                if (updatedAdmin){
+                    req.flash('updateSuccess', 'Successfully. All changes were saved.');
+                }else {
+                    req.flash('updateFail', 'Failed. An error occurred during the process.');
+                }
+            return res.redirect("/admin/administrators/update/" + admin.username);
+        } catch (error) {
+            console.log(error);
+            return res.sendStatus(404);
+        }
 });
 
 adminRouter.post(
@@ -91,6 +120,7 @@ adminRouter.post(
         if (adminObj && adminObj.status === "Deactivated") {
         adminObj.status = "Activated";
         await adminObj.save();
+
         res.redirect("/admin/administrators");
         }
     } catch (error) {
@@ -114,14 +144,33 @@ adminRouter.post(
 });
 
 adminRouter.post(
-    "/administrators/delete/:username", 
+    "/administrators/reset_password/", 
     async (req, res) => {
     try {
-        const adminObj = await AdminModel.findOneAndDelete({ username: username });
+        const adminObj = await AdminModel.findOneAndUpdate({ username: username },{ password: 'Reset Password' });
         if (adminObj) {
-        res.flash("info", "success");
+            req.flash("resetSuccess", "Successfully. A link was sent to email for setting up a new password.");
         } else {
-        res.flash("info", "fail");
+            req.flash("resetFail", "Failed. An error occurred during the process.");
+        }
+        res.redirect("/admin/administrators");
+    } catch (error) {
+        return res.sendStatus(404);
+    }
+});
+
+adminRouter.post(
+    "/administrators/delete/", 
+    async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.body.id);
+        const adminObj = await AdminModel.findByIdAndDelete({ _id: req.body.id });
+        console.log(adminObj);
+        if (adminObj) {
+            req.flash("deleteSuccess", "Successfully. The administrator was removed from the database.");
+        } else {
+            req.flash("deleteFail", "Failed. An error occurred during the process");
         }
         res.redirect("/admin/administrators");
     } catch (error) {

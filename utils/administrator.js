@@ -3,19 +3,22 @@ const commonUtils = require('../utils/common');
 const bcrypt = require('bcrypt');
 
 const AdminUtils = {
-    checkDifferent: async function(username, ) {
-        const match = await AdminModel.findOne({username: username});
-    },
-    checkExistedEmail: async function(email) {
+    checkExistedEmail: async function(email, {req}) {
         const match = await AdminModel.findOne({email: email});
         if(match) {
+            if (typeof req.params.username !== 'undefined' && match.username === req.params.username) {
+                return true;
+            }
             throw new Error('Email already existed.'); 
         }
         return true;
     },
-    checkExistedUsername: async function(username) {
+    checkExistedUsername: async function(username, {req}) {
         const match = await AdminModel.findOne({username: username});
         if(match) {
+            if (typeof req.params.username !== 'undefined' && match.username === req.params.username) {
+                return true;
+            }
             throw new Error('Username already existed.'); 
         }
         return true;

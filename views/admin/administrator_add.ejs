@@ -40,7 +40,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18"></h4>
+                                    <h4 class="mb-0 font-size-18">
+                                        <a href="/admin/administrators" class="btn btn-dark">
+                                            <i class="mdi mdi-keyboard-backspace"></i>
+                                        </a>
+                                    </h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -58,11 +62,15 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <% if(messages.add) { %>
+                                        <% if(messages.addSuccess) { %>
                                             <div class="alert alert-success" role="alert">
-                                                A new administrator was successfully added!
+                                                <%= messages.addSuccess %> 
                                             </div>
-                                        <% } %>
+                                        <% } else if (messages.addFail) { %>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%= messages.addFail %> 
+                                            </div>
+                                        <% } %> 
                                         
                                         <h4 class="header-title">Create Form</h4>
                                         <p class="card-title-desc">Submit the <code>Create</code> button to add a new administrator.</p>
@@ -81,11 +89,11 @@
                                                         <% }) %>
                                                     <% } %> 
 
-                                                    <% if (typeof input !== 'undefined' && typeof input.username !== 'undefined') { %>
-                                                        <input type="text" class="form-control is-valid" name="username" id="username" value="<%= input.username %>" placeholder="Enter Username" required>
+                                                    <% if (typeof validInput !== 'undefined' && typeof validInput.username !== 'undefined') { %>
+                                                        <input type="text" class="form-control is-valid" name="username" id="username" value="<%= validInput.username %>" placeholder="Enter Username" required>
                                                     <% } %> 
 
-                                                    <% if (typeof errors === 'undefined' && typeof input === 'undefined') { %> 
+                                                    <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
                                                         <input type="text" class="form-control" name="username" id="username"  placeholder="Enter Username" required>
                                                     <% } %> 
                                                 </div>
@@ -105,11 +113,11 @@
                                                         <% }) %>
                                                     <% } %> 
                                                     
-                                                    <% if (typeof input !== 'undefined' && typeof input.email !== 'undefined') { %>
-                                                        <input type="text" class="form-control is-valid" name="email" id="email" value="<%= input.email %>" placeholder="Enter Email" required>    
+                                                    <% if (typeof validInput !== 'undefined' && typeof validInput.email !== 'undefined') { %>
+                                                        <input type="text" class="form-control is-valid" name="email" id="email" value="<%= validInput.email %>" placeholder="Enter Email" required>    
                                                     <% } %> 
 
-                                                    <% if (typeof input === 'undefined' && typeof errors === 'undefined') { %>
+                                                    <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
                                                         <input type="text" class="form-control" name="email" id="email"  placeholder="Enter Email" required>
                                                     <% } %> 
                                                 </div>
@@ -129,11 +137,11 @@
                                                         <% }) %>
                                                 <% } %> 
 
-                                                <% if (typeof input !== 'undefined' && typeof input.password !== 'undefined') { %>
-                                                    <input type="password" class="form-control is-valid" value="<%= input.password %>" name="password" id="password" placeholder="Enter Password" required>
+                                                <% if (typeof validInput !== 'undefined' && typeof validInput.password !== 'undefined') { %>
+                                                    <input type="password" class="form-control is-valid" value="<%= validInput.password %>" name="password" id="password" placeholder="Enter Password" required>
                                                 <% } %> 
 
-                                                <% if (typeof input === 'undefined' && typeof errors === 'undefined') { %>
+                                                <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
                                                     <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
                                                 <% } %>
                                                 </div>
@@ -157,18 +165,18 @@
                                                         <% }) %> 
                                                     <% } %> 
 
-                                                        <% if (typeof input !== 'undefined' && typeof input.role !== 'undefined') { %> 
+                                                        <% if (typeof validInput !== 'undefined' && typeof validInput.role !== 'undefined') { %> 
                                                             <select class="custom-select is-valid" name="role">
                                                                 <option value="">Choose a role</option>
-                                                            <% if (input.role === 'SuperAdmin') { %> 
+                                                            <% if (validInput.role === 'SuperAdmin') { %> 
                                                                 <option selected value="SuperAdmin">SuperAdmin</option>
                                                                 <option value="Admin">Admin</option>
                                                                 <option value="Moderator">Moderator</option>
-                                                            <% } else if (input.role === 'Admin') { %> 
+                                                            <% } else if (validInput.role === 'Admin') { %> 
                                                                 <option  value="SuperAdmin">SuperAdmin</option>
                                                                 <option selected value="Admin">Admin</option>
                                                                 <option value="Moderator">Moderator</option>
-                                                            <% } else if (input.role === 'Moderator') { %> 
+                                                            <% } else if (validInput.role === 'Moderator') { %> 
                                                                 <option  value="SuperAdmin">SuperAdmin</option>
                                                                 <option  value="Admin">Admin</option>
                                                                 <option selected value="Moderator">Moderator</option>
@@ -176,7 +184,7 @@
                                                             </select>
                                                         <% } %>
 
-                                                        <% if (typeof input === 'undefined' && typeof errors === 'undefined') { %> 
+                                                        <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %> 
                                                             <select class="custom-select" name="role" required>
                                                                 <option value="">Choose a role</option>
                                                                 <option value="SuperAdmin">SuperAdmin</option>

@@ -15,8 +15,8 @@
     <!-- Responsive datatable examples -->
     <link href="/admin/static/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" /> 
     
-    <!-- Lightbox css -->
-    <link href="/admin/static/assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
+    <!-- Sweet Alert-->
+    <link href="/admin/static/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
   </head>
 
     <body data-sidebar="dark">
@@ -66,11 +66,25 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <% if(messages.info) { %>
+                                        <% if(messages.deleteSuccess) { %>
                                             <div class="alert alert-success" role="alert">
-                                                Successfully added a new Administrator.
+                                                <%= messages.deleteSuccess %> 
                                             </div>
-                                            <% } %>
+                                        <% } else if (messages.deleteFail) { %>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%= messages.deleteFail %> 
+                                            </div>
+                                        <% } %> 
+                                        <% if(messages.resetSuccess) { %>
+                                            <div class="alert alert-success" role="alert">
+                                                <%= messages.resetSuccess %> 
+                                            </div>
+                                        <% } else if (messages.resetFail) { %>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%= messages.resetFail %> 
+                                            </div>
+                                        <% } %> 
+
                                         <h6 class="header-title"></h6>
                                         <p class="card-title-desc">
                                                 <a href="/admin/administrators/add" class="btn btn-success waves-effect waves-light mr-2">
@@ -97,7 +111,12 @@
                                                     <tr>
                                                         <td class="admin-username" id="<%= admin.username %>"><%= admin.username %></td>
                                                         <td><%= admin.email %></td>
-                                                        <td><%= admin.role %></td>
+                                                        <td>
+                                                            <% if(admin.role === 'SuperAdmin') { %> 
+                                                                <i class="mdi mdi-crown text-primary"></i>
+                                                                <% } %> 
+                                                            <%= admin.role %>
+                                                        </td>
                                                         <td><%= admin.createdAt.toDateString() %></td>
                                                         <td><%= admin.createdAt.toDateString() %></td>
                                                         <% if(admin.status === 'Deactivated') { %>
@@ -108,7 +127,9 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <form action="/admin/administrators/activate/<%= admin.username %>" class="d-inline" method="POST">
-                                                                    <button class="btn btn-success text-light" type="submit" role="button"><i class="mdi mdi-lock-open-variant-outline"></i></button>
+                                                                    <button class="btn btn-success text-light sa-warning-activate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Activate" data-original-title="Activate">
+                                                                        <i class="mdi mdi-lock-open-variant-outline"></i>
+                                                                    </button>
                                                                 </form>
                                                         <% }else if (admin.status === 'Activated') { %>
                                                             <td class="d-flex justify-content-around">
@@ -118,12 +139,25 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <form action="/admin/administrators/deactivate/<%= admin.username %>" class="d-inline" method="POST">
-                                                                    <button class="btn btn-secondary text-light" type="submit" role="button"><i class="mdi mdi-block-helper"></i></button>
+                                                                    <button class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
+                                                                        <i class="mdi mdi-block-helper"></i>
+                                                                    </button>
                                                                 </form>
                                                         <% } %>
-                                                            <a class="btn btn-info text-light" href="/admin/administrators/update/<%= admin.username %>"role="button"><i class="mdi mdi-pencil-box-multiple-outline"></i></a>
-                                                        <form action="/admin/administrators/delete/<%= admin.username %>" class="d-inline" method="POST">
-                                                            <button class="btn btn-danger text-light" type="submit" role="button"><i class="mdi mdi-delete-alert"></i></button>
+                                                            <a class="btn btn-info text-light" href="/admin/administrators/update/<%= admin.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
+                                                                <i class="mdi mdi-pencil-box-multiple-outline"></i>
+                                                            </a>
+                                                        <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
+                                                            <input type="hidden" name="id" value="<%= admin.id %>">
+                                                            <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
+                                                                <i class="mdi mdi-rotate-3d-variant"></i>
+                                                            </button>
+                                                        </form>
+                                                        <form action="/admin/administrators/delete" class="d-inline" method="POST">
+                                                            <input type="hidden" name="id" value="<%= admin.id %>">
+                                                            <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
+                                                                <i class="mdi mdi-delete-alert"></i>
+                                                            </button>
                                                         </form>
                                                         </td>
                                                     </tr>
@@ -139,56 +173,6 @@
                 </div>
                 <!-- End Page-content -->
 
-                <!-- Popup -->
-
-                <div class="card mfp-hide mfp-popup-form mx-auto" id="add-admin-form">
-                    <div class="card-body">
-                        <h4 class="mt-0 mb-4">Form</h4>   
-                        <form action="/admin/administrators/add" method="POST">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label class="col-form-label">Role</label>
-                                        <div class="col-md-5 p-0">
-                                            <select class="form-control" name="role">
-                                                <option value="">Choose a role</option>
-                                                <option value="SuperAdmin">SuperAdmin</option>
-                                                <option value="Admin">Admin</option>
-                                                <option value="Moderator">Moderator</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <!-- <div class="row"> -->
-                                        <div class="col-lg-12">
-                                            <div class="text-right">
-                                                <button type="submit"  class="btn btn-primary">ADD</button> 
-                                            </div>
-                                        </div>
-                                    <!-- </div> -->
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
                 <footer class="footer">
                     <div class="container-fluid">
                         <div class="row">
@@ -539,28 +523,15 @@
     <script src="/admin/static/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
     <script src="/admin/static/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="/admin/static/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-    <!-- Responsive examples -->
-    <script src="/admin/static/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="/admin/static/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
     <!-- Datatable init js -->
     <script src="/admin/static/assets/js/pages/datatables.init.js"></script>
 
-    <!-- Magnific Popup-->
-    <script src="/admin/static/assets/libs/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <!-- Sweet Alerts js -->
+    <script src="/admin/static/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
-    <!-- Tour init js-->
-    <script src="/admin/static/assets/js/pages/lightbox.init.js"></script>
+    <!-- Sweet alert init js-->
+    <script src="/admin/static/assets/js/pages/sweet-alerts.init.js"></script>
     
-    <script>
-        $(function () {
-
-             $(".admin-username").click(function () {
-                var username = this.innerText;
-                $("#btn-update-admin").attr("href", "/admin/administrators/update/" + username);
-            })
-            
-    });
-    </script>
   </body>
 </html>
