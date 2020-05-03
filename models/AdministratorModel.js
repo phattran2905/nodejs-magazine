@@ -19,7 +19,8 @@ const AdminSchema = new mongoose.Schema({
         fullname: String,
         gender: String,
         dateOfBirth: Date,
-        phone: String
+        phone: String,
+        avatar_img: String
     },
     role: {
         type: String,

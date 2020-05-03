@@ -7,7 +7,7 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
 
-    <%- include('./base/css') %>
+    <%- include('../base/css') %>
     <!-- DataTables -->
     <link href="/admin/static/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="/admin/static/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -24,14 +24,14 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-          <%- include('./base/topbar') %>
+          <%- include('../base/topbar') %>
 
             <!-- ========== Left Sidebar Start ========== -->
             <div class="vertical-menu">
 
                 <div data-simplebar class="h-100">
 
-                    <%- include('./base/left-sidebar') %>
+                    <%- include('../base/left-sidebar') %>
                 </div>
             </div>
             <!-- Left Sidebar End -->
@@ -145,7 +145,7 @@
                                                                 </form>
                                                         <% } %>
                                                             <a class="btn btn-info text-light" href="/admin/administrators/update/<%= admin.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
-                                                                <i class="mdi mdi-pencil-box-multiple-outline"></i>
+                                                                <i class="mdi mdi-pencil-outline"></i>
                                                             </a>
                                                         <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
                                                             <input type="hidden" name="id" value="<%= admin.id %>">
@@ -509,7 +509,7 @@
         <div class="rightbar-overlay"></div>
 
     <!-- script -->
-    <%- include('./base/js') %>
+    <%- include('../base/js') %>
 
     <!-- Required datatable js -->
     <script src="/admin/static/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>

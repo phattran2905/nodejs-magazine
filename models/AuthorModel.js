@@ -5,28 +5,39 @@ const AuthorSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    emai: {
+    email: {
         type: String,
         required: true
     },
     password: {
-        type: String
-    },
-    profile_img :{
         type: String,
-        default: 'default_profile_img.jpg'
+        required: true
     },
-    personal_information: {
+    profile: {
         fullname: String,
         gender: String,
-        birthdate: String,
-        phone: String
+        dateOfBirth: Date,
+        phone: String,
+        avatar_img: String
+    },
+    popularity: {
+        views: {
+            type: Number,
+            default: 0
+        },
+        likes: {
+            type: Number,
+            default: 0
+        }
     },
     status: {
         type: String,
         default: "Deactivated"
     },
-    create_at: {
+    lastLogin: {
+        type: Date
+    },
+    createdAt: {
         type: Date,
         default: Date.now
     }

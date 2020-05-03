@@ -3,6 +3,7 @@ const adminRouter = express.Router();
 const AdminModel = require("../../models/AdministratorModel");
 const authUtils = require("../../utils/auth");
 const adminUtils = require("../../utils/administrator");
+const commonUtils = require("../../utils/common");
 const {body, validationResult, matchedData} = require("express-validator");
 
 adminRouter.get(
@@ -10,7 +11,12 @@ adminRouter.get(
     authUtils.checkAuthenticatedAdmin, 
     async (req, res) => {
     const administrators = await AdminModel.find();
-    res.render("admin/administrator", { administrators: administrators });
+    res.render(
+        "admin/administrator/administrator",
+        { 
+            administrators: administrators, 
+            loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+        });
 });
 
 adminRouter.get(
@@ -18,7 +24,11 @@ adminRouter.get(
     authUtils.checkAuthenticatedAdmin,
     (req,res) => {
     
-    res.render("admin/administrator_add");
+    res.render(
+        "admin/administrator/administrator_add",
+        {
+            loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+        });
 });
 
 adminRouter.post(
@@ -36,7 +46,13 @@ adminRouter.post(
         const errors = validationResult(req);
         const validInput = matchedData(req, {location: ['body']});
         if (!errors.isEmpty()) {
-            return res.render("admin/administrator_add", {errors: errors.array(), validInput: validInput});
+            return res.render(
+                "admin/administrator/administrator_add", 
+                {
+                    errors: errors.array(), 
+                    validInput: validInput,
+                    loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                });
         }
         try {
             const adminObj = await adminUtils.createNewAdmin(
@@ -65,8 +81,12 @@ adminRouter.get(
   async (req, res) => {
     try {
       const admin = await AdminModel.findOne({ username: req.params.username });
-      console.log(admin);
-      res.render("admin/administrator_update", { admin: admin });
+      res.render(
+          "admin/administrator/administrator_update", 
+            { 
+                admin: admin,
+                loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+            });
     } catch (error) {
       return res.sendStatus(404);
     }
@@ -88,10 +108,15 @@ adminRouter.post(
         try {
             const admin = await AdminModel.findOne({ username: req.params.username });
 
-            console.log(errors.array());
-            console.log(validInput);
             if (!errors.isEmpty()) {
-                return res.render("admin/administrator_update", {errors: errors.array(), validInput: validInput, admin: admin});
+                return res.render(
+                    "admin/administrator/administrator_update", 
+                    {
+                        errors: errors.array(), 
+                        validInput: validInput, 
+                        admin: admin,
+                        loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                    });
             }
             const updatedAdmin = await AdminModel.findOneAndUpdate(
                 {username: req.params.username},
