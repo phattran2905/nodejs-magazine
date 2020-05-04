@@ -115,6 +115,12 @@
                                                                 </span>
                                                             </td>
                                                             <td class="text-center">
+                                                                <div class="btn-group dropdown dropright">
+                                                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="mdi mdi-chevron-down"></i>
+                                                                    </button>
+
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                 <form action="/admin/administrators/activate/<%= admin.username %>" class="d-inline" method="POST">
                                                                     <button class="btn btn-success text-light sa-warning-activate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Activate" data-original-title="Activate">
                                                                         <i class="mdi mdi-lock-open-variant-outline"></i>
@@ -127,27 +133,35 @@
                                                                 </span>
                                                             </td>
                                                             <td class="text-center">
+                                                                <div class="btn-group dropdown dropright">
+                                                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="mdi mdi-chevron-down"></i>
+                                                                    </button>
+
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                 <form action="/admin/administrators/deactivate/<%= admin.username %>" class="d-inline" method="POST">
                                                                     <button class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
                                                                         <i class="mdi mdi-block-helper"></i>
                                                                     </button>
                                                                 </form>
                                                         <% } %>
-                                                            <a class="btn btn-info text-light" href="/admin/administrators/update/<%= admin.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
-                                                                <i class="mdi mdi-pencil-outline"></i>
-                                                            </a>
-                                                        <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
-                                                            <input type="hidden" name="id" value="<%= admin.id %>">
-                                                            <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
-                                                                <i class="mdi mdi-rotate-3d-variant"></i>
-                                                            </button>
-                                                        </form>
-                                                        <form action="/admin/administrators/delete" class="d-inline" method="POST">
-                                                            <input type="hidden" name="id" value="<%= admin.id %>">
-                                                            <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
-                                                                <i class="mdi mdi-delete-alert"></i>
-                                                            </button>
-                                                        </form>
+                                                                <a class="btn btn-info text-light" href="/admin/administrators/update/<%= admin.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
+                                                                    <i class="mdi mdi-pencil-outline"></i>
+                                                                </a>
+                                                                <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
+                                                                    <input type="hidden" name="id" value="<%= admin.id %>">
+                                                                    <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
+                                                                        <i class="mdi mdi-rotate-3d-variant"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <form action="/admin/administrators/delete" class="d-inline" method="POST">
+                                                                    <input type="hidden" name="id" value="<%= admin.id %>">
+                                                                    <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
+                                                                        <i class="mdi mdi-delete-alert"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <% }) %>
