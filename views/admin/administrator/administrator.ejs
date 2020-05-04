@@ -118,7 +118,11 @@
                                                             <%= admin.role %>
                                                         </td>
                                                         <td><%= admin.createdAt.toDateString() %></td>
-                                                        <td><%= admin.createdAt.toDateString() %></td>
+                                                        <td>
+                                                            <% if(admin.lastLogin) { %> 
+                                                                <%= admin.lastLogin.toDateString() %>
+                                                            <% } %>  
+                                                        </td>
                                                         <% if(admin.status === 'Deactivated') { %>
                                                             <td class="d-flex justify-content-around">
                                                                 <span id="deactivated_status_btn" class="btn btn-secondary text-light"  >

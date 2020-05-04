@@ -6,9 +6,10 @@ const adminUtils = require("../../utils/administrator");
 const commonUtils = require("../../utils/common");
 const {body, validationResult, matchedData} = require("express-validator");
 
+adminRouter.use(authUtils.checkAuthenticatedAdmin);
+
 adminRouter.get(
     "/administrators", 
-    authUtils.checkAuthenticatedAdmin, 
     async (req, res) => {
     const administrators = await AdminModel.find();
     res.render(
@@ -21,7 +22,6 @@ adminRouter.get(
 
 adminRouter.get(
     "/administrators/add", 
-    authUtils.checkAuthenticatedAdmin,
     (req,res) => {
     
     res.render(
@@ -39,7 +39,7 @@ adminRouter.post(
             .bail().custom(adminUtils.checkExistedUsername),
         body('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
             .bail().custom(adminUtils.checkExistedEmail),
-        body('password').isLength({min: 4}).withMessage('Password must be at least 4 characters.').escape(),
+        body('password').isLength({min: 4}).withMessage('Password must be at least 4 characters.').trim().escape(),
         body('role').not().isEmpty().withMessage("Assign a role for account.")
     ],
     async (req, res) => {
@@ -70,25 +70,26 @@ adminRouter.post(
 
             return res.redirect("/admin/administrators/add");
         } catch (error) {
-            console.error(error);
-            return res.sendStatus(404);
+            return res.sendStatus(404).render('pages/404');
         }
 });
 
 adminRouter.get(
   "/administrators/update/:username",
-  authUtils.checkAuthenticatedAdmin,
   async (req, res) => {
     try {
       const admin = await AdminModel.findOne({ username: req.params.username });
-      res.render(
-          "admin/administrator/administrator_update", 
-            { 
-                admin: admin,
-                loggedAdmin:  commonUtils.getLoggedAccount(req.user)
-            });
+      if(admin) {
+        return res.render(
+            "admin/administrator/administrator_update", 
+              { 
+                  admin: admin,
+                  loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+              });
+      }
+      return res.render("pages/404");
     } catch (error) {
-      return res.sendStatus(404);
+        return res.sendStatus(404).render('pages/404');
     }
   }
 );
@@ -103,37 +104,45 @@ adminRouter.post(
         body('role').not().isEmpty().withMessage("Must assign a role for the account.")
     ],
     async (req, res) => {
-        const errors = validationResult(req);
-        const validInput = matchedData(req, {location: ['body']});
         try {
             const admin = await AdminModel.findOne({ username: req.params.username });
+            if (admin){
+                const errors = validationResult(req);
+                const validInput = matchedData(req, {location: ['body']});
 
-            if (!errors.isEmpty()) {
-                return res.render(
-                    "admin/administrator/administrator_update", 
+                if (!errors.isEmpty()) {
+                    return res.render(
+                        "admin/administrator/administrator_update", 
+                        {
+                            errors: errors.array(), 
+                            validInput: validInput, 
+                            admin: admin,
+                            loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                        });
+                }
+                const updatedAdmin = await AdminModel.findOneAndUpdate(
+                    {_id: admin.id},
                     {
-                        errors: errors.array(), 
-                        validInput: validInput, 
-                        admin: admin,
-                        loggedAdmin:  commonUtils.getLoggedAccount(req.user)
-                    });
-            }
-            const updatedAdmin = await AdminModel.findOneAndUpdate(
-                {username: req.params.username},
-                {
-                    username: req.body.username,
-                    email: req.body.email,
-                    role: req.body.role
-                },{new: true});
+                        username: req.body.username,
+                        email: req.body.email,
+                        role: req.body.role
+                    },{new: true}); // Return the updated object
+
                 if (updatedAdmin){
                     req.flash('updateSuccess', 'Successfully. All changes were saved.');
+                    return res.redirect("/admin/administrators/update/" + updatedAdmin.username);
                 }else {
                     req.flash('updateFail', 'Failed. An error occurred during the process.');
+                    return res.redirect("/admin/administrators/update/" + admin.username);
                 }
-            return res.redirect("/admin/administrators/update/" + admin.username);
+
+            } else {
+                req.flash('updateFail', 'Failed. An error occurred during the process.');
+                return res.redirect("/admin/administrators/update/" + req.params.username);
+            }
+            
         } catch (error) {
-            console.log(error);
-            return res.sendStatus(404);
+            return res.sendStatus(404).render('pages/404');
         }
 });
 
@@ -143,13 +152,16 @@ adminRouter.post(
     try {
         const adminObj = await AdminModel.findOne({ username: req.params.username });
         if (adminObj && adminObj.status === "Deactivated") {
-        adminObj.status = "Activated";
-        await adminObj.save();
+            adminObj.status = "Activated";
+            await adminObj.save();
 
-        res.redirect("/admin/administrators");
+            req.flash("statusSuccess", "Successfully. The status was changed to 'Activated'");
+        } else {
+            req.flash("statusFail", "Failed. An error occurred during the process.");
         }
+        return res.redirect("/admin/administrators");
     } catch (error) {
-        return res.sendStatus(404);
+        return res.sendStatus(404).render('pages/404');
     }
 });
 
@@ -159,12 +171,15 @@ adminRouter.post(
     try {
         const adminObj = await AdminModel.findOne({ username: req.params.username });
         if (adminObj && adminObj.status === "Activated") {
-        adminObj.status = "Deactivated";
-        await adminObj.save();
-        res.redirect("/admin/administrators");
+            adminObj.status = "Deactivated";
+            await adminObj.save();
+            req.flash("statusSuccess", "Successfully. The status was changed to 'Deactivated'");
+        } else {
+            req.flash("statusFail", "Failed. An error occurred during the process.");
         }
+        return res.redirect("/admin/administrators");
     } catch (error) {
-        return res.sendStatus(404);
+        return res.sendStatus(404).render('pages/404');
     }
 });
 
@@ -172,15 +187,15 @@ adminRouter.post(
     "/administrators/reset_password/", 
     async (req, res) => {
     try {
-        const adminObj = await AdminModel.findOneAndUpdate({ username: username },{ password: 'Reset Password' });
+        const adminObj = await AdminModel.findByIdAndUpdate({  _id: req.body.id },{ password: 'Reset Password' });
         if (adminObj) {
             req.flash("resetSuccess", "Successfully. A link was sent to email for setting up a new password.");
         } else {
             req.flash("resetFail", "Failed. An error occurred during the process.");
         }
-        res.redirect("/admin/administrators");
+        return res.redirect("/admin/administrators");
     } catch (error) {
-        return res.sendStatus(404);
+        return res.sendStatus(404).render('pages/404');
     }
 });
 
@@ -188,18 +203,16 @@ adminRouter.post(
     "/administrators/delete/", 
     async (req, res) => {
     try {
-        console.log(req.body);
-        console.log(req.body.id);
         const adminObj = await AdminModel.findByIdAndDelete({ _id: req.body.id });
-        console.log(adminObj);
+        
         if (adminObj) {
             req.flash("deleteSuccess", "Successfully. The administrator was removed from the database.");
         } else {
             req.flash("deleteFail", "Failed. An error occurred during the process");
         }
-        res.redirect("/admin/administrators");
+        return res.redirect("/admin/administrators");
     } catch (error) {
-        return res.sendStatus(404);
+        return res.sendStatus(404).render('pages/404');
     }
 });
 
