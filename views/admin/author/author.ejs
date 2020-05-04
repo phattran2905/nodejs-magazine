@@ -48,12 +48,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18">Administrator List</h4>
+                                    <h4 class="mb-0 font-size-18">Author List</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Account</a></li>
-                                            <li class="breadcrumb-item active">Administrators</li>
+                                            <li class="breadcrumb-item active">Authors</li>
                                         </ol>
                                     </div>
                                     
@@ -106,55 +106,55 @@
         
         
                                             <tbody>
-                                                <% if (administrators) { %>
-                                                    <% administrators.forEach((admin) => { %>
+                                                <% if (authors) { %>
+                                                    <% authors.forEach((author) => { %>
                                                     <tr>
-                                                        <td class="admin-username" id="<%= admin.username %>"><%= admin.username %></td>
-                                                        <td><%= admin.email %></td>
+                                                        <td class="admin-username" id="<%= author.username %>"><%= author.username %></td>
+                                                        <td><%= author.email %></td>
                                                         <td>
-                                                            <% if(admin.role === 'SuperAdmin') { %> 
+                                                            <% if(author.role === 'SuperAdmin') { %> 
                                                                 <i class="mdi mdi-crown text-primary"></i>
                                                                 <% } %> 
-                                                            <%= admin.role %>
+                                                            <%= author.role %>
                                                         </td>
-                                                        <td><%= admin.createdAt.toDateString() %></td>
-                                                        <td><%= admin.createdAt.toDateString() %></td>
-                                                        <% if(admin.status === 'Deactivated') { %>
+                                                        <td><%= author.createdAt.toDateString() %></td>
+                                                        <td><%= author.createdAt.toDateString() %></td>
+                                                        <% if(author.status === 'Deactivated') { %>
                                                             <td class="d-flex justify-content-around">
                                                                 <span id="deactivated_status_btn" class="btn btn-secondary text-light"  >
-                                                                    <%= admin.status %>
+                                                                    <%= author.status %>
                                                                 </span>
                                                             </td>
                                                             <td class="text-center">
-                                                                <form action="/admin/administrators/activate/<%= admin.username %>" class="d-inline" method="POST">
+                                                                <form action="/admin/administrators/activate/<%= author.username %>" class="d-inline" method="POST">
                                                                     <button class="btn btn-success text-light sa-warning-activate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Activate" data-original-title="Activate">
                                                                         <i class="mdi mdi-lock-open-variant-outline"></i>
                                                                     </button>
                                                                 </form>
-                                                        <% }else if (admin.status === 'Activated') { %>
+                                                        <% }else if (author.status === 'Activated') { %>
                                                             <td class="d-flex justify-content-around">
                                                                 <span id="activated_status_btn" class="btn bg-success text-light">
-                                                                    <%= admin.status %>
+                                                                    <%= author.status %>
                                                                 </span>
                                                             </td>
                                                             <td class="text-center">
-                                                                <form action="/admin/administrators/deactivate/<%= admin.username %>" class="d-inline" method="POST">
+                                                                <form action="/admin/administrators/deactivate/<%= author.username %>" class="d-inline" method="POST">
                                                                     <button class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
                                                                         <i class="mdi mdi-block-helper"></i>
                                                                     </button>
                                                                 </form>
                                                         <% } %>
-                                                            <a class="btn btn-info text-light" href="/admin/administrators/update/<%= admin.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
+                                                            <a class="btn btn-info text-light" href="/admin/administrators/update/<%= author.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
                                                                 <i class="mdi mdi-pencil-outline"></i>
                                                             </a>
                                                         <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
-                                                            <input type="hidden" name="id" value="<%= admin.id %>">
+                                                            <input type="hidden" name="id" value="<%= author.id %>">
                                                             <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
                                                                 <i class="mdi mdi-rotate-3d-variant"></i>
                                                             </button>
                                                         </form>
                                                         <form action="/admin/administrators/delete" class="d-inline" method="POST">
-                                                            <input type="hidden" name="id" value="<%= admin.id %>">
+                                                            <input type="hidden" name="id" value="<%= author.id %>">
                                                             <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
                                                                 <i class="mdi mdi-delete-alert"></i>
                                                             </button>
