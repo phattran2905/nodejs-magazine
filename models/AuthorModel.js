@@ -33,6 +33,13 @@ const AuthorSchema = mongoose.Schema({
             default: 0
         }
     },
+    verifyToken: {
+        token: String,
+        expiredOn: {
+            type: Date,
+            required: true
+        }
+    },
     status: {
         type: String,
         default: "Deactivated"

@@ -29,8 +29,8 @@ const AuthorUtils = {
             authorObj.hashed_pwd = await bcrypt.hash(pwd,await bcrypt.genSalt(12));
             authorObj.verifyToken = await commonUtils.generateToken(username + email, 7); // valid in 7 days 
             const authorAccount = await AuthorModel.create({
-                username: authorObj.username,
-                email: authorObj.email,
+                username: authorObj.username.toLowerCase(),
+                email: authorObj.email.toLowerCase(),
                 password: authorObj.hashed_pwd,
                 profile: {
                     fullname: "",

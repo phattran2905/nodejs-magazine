@@ -84,6 +84,15 @@
                                                 <%= messages.resetFail %> 
                                             </div>
                                         <% } %> 
+                                        <% if(messages.statusSuccess) { %>
+                                            <div class="alert alert-success" role="alert">
+                                                <%= messages.statusSuccess %> 
+                                            </div>
+                                        <% } else if (messages.statusFail) { %>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%= messages.statusFail %> 
+                                            </div>
+                                        <% } %> 
 
                                         <h6 class="header-title"></h6>
                                         <p class="card-title-desc">
@@ -96,9 +105,10 @@
                                             <tr>
                                                 <th>Username</th>
                                                 <th>Email</th>
-                                                <th>Role</th>
                                                 <th>Created at</th>
                                                 <th>Last login</th>
+                                                <th>Likes</th>
+                                                <th>Views</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -111,54 +121,69 @@
                                                     <tr>
                                                         <td class="admin-username" id="<%= author.username %>"><%= author.username %></td>
                                                         <td><%= author.email %></td>
+                                                        <td><%= author.createdAt.toDateString() %></td>
                                                         <td>
-                                                            <% if(author.role === 'SuperAdmin') { %> 
-                                                                <i class="mdi mdi-crown text-primary"></i>
-                                                                <% } %> 
-                                                            <%= author.role %>
+                                                            <% if(author.lastLogin) { %> 
+                                                                <%= author.lastLogin.toDateString() %>
+                                                            <% } %>  
                                                         </td>
-                                                        <td><%= author.createdAt.toDateString() %></td>
-                                                        <td><%= author.createdAt.toDateString() %></td>
+                                                        <td class="text-right"><%= author.popularity.likes %> </td>
+                                                        <td class="text-right"><%= author.popularity.views %> </td>
                                                         <% if(author.status === 'Deactivated') { %>
                                                             <td class="d-flex justify-content-around">
                                                                 <span id="deactivated_status_btn" class="btn btn-secondary text-light"  >
                                                                     <%= author.status %>
                                                                 </span>
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td class="text-center ">
+                                                                <div class="btn-group dropdown dropright">
+                                                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="mdi mdi-chevron-down"></i>
+                                                                    </button>
+                    
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                 <form action="/admin/authors/activate/<%= author.username %>" class="d-inline" method="POST">
                                                                     <button class="btn btn-success text-light sa-warning-activate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Activate" data-original-title="Activate">
                                                                         <i class="mdi mdi-lock-open-variant-outline"></i>
                                                                     </button>
                                                                 </form>
-                                                        <% }else if (author.status === 'Activated') { %>
+                                                        <% } else if (author.status === 'Activated') { %>
                                                             <td class="d-flex justify-content-around">
                                                                 <span id="activated_status_btn" class="btn bg-success text-light">
                                                                     <%= author.status %>
                                                                 </span>
                                                             </td>
                                                             <td class="text-center">
-                                                                <form action="/admin/authors/deactivate/<%= author.username %>" class="d-inline" method="POST">
-                                                                    <button class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
-                                                                        <i class="mdi mdi-block-helper"></i>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        ... <i class="mdi mdi-chevron-down"></i>
                                                                     </button>
+
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <form action="/admin/authors/deactivate/<%= author.username %>" class="d-inline" method="POST">
+                                                                    <a class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
+                                                                        <i class="mdi mdi-block-helper"></i>
+                                                                    </a>
                                                                 </form>
                                                         <% } %>
-                                                            <a class="btn btn-info text-light" href="/admin/authors/update/<%= author.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
+                                                            <a class=" btn btn-info text-light" href="/admin/authors/update/<%= author.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
                                                                 <i class="mdi mdi-pencil-outline"></i>
                                                             </a>
+
                                                         <form action="/admin/authors/reset_password" class="d-inline" method="POST">
                                                             <input type="hidden" name="id" value="<%= author.id %>">
-                                                            <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
+                                                            <a class=" btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
                                                                 <i class="mdi mdi-rotate-3d-variant"></i>
-                                                            </button>
+                                                            </a>
                                                         </form>
                                                         <form action="/admin/authors/delete" class="d-inline" method="POST">
                                                             <input type="hidden" name="id" value="<%= author.id %>">
-                                                            <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
+                                                            <a class=" btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
                                                                 <i class="mdi mdi-delete-alert"></i>
-                                                            </button>
+                                                            </a>
                                                         </form>
+                                                    </div>
+                                                </div>
                                                         </td>
                                                     </tr>
                                                     <% }) %>
