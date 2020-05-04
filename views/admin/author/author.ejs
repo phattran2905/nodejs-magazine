@@ -66,33 +66,9 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <% if(messages.deleteSuccess) { %>
-                                            <div class="alert alert-success" role="alert">
-                                                <%= messages.deleteSuccess %> 
-                                            </div>
-                                        <% } else if (messages.deleteFail) { %>
-                                            <div class="alert alert-danger" role="alert">
-                                                <%= messages.deleteFail %> 
-                                            </div>
-                                        <% } %> 
-                                        <% if(messages.resetSuccess) { %>
-                                            <div class="alert alert-success" role="alert">
-                                                <%= messages.resetSuccess %> 
-                                            </div>
-                                        <% } else if (messages.resetFail) { %>
-                                            <div class="alert alert-danger" role="alert">
-                                                <%= messages.resetFail %> 
-                                            </div>
-                                        <% } %> 
-                                        <% if(messages.statusSuccess) { %>
-                                            <div class="alert alert-success" role="alert">
-                                                <%= messages.statusSuccess %> 
-                                            </div>
-                                        <% } else if (messages.statusFail) { %>
-                                            <div class="alert alert-danger" role="alert">
-                                                <%= messages.statusFail %> 
-                                            </div>
-                                        <% } %> 
+                                        <!-- Flash messages -->
+                                        <%- include('../base/flash_messages.ejs') %> 
+                                        <!-- End Flash messages -->
 
                                         <h6 class="header-title"></h6>
                                         <p class="card-title-desc">
@@ -154,9 +130,9 @@
                                                                 </span>
                                                             </td>
                                                             <td class="text-center">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        ... <i class="mdi mdi-chevron-down"></i>
+                                                                <div class="btn-group dropdown dropright">
+                                                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="mdi mdi-chevron-down"></i>
                                                                     </button>
 
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -166,25 +142,25 @@
                                                                     </a>
                                                                 </form>
                                                         <% } %>
-                                                            <a class=" btn btn-info text-light" href="/admin/authors/update/<%= author.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
-                                                                <i class="mdi mdi-pencil-outline"></i>
-                                                            </a>
+                                                                <a class=" btn btn-info text-light" href="/admin/authors/update/<%= author.username %>"role="button" data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
+                                                                    <i class="mdi mdi-pencil-outline"></i>
+                                                                </a>
 
-                                                        <form action="/admin/authors/reset_password" class="d-inline" method="POST">
-                                                            <input type="hidden" name="id" value="<%= author.id %>">
-                                                            <a class=" btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
-                                                                <i class="mdi mdi-rotate-3d-variant"></i>
-                                                            </a>
-                                                        </form>
-                                                        <form action="/admin/authors/delete" class="d-inline" method="POST">
-                                                            <input type="hidden" name="id" value="<%= author.id %>">
-                                                            <a class=" btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
-                                                                <i class="mdi mdi-delete-alert"></i>
-                                                            </a>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                                        </td>
+                                                                <form action="/admin/authors/reset_password" class="d-inline" method="POST">
+                                                                    <input type="hidden" name="id" value="<%= author.id %>">
+                                                                    <a class=" btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
+                                                                        <i class="mdi mdi-rotate-3d-variant"></i>
+                                                                    </a>
+                                                                </form>
+                                                                <form action="/admin/authors/delete" class="d-inline" method="POST">
+                                                                    <input type="hidden" name="id" value="<%= author.id %>">
+                                                                    <a class=" btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
+                                                                        <i class="mdi mdi-delete-alert"></i>
+                                                                    </a>
+                                                                </form>
+                                                                </div>
+                                                                </div>
+                                                            </td>
                                                     </tr>
                                                     <% }) %>
                                                 <% } %>
