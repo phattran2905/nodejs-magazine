@@ -63,7 +63,7 @@ adminRouter.post(
             );
 
             if (adminObj) {
-                req.flash("addSuccess", "Successfully. A new administrators was added.");
+                req.flash("addSuccess", "Successfully. A new administrator was added.");
             } else {
                 req.flash("addFail", "Failed. An error occurred during the process.");
             }

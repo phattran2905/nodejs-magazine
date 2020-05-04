@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt');
+const adminUtils = require('./administrator');
+// const adminUtils = require('./administrator');
 
 const commonUtils = {
     generateToken: async function (str, validIn){
@@ -12,7 +14,7 @@ const commonUtils = {
             id: account._id,
             username: account.username,
             email: account.email,
-            role: account.role,
+            role: account.role, 
             status: account.status
         }
         return loggedAcc;
