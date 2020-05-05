@@ -93,7 +93,9 @@
                                                         <td><%= admin.email %></td>
                                                         <td>
                                                             <% if(admin.role === 'SuperAdmin') { %> 
-                                                                <i class="mdi mdi-crown text-primary"></i>
+                                                                <i class="mdi mdi-crown text-primary text-warning"></i>
+                                                                <% } else if(admin.role === 'Admin') { %> 
+                                                                <i class="mdi mdi-shield-star-outline text-primary"></i>
                                                                 <% } %> 
                                                             <%= admin.role %>
                                                         </td>
