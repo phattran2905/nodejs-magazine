@@ -5,17 +5,17 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    display_order: {
+    displayOrder: {
         type: Number,
-        default: 1000
-    },
-    articles: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Article'
+        default: 10000
     },
     status: {
         type: String,
-        default: "Inactive"
+        default: "Deactivated"
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now()
     }
 })
 
