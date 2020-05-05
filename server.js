@@ -50,10 +50,10 @@ app.use(passport.session());
 // Routes for Users
 app.use("/", userRouter);
 // Routes for Administrators
+app.use("/admin", authRouter);
 app.use("/admin", adminRouter);
 app.use("/admin", categoryRouter);
 app.use("/admin", accountRouter);
-app.use("/admin", authRouter);
 app.use("/admin", administratorRouter);
 app.use("/admin", authorRouter);
 
