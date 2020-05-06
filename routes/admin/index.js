@@ -1,6 +1,6 @@
 const express = require("express");
 const adminRouter = express.Router();
-const authUtils = require("../../utils/auth");
+const authUtils = require("../../utils/authUtils");
 
 adminRouter.get("/",
 authUtils.checkAuthenticatedAdmin,

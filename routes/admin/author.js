@@ -1,8 +1,8 @@
 const express = require('express');
 const authorRouter = express.Router();
-const authUtils = require("../../utils/auth");
-const commonUtils = require("../../utils/common");
-const authorUtils = require("../../utils/author");
+const authUtils = require("../../utils/authUtils");
+const commonUtils = require("../../utils/commonUtils");
+const authorUtils = require("../../utils/authorUtils");
 const AuthorModel = require('../../models/AuthorModel');
 const {body, validationResult, matchedData} = require('express-validator');
 

@@ -1,9 +1,9 @@
 const express = require("express");
 const adminRouter = express.Router();
 const AdminModel = require("../../models/AdministratorModel");
-const authUtils = require("../../utils/auth");
-const adminUtils = require("../../utils/administrator");
-const commonUtils = require("../../utils/common");
+const authUtils = require("../../utils/authUtils");
+const adminUtils = require("../../utils/administratorUtils");
+const commonUtils = require("../../utils/commonUtils");
 const {body, validationResult, matchedData} = require("express-validator");
 
 adminRouter.use(authUtils.checkAuthenticatedAdmin);

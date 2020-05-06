@@ -1,7 +1,7 @@
 const express = require("express");
 const authRouter = express.Router();
 const passport = require("passport");
-const authUtils = require("../../utils/auth");
+const authUtils = require("../../utils/authUtils");
 const AdminModel = require("../../models/AdministratorModel");
 
 authRouter.get("/login", 
