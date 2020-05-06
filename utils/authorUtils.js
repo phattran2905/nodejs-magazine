@@ -1,5 +1,5 @@
 const AuthorModel = require('../models/AuthorModel');
-const commonUtils = require('../utils/common');
+const commonUtils = require('./commonUtils');
 const bcrypt = require('bcrypt');
 
 const AuthorUtils = {

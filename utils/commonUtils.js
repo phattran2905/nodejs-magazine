@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const adminUtils = require('./administrator');
+const adminUtils = require('./administratorUtils');
 // const adminUtils = require('./administrator');
 
 const commonUtils = {
@@ -10,14 +10,17 @@ const commonUtils = {
         return { tokenStr: hashedToken, expiredOn: expiredDate};
     },
     getLoggedAccount: async function (account)  {
-        const loggedAcc = {
-            id: account._id,
-            username: account.username,
-            email: account.email,
-            role: account.role, 
-            status: account.status
+        if (account) {
+            const loggedAcc = {
+                id: account.id,
+                username: account.username,
+                email: account.email,
+                role: account.role, 
+                status: account.status
+            }
+            return loggedAcc;
         }
-        return loggedAcc;
+        return null;
     }
 };
 

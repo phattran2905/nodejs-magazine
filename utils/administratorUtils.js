@@ -1,5 +1,5 @@
 const AdminModel = require('../models/AdministratorModel');
-const commonUtils = require('../utils/common');
+const commonUtils = require('./commonUtils');
 const bcrypt = require('bcrypt');
 
 const AdminUtils = {
