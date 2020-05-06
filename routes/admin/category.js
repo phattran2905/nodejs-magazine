@@ -6,7 +6,7 @@ const commonUtils = require('../../utils/commonUtils');
 const authUtils = require('../../utils/authUtils');
 const categoryUtils = require('../../utils/categoryUtils');
 
-// categoryRouter.use(authUtils.checkAuthenticatedAdmin);
+categoryRouter.use(authUtils.checkAuthenticatedAdmin);
 
 categoryRouter.get(
     '/categories' , 
