@@ -184,40 +184,22 @@ categoryRouter.post(
     }
 });
 
-// categoryRouter.post(
-//     "/categories/reset_password/", 
-//     async (req, res) => {
-//     try {
-//         const authorObj = await AuthorModel.findById({  _id: req.body.id });
-//         if (authorObj) {
-//             authorObj.password = 'Reset Password' ;
-//             await authorObj.save();
-//             req.flash("resetSuccess", "Successfully. A link was sent to email for setting up a new password.");
-//         } else {
-//             req.flash("resetFail", "Failed. An error occurred during the process.");
-//         }
-//         return res.redirect("/admin/categories");
-//     } catch (error) {
-//         return res.sendStatus(404).render('pages/404');
-//     }
-// });
-
-// categoryRouter.post(
-//     "/categories/delete/", 
-//     async (req, res) => {
-//     try {
-//         const authorObj = await AuthorModel.findById({ _id: req.body.id });
+categoryRouter.post(
+    "/categories/delete/", 
+    async (req, res) => {
+    try {
+        const categoryObj = await CategoryModel.findById({ _id: req.body.id });
         
-//         if (authorObj) {
-//             await AuthorModel.remove({_id: req.body.id});
-//             req.flash("deleteSuccess", "Successfully. The author was removed from the database.");
-//         } else {
-//             req.flash("deleteFail", "Failed. An error occurred during the process");
-//         }
-//         return res.redirect("/admin/categories");
-//     } catch (error) {
-//         return res.sendStatus(404).render('pages/404');
-//     }
-// });
+        if (categoryObj) {
+            await CategoryModel.remove({_id: req.body.id});
+            req.flash("deleteSuccess", "Successfully. The author was removed from the database.");
+        } else {
+            req.flash("deleteFail", "Failed. An error occurred during the process");
+        }
+        return res.redirect("/admin/categories");
+    } catch (error) {
+        return res.sendStatus(404).render('pages/404');
+    }
+});
 
 module.exports = categoryRouter;
