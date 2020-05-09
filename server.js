@@ -42,8 +42,9 @@ app.use(passport.session());
 
 // Routes for Users
 app.use(router.userRouter);
+app.use(router.user_authRouter);
 // Routes for Administrators
-app.use("/admin", router.authRouter);
+app.use("/admin", router.admin_authRouter);
 app.use("/admin", router.adminRouter);
 app.use("/admin", router.categoryRouter);
 app.use("/admin", router.accountRouter);

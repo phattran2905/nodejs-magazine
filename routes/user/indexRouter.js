@@ -12,13 +12,13 @@ userRouter.get('/', async (req,res) => {
     res.render('user/index')
 })
 
-userRouter.get('/create', async (req,res) => {
-    // try {
-    // 
-    // } catch (error) {
-    //     res.render('user/index',error = error)   
-    // }
-    return res.render("user/create_article")
+userRouter.get('/login', async (req,res) => {
+
+    res.render("user/auth/login");
+})
+userRouter.get('/login', async (req,res) => {
+
+    res.render("user/auth/login");
 })
 
 
