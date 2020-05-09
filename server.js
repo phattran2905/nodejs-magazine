@@ -8,12 +8,13 @@ const flash = require('express-flash');
 const passportSetup = require('./config/passport-setup');
 // router
 const adminRouter = require("./routes/admin/index");
-const userRouter = require("./routes/user/index");
+// const userRouter = require("./routes/user/index");
 const categoryRouter = require("./routes/admin/category");
 const accountRouter = require("./routes/admin/account");
 const authRouter = require("./routes/admin/auth");
 const administratorRouter = require("./routes/admin/administrator");
 const authorRouter = require("./routes/admin/author");
+const articleRouter = require("./routes/admin/article");
 
 // Connect to database
 mongoose.connect("mongodb://localhost/electronic_newspaper", {
@@ -28,7 +29,7 @@ mongoose.connection.on("error", () => {
 });
 
 app.set("view engine", "ejs");
-app.set('views','./views')
+app.set('views',path.join(__dirname, "views"));
 //  middleware
 app.use("/static", express.static(path.join(__dirname, "public/user")));
 app.use("/admin/static", express.static(path.join(__dirname, "public/admin/")));
@@ -48,7 +49,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes for Users
-app.use("/", userRouter);
+// app.use("/", userRouter);
 // Routes for Administrators
 app.use("/admin", authRouter);
 app.use("/admin", adminRouter);
@@ -56,6 +57,7 @@ app.use("/admin", categoryRouter);
 app.use("/admin", accountRouter);
 app.use("/admin", administratorRouter);
 app.use("/admin", authorRouter);
+app.use("/admin", articleRouter);
 
 // SET PORT
 app.listen(process.env.PORT || 5000, () => {
