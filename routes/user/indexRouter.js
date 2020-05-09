@@ -12,14 +12,4 @@ userRouter.get('/', async (req,res) => {
     res.render('user/index')
 })
 
-userRouter.get('/login', async (req,res) => {
-
-    res.render("user/auth/login");
-})
-userRouter.get('/login', async (req,res) => {
-
-    res.render("user/auth/login");
-})
-
-
 module.exports = userRouter

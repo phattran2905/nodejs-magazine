@@ -23,8 +23,8 @@ const AuthorUtils = {
         }
         return true;
     },
-    createNewAuthor: async function(username, email, pwd, role) {
-        let authorObj = { username: username, email: email, role: role };
+    createNewAuthor: async function(username, email, pwd) {
+        let authorObj = { username: username, email: email};
         try {
             authorObj.hashed_pwd = await bcrypt.hash(pwd,await bcrypt.genSalt(12));
             authorObj.verifyToken = await commonUtils.generateToken(username + email, 7); // valid in 7 days 
@@ -49,8 +49,11 @@ const AuthorUtils = {
             return console.error(error);
         }
     },
-    updateAuthor: function() {
-
+    checkPasswordConfirmation: function(password, {req}) {
+        if (password !== req.body.confirm_password){
+            throw new Error("Confirm Password does not match Password.");
+        }
+        return true;
     }
 };
 

@@ -59,8 +59,7 @@ authorRouter.post(
             const authorObj = await authorUtils.createNewAuthor(
                 req.body.username,
                 req.body.email,
-                req.body.password,
-                req.body.role
+                req.body.password
             );
 
             if (authorObj) {
