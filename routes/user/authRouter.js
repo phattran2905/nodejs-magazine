@@ -50,12 +50,14 @@ authRouter.post(
                 return res.redirect('/signup');
             }
             // send token to email
-            console.log(addedAuthor);
             let sending_info = {
                 send_to: 'phat.tran2905@gmail.com',
                 subject: 'Signup',
-                text: 'click this link this token to activate your account: ' + addedAuthor.verifyToken.token,
-                html: '<h2>Click this link</h2><a href="localhost:5000/verify/'+ addedAuthor.verifyToken.token +'">verify</a>'
+                text: 'Verification email. Click this link to verify your account http://localhost:5000/verify/' 
+                    + commonUtils.normalizeVerifyToken(addedAuthor.verifyToken.token),
+                html: '<h2>Click this link</h2><a href="localhost:5000/verify/'
+                    + commonUtils.normalizeVerifyToken(addedAuthor.verifyToken.token) 
+                    +   '">verify</a>'
             };
 
             const mailSender = await mailUtils.sendEmail(sending_info);
@@ -72,5 +74,23 @@ authRouter.post(
         }
     }
 )
+
+authRouter.get('/verify/:verify_token',
+    async (req,res) => {
+        const isUsedToken = await authorUtils.checkUsedVerifyToken(req.params.verify_token);
+        // if (isUsedToken){
+        //     req.flash("verifyFail", "Failed. Please request a verification email again!");
+        //     return res.render("user/auth/verify");
+        // }
+
+        const activatedAuthor = await authorUtils.verifyAccountByToken(req.params.verify_token);
+        if (activatedAuthor) {
+            req.flash("verifySuccess", "Your account is verified. You can log in now!");
+        }else {
+            req.flash("verifyFail", "Failed. Please request a verification email again!");
+        }
+        return res.render("user/auth/verify");
+    }
+);
 
 module.exports = authRouter;

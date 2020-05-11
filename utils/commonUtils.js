@@ -27,6 +27,20 @@ const commonUtils = {
             throw new Error("Confirm Password does not match Password.");
         }
         return true;
+    },
+    normalizeVerifyToken: function(verify_token) {
+        if(verify_token){
+            const normalizeToken = escape(verify_token).replace('.','d').replace('/','spl');
+            return normalizeToken;
+        }
+        return null;
+    },
+    denormalizeVerifyToken: function(normalized_token){
+        if(normalized_token){
+            const rawToken = unescape(normalized_token.replace('d','.').replace('spl','/'));
+            return rawToken;
+        }
+        return null;
     }
 };
 

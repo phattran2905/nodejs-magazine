@@ -48,6 +48,34 @@ const AuthorUtils = {
         } catch (error) {
             return console.error(error);
         }
+    },
+    verifyAccountByToken: async (verifyToken) => {
+        if(!verifyToken) {
+            return false;
+        }
+        const rawToken = commonUtils.denormalizeVerifyToken(verifyToken);
+        const author = await AuthorModel.findOne({'verifyToken.token': rawToken});
+        if(author){
+            let currentTime = Date.now();
+            if (currentTime <= author.verifyToken.expiredOn.getTime()){
+                author.status = 'Activated';
+                await author.save();
+                return author;
+            }
+        }
+        // && author.verifyToken.expiredOn === currentTime
+        return false;
+    },
+    checkUsedVerifyToken: async (verifyToken) => {
+        if(!verifyToken) {
+            return false;
+        }
+        const rawToken = commonUtils.denormalizeVerifyToken(verifyToken);
+        const author = await AuthorModel.findOne({'verifyToken.token': rawToken});
+        if(author && author.status === 'Activated'){
+            return true;
+        }
+        return false;
     }
 };
 

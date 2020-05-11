@@ -7,3 +7,7 @@
     font-size: 0.8rem;
 }
 
+a#verify_to_login_btn:hover {
+    color: white; 
+}
+
