@@ -3,6 +3,7 @@ const authRouter = express.Router();
 const {body, matchedData, validationResult} = require('express-validator');
 const AuthorModel = require('../../models/ArticleModel');
 const authorUtils = require('../../utils/authorUtils');
+const commonUtils = require('../../utils/commonUtils');
 
 authRouter.get('/login', async (req,res) => {
 
@@ -23,7 +24,7 @@ authRouter.post(
             .bail().custom(authorUtils.checkExistedEmail).withMessage('Email already existed.'),
         body('password').isLength({min: 4, max: 30}).withMessage('Password must be in range of 4-30 characters.')
             .escape(),
-        body('confirm_password').custom(authorUtils.checkPasswordConfirmation)
+        body('confirm_password').custom(commonUtils.checkPasswordConfirmation)
     ],
     async (req,res) => {
         const errors = validationResult(req);

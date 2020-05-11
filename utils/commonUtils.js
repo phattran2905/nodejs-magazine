@@ -21,6 +21,12 @@ const commonUtils = {
             return loggedAcc;
         }
         return null;
+    },
+    checkPasswordConfirmation: function(password, {req}) {
+        if (password !== req.body.confirm_password){
+            throw new Error("Confirm Password does not match Password.");
+        }
+        return true;
     }
 };
 

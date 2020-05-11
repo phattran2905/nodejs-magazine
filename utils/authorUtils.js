@@ -48,12 +48,6 @@ const AuthorUtils = {
         } catch (error) {
             return console.error(error);
         }
-    },
-    checkPasswordConfirmation: function(password, {req}) {
-        if (password !== req.body.confirm_password){
-            throw new Error("Confirm Password does not match Password.");
-        }
-        return true;
     }
 };
 
