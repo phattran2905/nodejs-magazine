@@ -4,6 +4,7 @@ const {body, matchedData, validationResult} = require('express-validator');
 const AuthorModel = require('../../models/ArticleModel');
 const authorUtils = require('../../utils/authorUtils');
 const commonUtils = require('../../utils/commonUtils');
+const mailUtils = require('../../utils/mailUtils');
 
 authRouter.get('/login', async (req,res) => {
 
@@ -31,7 +32,7 @@ authRouter.post(
         const validInput = matchedData(req);
 
         if(!errors.isEmpty()) {
-            res.render('user/auth/signup',
+            return res.render('user/auth/signup',
             {
                 errors: errors.array(),
                 validInput: validInput
@@ -44,14 +45,30 @@ authRouter.post(
                 validInput.email,
                 validInput.password
             )
-            if (! addedAuthor){
+            if (!addedAuthor){
                 req.flash("addFail","Failed. An error occurred during the process.");
-                res.redirect('/signup');
+                return res.redirect('/signup');
             }
             // send token to email
             console.log(addedAuthor);
-        } catch (error) {
+            let sending_info = {
+                send_to: 'phat.tran2905@gmail.com',
+                subject: 'Signup',
+                text: 'click this link this token to activate your account: ' + addedAuthor.verifyToken.token,
+                html: '<h2>Click this link</h2><a href="localhost:5000/verify/'+ addedAuthor.verifyToken.token +'">verify</a>'
+            };
+
+            const mailSender = await mailUtils.sendEmail(sending_info);
             
+            if(!mailSender.response.includes("250 Accepted")){
+                req.flash("addFail","Failed. An error occurred during the process.");
+                return res.redirect('/signup');
+            }else {
+                req.flash("addSuccess","Successfully. Please check your email to verify your registered account. ");
+                return res.redirect('/signup');
+            }
+        } catch (error) {
+            return console.log(error);
         }
     }
 )

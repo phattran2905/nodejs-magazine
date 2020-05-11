@@ -36,32 +36,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 col-md-10 col-sm-12 col-12 offset-lg-2 offset-md-1 blog_toppadder40">
-                    <div class="blog_contact_form_div wow fadeInUp">
+                    <div class="mb-5 blog_contact_form_div wow fadeInUp">
 						<div class="blog_main_heading_div">
 							<div class="blog_heading_div">
 								<h3 class="blog_bg_lightgreen">Sign Up</h3>
 							</div>
 						</div>
 						<div class="blog_contact_form_div_inner">
+                            <%- include('../base/flash_messages') %> 
+                            
                             <form action="/signup" method="POST" >
-							<!-- <h4>Drop A Message</h4> -->
 							<div class="contact_form ">
 								<div class="form-group row">
                                     <label for="username" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Username</label>
 									<div class="col-lg-7 col-md-9 col-sm-12 col-12">
 										<div class="blog_form_group">
-                                            <% if (typeof errors === 'undefined' && validInput === 'undefined') { %> 
+                                            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
                                                 <input type="text" id="username" name="username" class="form-control" placeholder="Enter username">
                                             <% } %> 
 
                                             <% if (typeof validInput !== 'undefined' && typeof validInput.username !== 'undefined') { %> 
-                                                <input type="text" value="<%= validInput.username %> " id="username" name="username" class="form-control" placeholder="Enter username">
+                                                <input type="text" value="<%= validInput.username %>" id="username" name="username" class="form-control" placeholder="Enter username">
                                             <% } %> 
                                             
 
                                             <% if (typeof errors !== 'undefined') { %> 
                                                 <% errors.forEach( (error) =>  { %> 
                                                     <% if(error.param === 'username') { %> 
+                                            <input type="text" value="<%= error.value %>" id="username" name="username" class="form-control" placeholder="Enter username">
                                             <div class="invalid-input">
                                                 <p><%= error.msg %> </p>
                                             </div>
@@ -76,7 +78,7 @@
                                     <label for="email" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Email</label>
 									<div class="col-lg-7 col-md-9 col-sm-12 col-12">
 										<div class="blog_form_group">
-                                            <% if (typeof errors === 'undefined' && validInput === 'undefined') { %> 
+                                            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
                                                 <input type="text" id="email" name="email" class="form-control" placeholder="Enter email">
                                             <% } %> 
 
@@ -88,6 +90,7 @@
                                             <% if (typeof errors !== 'undefined') { %> 
                                                 <% errors.forEach( (error) =>  { %> 
                                                     <% if(error.param === 'email') { %> 
+                                            <input type="text" value="<%= error.value %>" id="email" name="email" class="form-control" placeholder="Enter email">
                                             <div class="invalid-input">
                                                 <p><%= error.msg %> </p>
                                             </div>
