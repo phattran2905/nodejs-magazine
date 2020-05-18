@@ -34,6 +34,15 @@
         <%= messages.addFail %> 
     </div>
 <% } %> 
+<% if(messages.sendSuccess) { %>
+    <div class="alert alert-success" role="alert">
+        <%= messages.sendSuccess %> 
+    </div>
+<% } else if (messages.sendFail) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= messages.sendFail %> 
+    </div>
+<% } %> 
 <% if(messages.verifySuccess) { %>
     <div class="alert alert-success" role="alert">
         <%= messages.verifySuccess %> 
