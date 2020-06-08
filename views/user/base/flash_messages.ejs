@@ -52,3 +52,12 @@
         <%= messages.verifyFail %> 
     </div>
 <% } %> 
+<% if(messages.resetPwdSuccess) { %>
+    <div class="alert alert-success" role="alert">
+        <%= messages.resetPwdSuccess %> 
+    </div>
+<% } else if (messages.resetPwdFail) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= messages.resetPwdFail %> 
+    </div>
+<% } %> 
