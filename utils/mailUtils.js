@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const commonUtils = require('./commonUtils');
 
 const senderAccount = {
     user: 'napoleon17@ethereal.email',
@@ -52,6 +53,46 @@ const sendEmail = async (sending_info) => {
     return info;
   }
 
+const sendVerificationEmail = async (email,token) => {
+  let sending_info = {
+      send_to: email,
+      subject: 'Verify account',
+      text: 'Verification email. Please verify your account through this link http://localhost:5000/verify/' 
+          + commonUtils.normalizeVerifyToken(token),
+      html: '<h2>Verification email</h2><a href="localhost:5000/verify/'
+          + commonUtils.normalizeVerifyToken(token) 
+          +   '">Click this link to verify</a>'
+  };
+  try {
+    const response = await sendEmail(sending_info);
+    if(response) return response;
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
+const sendResetPwdEmail = async (email,token) => {
+  let sending_info = {
+      send_to: email,
+      subject: 'Reset your password',
+      text: 'To reset your password and set up a new one. Please access this link http://localhost:5000/reset_pwd/ .' 
+          + commonUtils.normalizeVerifyToken(token),
+      html: '<h2>Reset your password here </h2><a href="localhost:5000/reset_pwd/'
+          + commonUtils.normalizeVerifyToken(token) 
+          +   '">Click this link to set up a new password</a>'
+  };
+  try {
+    const response = await sendEmail(sending_info);
+    if(response) return response;
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
 module.exports = {
-    sendEmail: sendEmail
+    sendEmail: sendEmail,
+    sendVerificationEmail: sendVerificationEmail,
+    sendResetPwdEmail: sendResetPwdEmail
 };
