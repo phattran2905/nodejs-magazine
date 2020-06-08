@@ -1,96 +1,225 @@
 const express = require('express');
 const authRouter = express.Router();
-const {body, matchedData, validationResult} = require('express-validator');
-const AuthorModel = require('../../models/ArticleModel');
+const AuthorModel = require('../../models/AuthorModel');
 const authorUtils = require('../../utils/authorUtils');
 const commonUtils = require('../../utils/commonUtils');
 const mailUtils = require('../../utils/mailUtils');
+const validateAuth = require('../../validation/validateAuth');
+const validationUtils = require('../../utils/validationUtils');
 
 authRouter.get('/login', async (req,res) => {
-
     res.render("user/auth/login");
 })
 
 authRouter.get('/signup', async (req,res) => {
-
     res.render("user/auth/signup");
 })
 
 authRouter.post(
     '/signup',
-    [
-        body('username').isAlphanumeric().trim().withMessage('Only letters and numbers are allowed.')
-            .isLength({min: 4, max: 30}).bail().custom(authorUtils.checkExistedUsername).withMessage('Username already existed.'),
-        body('email').isEmail().normalizeEmail().withMessage('Email is not valid.')
-            .bail().custom(authorUtils.checkExistedEmail).withMessage('Email already existed.'),
-        body('password').isLength({min: 4, max: 30}).withMessage('Password must be in range of 4-30 characters.')
-            .escape(),
-        body('confirm_password').custom(commonUtils.checkPasswordConfirmation)
-    ],
+    validateAuth.signup,
     async (req,res) => {
-        const errors = validationResult(req);
-        const validInput = matchedData(req);
+        const { hasError, errors, validInput } = validateAuth.result(req);
+        
+        if(hasError) return res.render('user/auth/signup',{errors: errors, validInput: validInput});
 
-        if(!errors.isEmpty()) {
-            return res.render('user/auth/signup',
-            {
-                errors: errors.array(),
-                validInput: validInput
-            });
+        const addedAuthor = await authorUtils.createNewAuthor(
+            validInput.username,
+            validInput.email,
+            validInput.password
+        )
+        // send token to email
+        const mailResponse = await mailUtils.sendVerificationEmail(addedAuthor.email, addedAuthor.verifyToken.token);
+
+        if(addedAuthor && mailResponse && mailResponse.accepted[0] === validInput.email){
+            req.flash("addSuccess","Successfully. Please check your email to verify your registered account. ");
+            return res.redirect('/signup');
         }
 
-        try {
-            const addedAuthor = await authorUtils.createNewAuthor(
-                validInput.username,
-                validInput.email,
-                validInput.password
-            )
-            if (!addedAuthor){
-                req.flash("addFail","Failed. An error occurred during the process.");
-                return res.redirect('/signup');
-            }
-            // send token to email
-            let sending_info = {
-                send_to: 'phat.tran2905@gmail.com',
-                subject: 'Signup',
-                text: 'Verification email. Click this link to verify your account http://localhost:5000/verify/' 
-                    + commonUtils.normalizeVerifyToken(addedAuthor.verifyToken.token),
-                html: '<h2>Click this link</h2><a href="localhost:5000/verify/'
-                    + commonUtils.normalizeVerifyToken(addedAuthor.verifyToken.token) 
-                    +   '">verify</a>'
-            };
-
-            const mailSender = await mailUtils.sendEmail(sending_info);
-            
-            if(!mailSender.response.includes("250 Accepted")){
-                req.flash("addFail","Failed. An error occurred during the process.");
-                return res.redirect('/signup');
-            }else {
-                req.flash("addSuccess","Successfully. Please check your email to verify your registered account. ");
-                return res.redirect('/signup');
-            }
-        } catch (error) {
-            return console.log(error);
-        }
+        req.flash("addFail","Failed. An error occurred during the process.");
+        return res.redirect('/signup');
     }
 )
 
 authRouter.get('/verify/:verify_token',
     async (req,res) => {
-        const isUsedToken = await authorUtils.checkUsedVerifyToken(req.params.verify_token);
-        // if (isUsedToken){
-        //     req.flash("verifyFail", "Failed. Please request a verification email again!");
-        //     return res.render("user/auth/verify");
-        // }
+        // check existent and unexpired
+        const isValidToken = await commonUtils.castPromiseToBoolean(
+            authorUtils.validate.checkValidVerifyToken,
+            [req.params.verify_token]
+            );
 
-        const activatedAuthor = await authorUtils.verifyAccountByToken(req.params.verify_token);
-        if (activatedAuthor) {
-            req.flash("verifySuccess", "Your account is verified. You can log in now!");
-        }else {
-            req.flash("verifyFail", "Failed. Please request a verification email again!");
+        if (isValidToken) {
+            try {
+                const accountAuthor = await authorUtils.verifyAccountByToken(req.params.verify_token);
+                if (accountAuthor) {
+                    req.flash("verifySuccess", "Successfully. Your account is verified. You can log in now!");
+                    return res.render("user/auth/verify");
+                }
+            } catch(error){
+                req.flash("verifyFail","Failed. An error occurred during the process.");
+                return res.render("user/auth/verify");
+            }
         }
+
+        req.flash("verifyFail","Failed. An error occurred during the process.");
         return res.render("user/auth/verify");
     }
 );
+
+authRouter.get('/send_verification/',
+    (req,res) => {
+        return res.render('user/auth/send_email',{
+            form : {
+                submitBtn: 'Send verification email',
+                action: 'send_verification'
+            }
+        });
+    }
+)
+
+authRouter.post('/send_verification/',
+    validateAuth.send_verification,
+    async (req,res) => {
+        const { hasError, errors, validInput } = validateAuth.result(req);
+
+        if(hasError) return res.render('user/auth/send_email',
+            {   errors: errors, 
+                validInput: validInput,
+                form: {submitBtn: 'Send verification',action: 'send_verification'}
+            });
+        
+        const isActivated = await commonUtils.castPromiseToBoolean(
+            authorUtils.validate.checkActivatedStatusByEmail,
+            [validInput.email]
+        );
+        if (isActivated) {
+            req.flash("sendSuccess","Your account was already activated.");
+            return res.redirect('/send_verification');
+        }
+        const isPending = await commonUtils.castPromiseToBoolean(
+            authorUtils.validate.checkPendingVerifyTokenByEmail,
+            [validInput.email]
+        );
+        if (isPending) {
+            req.flash("sendSuccess","A verification email was already sent to your email.");
+            return res.redirect('/send_verification');
+        }
+
+        try {
+            const verification = await authorUtils.sendVerification(validInput.email);
+
+            if (verification){
+                req.flash("sendSuccess","Successfully. Please check your email to verify your registered account. ");
+                return res.redirect('/send_verification');
+            }
+
+            req.flash("sendFail","Failed. An error occurred during the process.");
+            return res.redirect('/send_verification');
+        }catch(error) {
+            req.flash("sendFail","Failed. An error occurred during the process.");
+            return res.redirect('/send_verification');
+        }
+    }
+);
+
+authRouter.get('/send_reset_pwd_email/',
+    (req,res) => {
+    return res.render('user/auth/send_email',
+        {
+            form: {
+                submitBtn: 'Send reset password link',
+                action: 'send_reset_pwd_email'
+            }
+        });
+});
+
+authRouter.post('/send_reset_pwd_email/',
+    validateAuth.send_reset_pwd_email,
+    async (req,res) => {
+        const { hasError, errors, validInput } = validateAuth.result(req);
+        if (hasError) return res.render('user/auth/send_email',
+        {
+            errors: errors,
+            validInput: validInput,
+            form: {
+                submitBtn: 'Send reset password link',
+                action: 'send_reset_pwd_email'
+            }
+        });
+        const isPending = await commonUtils.castPromiseToBoolean(
+            authorUtils.validate.checkPendingVerifyTokenByEmail,
+            [validInput.email]
+        );
+        console.log(isPending);
+        if (isPending) {
+            req.flash("sendSuccess","An email was already sent to you. Please check your email again.");
+            return res.redirect('/send_reset_pwd_email');
+        }
+        try {
+            const resetPwdRes = await authorUtils.sendResetPwd(validInput.email);
+                
+            if(resetPwdRes){
+                req.flash("sendSuccess","Successfully. Please check your email to reset your password");
+                return res.redirect('/send_reset_pwd_email');
+            }
+
+            req.flash("sendFail","Failed. An error occurred during the process.");
+            return res.redirect('/send_reset_pwd_email');
+        }catch(error) {
+            req.flash("sendFail","Failed. An error occurred during the process.");
+            return res.redirect('/send_reset_pwd_email');
+        }
+});
+
+authRouter.get('/reset_pwd/:verify_token',
+async (req,res) => {
+    const isValidToken = await commonUtils.castPromiseToBoolean(
+        authorUtils.validate.checkValidVerifyToken,
+        [req.params.verify_token]
+        );
+    
+    if (isValidToken) return res.render("user/auth/reset_pwd", {
+        isValidToReset: true,
+        isSuccessful: false,
+        verifyToken: req.params.verify_token
+    });
+
+    req.flash("resetPwdFail","Failed. An error occurred during the process.");
+    return res.render("user/auth/reset_pwd", {isValidToReset: false,isSuccessful: false});
+
+});
+
+authRouter.post('/reset_pwd/:verify_token',
+    validateAuth.reset_pwd,
+    async (req,res) => {
+        const isValidToken = await commonUtils.castPromiseToBoolean(
+            authorUtils.validate.checkValidVerifyToken,
+            [req.params.verify_token]
+            );
+        
+        if (isValidToken) {
+            const {hasError, errors, validInput} = validateAuth.result(req);
+            if (hasError) return res.render("user/auth/reset_pwd", {
+                verifyToken: req.params.verify_token,
+                isValidToReset: true,
+                isSuccessful: false,
+                errors: errors,
+                validInput: validInput
+            });
+
+            const resetPwdRes = await authorUtils.reset_pwd(req.params.verify_token, validInput.password);
+            // console.log(resetPwdRes);
+            if(resetPwdRes) {
+                req.flash("sendSuccess","Successfully. Please check your email to reset your password");
+                return res.render("user/auth/reset_pwd", {
+                isSuccessful: true,
+                });
+            }
+        };
+
+        req.flash("resetPwdFail","Failed. An error occurred during the process.");
+        return res.render("user/auth/reset_pwd", {isValidToReset: false,isSuccessful: false});
+});
 
 module.exports = authRouter;
