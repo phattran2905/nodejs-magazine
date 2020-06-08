@@ -332,11 +332,18 @@ button:focus {
     padding: 13px 0;
     text-align: center;
 }
-.blog_date_div p {
+.blog_date_div p{
     margin: 0;
     color: #fff;
     border: solid rgba(255, 255, 255, 0.2);
     border-width: 0px 1px;
+}
+.blog_date_div p a, .blog_temperature_div p a {
+    color: #fff;
+}
+.blog_date_div p a i , .blog_temperature_div p a i{
+    margin-right: 10px;
+    color: rgb(255, 35, 35);
 }
 .blog_temperature_div {
 	width: 245px;
