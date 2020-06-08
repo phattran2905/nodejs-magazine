@@ -22,25 +22,29 @@ const commonUtils = {
         }
         return null;
     },
-    checkPasswordConfirmation: function(password, {req}) {
-        if (password !== req.body.confirm_password){
-            throw new Error("Confirm Password does not match Password.");
-        }
-        return true;
-    },
     normalizeVerifyToken: function(verify_token) {
         if(verify_token){
-            const normalizeToken = escape(verify_token).replace('.','d').replace('/','spl');
+            const normalizeToken = escape(verify_token).replace(/\./g,'DOT').replace(/\//g,'SPLASH').replace(/\\/g,'BACKSPLASH');
             return normalizeToken;
         }
         return null;
     },
     denormalizeVerifyToken: function(normalized_token){
         if(normalized_token){
-            const rawToken = unescape(normalized_token.replace('d','.').replace('spl','/'));
+            const rawToken = unescape(normalized_token.replace(/DOT/g,'.').replace(/SPLASH/g,'/').replace(/BACKSPLASH/g,'\\'));
             return rawToken;
         }
         return null;
+    },
+    castPromiseToBoolean: async function (promiseFunc, params) {
+        if (typeof promiseFunc !== 'function') return null;
+
+        let result = null;
+        await promiseFunc([...params])
+            .then(resolve => result = resolve)
+            .catch(reject => result = reject);
+        
+        return result;
     }
 };
 
