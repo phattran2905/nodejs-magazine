@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Wlog - Blog and Magazine HTML template </title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="Blog">
+    <meta name="keywords" content="">
+    <meta name="author" content="kamleshyadav">
+    <meta name="MobileOptimized" content="320">
+    
+    <%- include('../base/css') %> 
+</head>
+
+<body>
+<div id="blog_preloader_wrapper">
+     <div id="blog_preloader_box">
+          <div class="blog_loader">
+              <div></div>
+              <div></div>
+          </div>
+     </div>
+</div>
+<div class="blog_main_wrapper">
+    <!-- top header -->
+    <%- include('../base/top_header') %>
+    <!-- end top header -->
+
+    <!-- main_menu -->
+    <%- include('../base/main_menu') %>
+    <!-- end main_menu -->
+
+    <!-- main content -->
+	<div class="blog_main_wrapper blog_toppadder20 blog_bottompadder60">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-10 col-sm-12 col-12 offset-lg-2 offset-md-1 blog_toppadder40">
+          <div class="mb-5 blog_contact_form_div wow fadeInUp">
+						<div class="blog_main_heading_div">
+							<div class="blog_heading_div">
+								<h3 class="blog_bg_lightgreen">Verify account</h3>
+							</div>
+						</div>
+						<div class="blog_contact_form_div_inner">
+            <%- include('../base/flash_messages') %> 
+              <div class="contact_form ">
+                <form action="/<%= form.action %>/" class="form-group row mb-5" method="POST">
+                  <div class="col-lg-10 col-md-9 col-sm-12 col-12 offset-lg-1">
+                    <div class="blog_form_group my-3">
+                  <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+                      <input type="text" id="email" name="email" class="form-control" placeholder="Enter your email account">
+                  <% } %> 
+                  <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined' ) { %> 
+                    <% if (validInput && validInput.email) { %> 
+                    <input type="text" value="<%= validInput.email %>" id="email" name="email" class="form-control" placeholder="Enter your email account">
+                    <% } %> 
+                    <% if (errors) { %> 
+                      <% errors.forEach( (error) =>  { %> 
+                        <% if(error.param === 'email') { %> 
+                        <input type="text" value="<%= error.value %>" id="email" name="email" class="form-control" placeholder="Enter email">
+                        <div class="invalid-input">
+                          <p><%= error.msg %> </p>
+                        </div>
+                        <% } %> 
+                      <% }) %> 
+                    <% } %> 
+                  <% } %> 
+                    </div>
+                  </div>
+                  <button type="submit" id="login_btn" 
+                  class="col-lg-8 offset-lg-2 col-md-12 col-sm-12 col-12 blog_btn btn-primary"
+                  ><%= form.submitBtn %></button>
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- end main content -->
+    
+    <!-- footer and copyright -->
+    <%- include('../base/footer') %>
+    <!-- end footer and copyright -->
+</div>
+
+<%- include('../base/js') %> 
+</body>
+</html>
