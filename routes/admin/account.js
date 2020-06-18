@@ -2,9 +2,16 @@ const express = require('express');
 const accountRouter = express.Router();
 const AdminModel = require('../../models/AdministratorModel');
 const bcrypt = require('bcrypt');
+const administratorUtils = require("../../utils/administratorUtils");
 
-accountRouter.get('/account/add', (req,res) =>{
-    return res.render('admin/add_account');
+accountRouter.get('/account/add', async (req,res) =>{
+   try {
+        const account = {username: 'root', email: 'root@admin.root', pwd: '1234', role: 'SuperAdmin'};
+        const result = await administratorUtils.createNewAdmin({...account});
+        return res.send(result);
+   } catch (error) {
+       res.send(error);
+   }
 });
 
 accountRouter.post('/account/add', async (req,res) => {
