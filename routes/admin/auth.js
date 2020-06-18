@@ -1,34 +1,37 @@
-const express = require("express");
-const authRouter = express.Router();
-const passport = require("passport");
+// const express = require("express");
+// const authRouter = express.Router();
+// const passport = require("passport");
 const authUtils = require("../../utils/authUtils");
 const AdminModel = require("../../models/AdministratorModel");
 
-authRouter.get("/login", 
-authUtils.checkNotAuthenticatedAdmin,
-(req, res) => {
-  res.render("admin/auth/login");
-});
-
-authRouter.post(
-  "/login",
+module.exports = function (adminRouter, {passport}){
+    
+  adminRouter.get("/login", 
   authUtils.checkNotAuthenticatedAdmin,
-  passport.authenticate("local", {
-    failureRedirect: "/admin/login",
-    successRedirect: "/admin",
-    failureFlash: true,
-  }),
-  async (req,res) => {
-    await AdminModel.findOneAndUpdate( 
-      { _id: req.user.id },
-      {lastLogin : Date.now()}
-      );
-  }
-);
+  (req, res) => {
+    res.render("admin/auth/login");
+  });
 
-authRouter.get('/logout', (req,res) => {
-  req.logout();
-  res.redirect('/');
-})
+  adminRouter.post(
+    "/login",
+    authUtils.checkNotAuthenticatedAdmin,
+    passport.authenticate("auth-admin", {
+      failureRedirect: "/admin/login",
+      // successRedirect: "/admin",
+      failureFlash: true,
+    }),
+    async (req,res) => {
+      req.session.admin = req.user;
+      // console.log('admin: ' + req.user);
+      console.log(req.session);
+      // res.send('logged');
+      res.redirect('/admin');
+    }
+  );
 
-module.exports = authRouter;
+  adminRouter.get('/logout', (req,res) => {
+    req.logout();
+    res.redirect('/');
+  })
+
+};
