@@ -5,7 +5,6 @@ const passport = require('passport');
 // const userPassport = new Passport();
 const session = require('express-session');
 const userPassport = require('../../passports/userPassport');
-const userPassportSetup = require('../../config/passport-user');
 
 const indexRouter = require('./indexRouter');
 const authRouter = require('./authRouter');

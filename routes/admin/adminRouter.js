@@ -2,7 +2,6 @@ const express = require('express');
 const adminRouter = express.Router();
 const adminPassport = require('../../passports/adminPassport');
 const session = require('express-session');
-const adminPassportSetup = require('../../config/passport-admin');
 
 // Routers
 const indexRouter = require('./index');
