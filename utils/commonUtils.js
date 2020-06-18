@@ -1,13 +1,16 @@
 const bcrypt = require('bcrypt');
-const adminUtils = require('./administratorUtils');
 // const adminUtils = require('./administrator');
 
 const commonUtils = {
-    generateToken: async function (str, validIn){
+    generateToken: async function (str, validIn = 7){
         let currentDate = new Date();
-        const expiredDate = currentDate.setDate(currentDate.getDate() + 7);
-        const hashedToken = await bcrypt.hash(str, await bcrypt.genSalt(12));
-        return { tokenStr: hashedToken, expiredOn: expiredDate};
+        const expiredDate = currentDate.setDate(currentDate.getDate() + validIn);
+        try {
+            const hashedToken = await bcrypt.hash(str, await bcrypt.genSalt(12));
+            return { tokenStr: hashedToken, expiredOn: expiredDate};
+        } catch (error) {
+            return error;
+        }
     },
     getLoggedAccount: async function (account)  {
         if (account) {

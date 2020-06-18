@@ -23,11 +23,10 @@ const AdminUtils = {
         }
         return true;
     },
-    createNewAdmin: async function(username, email, pwd, role) {
-        let adminObj = { username: username, email: email, role: role };
+    createNewAdmin: async (adminObj = {username, email, pwd, role}) => {
         try {
-            adminObj.hashed_pwd = await bcrypt.hash(pwd,await bcrypt.genSalt(12));
-            adminObj.verifyToken = await commonUtils.generateToken(username + email, 7); // valid in 7 days 
+            adminObj.hashed_pwd = await bcrypt.hash(adminObj.pwd, await bcrypt.genSalt(12));
+            adminObj.verifyToken = await commonUtils.generateToken(adminObj.username + adminObj.email, 7); // valid in 7 days
             const adminAccount = await AdminModel.create({
                 username: adminObj.username,
                 email: adminObj.email,
@@ -42,12 +41,13 @@ const AdminUtils = {
                     token: adminObj.verifyToken.tokenStr,
                     expiredOn: adminObj.verifyToken.expiredOn
                 },
-                role: adminObj.role
+                role: adminObj.role,
+                status: 'Activated'
               });
             
             return adminAccount;    
         } catch (error) {
-            return console.error(error);
+            return null;
         }
     },
     updateAdmin: function() {
@@ -55,4 +55,4 @@ const AdminUtils = {
     }
 };
 
-module.exports = AdminUtils
+module.exports = AdminUtils;
