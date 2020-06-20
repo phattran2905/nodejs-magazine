@@ -53,20 +53,26 @@
       </div>
     </div>
   </div>
+  <% if (typeof loggedUser === 'undefined') { %> 
   <!-- Sign up -->
   <div class="blog_date_div">
     <p>
-      <a href="/signup">
-        <i class="fa fa-user-plus"></i>Sign up
-      </a>
+      <a href="/signup"> <i class="fa fa-user-plus"></i>Sign up </a>
     </p>
   </div>
   <!-- Log in -->
   <div class="blog_temperature_div">
     <p>
-      <a href="/login">
-        <i class="fa fa-sign-in"></i>Log in
-      </a>
+      <a href="/login"> <i class="fa fa-sign-in"></i>Log in </a>
     </p>
   </div>
+  <% } else { %>
+    <div class="blog_date_div">
+      <p>
+        <a href="/profile"> 
+          <i class="fa fa-user"></i>Profile <i class="fa fa-caret-down"></i>
+        </a>
+      </p>
+    </div>
+  <% } %> 
 </div>

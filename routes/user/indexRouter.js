@@ -5,15 +5,17 @@ module.exports = function(userRouter, moduleArray) {
 
     userRouter.get('/',
       async (req,res) => { 
-        if (typeof req.session.admin !== 'undefined' && req.session.admin ) {
-          const loggedAdmin = {
-            username: req.session.admin.username,
-            email: req.session.admin.email,
-            role: req.session.admin.role,
-            status: req.session.admin.status
+        let loggedUser;
+        if (typeof req.session.user !== 'undefined' && req.session.user ) {
+          loggedUser = {
+            username: req.session.user.username,
+            email: req.session.user.email,
+            role: req.session.user.role,
+            status: req.session.user.status
           }
         }
-        return res.render('user/index');
+        
+        return res.render('user/index', {loggedUser: loggedUser});
     });
 
 };
