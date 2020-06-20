@@ -6,7 +6,7 @@ const AdminModel = require("../../models/AdministratorModel");
 module.exports = function(adminRouter, {passport}) {
     
   adminRouter.get("/",
-  // authUtils.checkAuthenticatedAdmin,
+  authUtils.checkAuthenticatedAdmin,
   async (req, res) => {
     // console.log(req.session);
     // console.log('admin: ');

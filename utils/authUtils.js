@@ -3,8 +3,7 @@ const AdminModel = require('../models/AdministratorModel');
 
 const authUtils = {
     checkAuthenticatedAdmin : async (req, res, next) => {
-        if (req.isAuthenticated() && await AdminModel.findById(req.user.id)){
-        console.log( await AdminModel.findById(req.user.id));
+        if (req.isAuthenticated() && req.session.admin){
             return next();
         }
 
@@ -21,7 +20,7 @@ const authUtils = {
     },
 
     checkAuthenticatedAuthor : async (req, res, next) => {
-        if (req.isAuthenticated() && await AuthorModel.findById(req.user.id)){
+        if (req.isAuthenticated() && req.session.user){
             return next();
         }
 

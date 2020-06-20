@@ -22,15 +22,15 @@ module.exports = function (adminRouter, {passport}){
     }),
     async (req,res) => {
       req.session.admin = req.user;
-      console.log('auth: ' + req.user);
-      console.log(req.session);
+      // console.log('auth: ' + req.user);
+      // console.log(req.session);
       res.redirect('/admin');
     }
   );
 
   adminRouter.get('/logout', (req,res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect('/admin/login');
   })
 
 };
