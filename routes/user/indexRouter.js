@@ -3,19 +3,17 @@
 
 module.exports = function(userRouter, moduleArray) {
 
-    userRouter.get('/', async (req,res) => {
-        try {
-            // const article_list = await ArticleModel.find()
-            
-            // res.render('user/index', article_list = article_list)
-            console.log('user: ');
-            console.log(req.session);
-            // console.log(req.user);
-            return res.send('logged');
-        } catch (error) {
-            res.render('user/index',error = error)
+    userRouter.get('/',
+      async (req,res) => { 
+        if (typeof req.session.admin !== 'undefined' && req.session.admin ) {
+          const loggedAdmin = {
+            username: req.session.admin.username,
+            email: req.session.admin.email,
+            role: req.session.admin.role,
+            status: req.session.admin.status
+          }
         }
-        res.render('user/index')
+        return res.render('user/index');
     });
 
 };

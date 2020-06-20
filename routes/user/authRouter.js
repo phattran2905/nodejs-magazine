@@ -10,7 +10,7 @@ const validationUtils = require('../../utils/validationUtils');
 
 
 module.exports = function (userRouter, {passport}) {
-
+    passport = require('passport');
     userRouter.get('/login', (req,res) => {
         res.render("user/auth/login");
     })

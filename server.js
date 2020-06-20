@@ -2,12 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const passport = require('passport');
-const adminPassport = require('./passports/adminPassport');
 const session = require('express-session');
 const flash = require('express-flash');
 const passportSetup = require('./config/passport-setup');
 // router
-const router = require('./routes/router');
+// const router = require('./routes/router');
 // Connect to database
 mongoose.connect("mongodb://localhost/electronic_newspaper", {
     useNewUrlParser: true,
@@ -27,37 +26,26 @@ app.set('views',path.join(__dirname, "views"));
 app.use("/static", express.static(path.join(__dirname, "public/user")));
 app.use("/admin/static", express.static(path.join(__dirname, "public/admin/")));
 app.use(express.urlencoded({extended: false}));
-// app.use('/', session({
-//     name: 'user-client',
-//     secret: "User/Client",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         name: 'user_sessionID',
-//         maxAge: 24*3600*1000*7,
-//         // sameSite: true,
-//     }
-// }));
+app.use('/', session({
+    name: 'user-client',
+    secret: "random string",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        name: 'user_sessionID',
+        maxAge: 24*3600*1000*7,
+        // sameSite: true,
+    }
+}));
 app.use(flash());
-// passportSetup(passport);
-// app.use(adminPassport.initialize());
-// app.use(adminPassport.session());
+passportSetup(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes for Users
 // app.use(router.userRouter);
 // app.use(router.user_authRouter);
 const userRouter = require('./routes/user/userRouter');
-// userRouter.use(session({
-//     name: 'user-client',
-//     secret: "User/Client",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         path: '/',
-//         maxAge: 24*3600*1000*7,
-//         // sameSite: true,
-//     }
-// }));
 app.use(userRouter);
 
 // Routes for Administrators
@@ -70,20 +58,11 @@ app.use(userRouter);
 // app.use("/admin", router.articleRouter);
 
 const adminRouter = require('./routes/admin/adminRouter');
-// app.use('/', session({
-//     name: 'admin',
-//     secret: "admin",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         path: '/admin',
-//         maxAge: 24*3600*1000*7,
-//         // sameSite: true,
-//     }
-// }));
 app.use('/admin', adminRouter);
 
 // SET PORT
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is listening`); 
 });
+
+module.exports = {passport: passport};

@@ -2,7 +2,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const AdminModel = require("../models/AdministratorModel");
 const AuthorModel = require("../models/AuthorModel");
 const bcrypt = require("bcrypt");
-const { use } = require("passport");
 
 
 const isUser = async function(id) {

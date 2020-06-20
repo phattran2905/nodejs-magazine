@@ -7,21 +7,19 @@ module.exports = function(adminRouter, {passport}) {
     
   adminRouter.get("/",
   // authUtils.checkAuthenticatedAdmin,
-  (req, res) => {
-    console.log('admin: ');
-    console.log(req.session);
-    return res.send('logged');
-    if (req.session.passport.user && req.session.passport.user.model === 'admin') {
-      const loggedAdmin = AdminModel.findById(req.session.passport.user.id, (err, admin) => {
-        if (err) {console.log(err); return null;}
-        return {
-          username: admin.username,
-          email: admin.email,
-          role: admin.role,
-          status: admin.status
-        }
-      });
-      
+  async (req, res) => {
+    // console.log(req.session);
+    // console.log('admin: ');
+    // console.log(req.user);
+    // return res.send('logged');
+    if (typeof req.session.admin !== 'undefined' && req.session.admin ) {
+      const loggedAdmin = {
+        username: req.session.admin.username,
+        email: req.session.admin.email,
+        role: req.session.admin.role,
+        status: req.session.admin.status
+      }
+      console.log(loggedAdmin);
       if(loggedAdmin) return res.render("admin/index", {loggedAdmin: loggedAdmin});
       // return res.redirect('/login');
     }

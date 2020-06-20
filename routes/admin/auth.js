@@ -5,11 +5,11 @@ const authUtils = require("../../utils/authUtils");
 const AdminModel = require("../../models/AdministratorModel");
 
 module.exports = function (adminRouter, {passport}){
-    
+  passport = require('passport');
   adminRouter.get("/login", 
-  authUtils.checkNotAuthenticatedAdmin,
-  (req, res) => {
-    res.render("admin/auth/login");
+    authUtils.checkNotAuthenticatedAdmin,
+    (req, res) => {
+      res.render("admin/auth/login");
   });
 
   adminRouter.post(
@@ -22,9 +22,8 @@ module.exports = function (adminRouter, {passport}){
     }),
     async (req,res) => {
       req.session.admin = req.user;
-      // console.log('admin: ' + req.user);
+      console.log('auth: ' + req.user);
       console.log(req.session);
-      // res.send('logged');
       res.redirect('/admin');
     }
   );

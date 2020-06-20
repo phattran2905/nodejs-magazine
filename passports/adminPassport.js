@@ -36,7 +36,7 @@ adminPassport.serializeUser(async function (obj, done) {
 });
 
 adminPassport.deserializeUser(async function (id, done) {
-    const admin = await AuthorModel.findById(id).exec();
+    const admin = await AdminModel.findById(id).exec();
     if (admin) return done(null, admin);
     return done(null, false, 'Can not deserialize user');
 });
