@@ -329,7 +329,7 @@ button:focus {
 }
 .blog_date_div {
     width: 18rem;
-    padding: 13px 0;
+    padding: 10px 0;
     text-align: center;
 }
 .blog_date_div a.blog_auth{
@@ -350,7 +350,8 @@ button:focus {
 }
 .blog_temperature_div {
 	width: 18rem;
-    padding: 13px 30px;
+    padding: 10px 0px;
+    text-emphasis: center;
 }
 .blog_temperature_div p span svg{
 	margin-top:-4px;
@@ -369,6 +370,7 @@ button:focus {
 }
 .blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
     right: -5px;
+    top: 36px;
 }
 /* END CUSTOM */
 /*====Top Header Css End====*/
