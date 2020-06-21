@@ -56,23 +56,30 @@
   <% if (typeof loggedUser === 'undefined') { %> 
   <!-- Sign up -->
   <div class="blog_date_div">
-    <p>
-      <a href="/signup"> <i class="fa fa-user-plus"></i>Sign up </a>
-    </p>
+      <a class="blog_auth" href="/signup"> <i class="fa fa-user-plus"></i>Sign up </a>
   </div>
   <!-- Log in -->
   <div class="blog_temperature_div">
-    <p>
-      <a href="/login"> <i class="fa fa-sign-in"></i>Log in </a>
-    </p>
+      <a class="blog_auth" href="/login"> <i class="fa fa-sign-in"></i>Log in </a>
   </div>
   <% } else { %>
-    <div class="blog_date_div">
-      <p>
-        <a href="/profile"> 
-          <i class="fa fa-user"></i>Profile <i class="fa fa-caret-down"></i>
-        </a>
-      </p>
+    <div class="blog_date_div"></div>
+    <div class="blog_temperature_div">
+      <div class="blog_main_menu">
+        <div class="blog_main_menu_innerdiv">
+        <ul>
+          <li class="blog_dropdown">
+            <a href="#" class="blog_auth"><i class="fa fa-user"></i>Profile</a>
+            <ul class="sub-menu profile_sub_menu">
+                <li><a href="blog_single_fullwidth.html">Blog Single FullWidth</a></li>
+                <li><a href="blog_single_with_sidebar.html">Blog Single With Sidebar</a></li>
+                <li><a href="contactus.html">contact</a></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
+          </li>
+        </ul>
+        </div>
+     </div>
     </div>
   <% } %> 
 </div>

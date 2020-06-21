@@ -328,30 +328,49 @@ button:focus {
     margin-right: 10px;
 }
 .blog_date_div {
-    width: 287px;
+    width: 18rem;
     padding: 13px 0;
     text-align: center;
 }
-.blog_date_div p{
+.blog_date_div a.blog_auth{
     margin: 0;
     color: #fff;
-    border: solid rgba(255, 255, 255, 0.2);
     border-width: 0px 1px;
 }
-.blog_date_div p a, .blog_temperature_div p a {
+.blog_date_div a.blog_auth, 
+.blog_temperature_div a.blog_auth,
+.blog_temperature_div div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
     color: #fff;
 }
-.blog_date_div p a i , .blog_temperature_div p a i{
+.blog_date_div a.blog_auth i , 
+.blog_temperature_div a.blog_auth i,
+.blog_temperature_div div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth i{
     margin-right: 10px;
     color: rgb(255, 35, 35);
 }
 .blog_temperature_div {
-	width: 245px;
+	width: 18rem;
     padding: 13px 30px;
 }
 .blog_temperature_div p span svg{
 	margin-top:-4px;
 }
+/* CUSTOM */
+.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
+    padding: 0;
+}
+.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu {
+    background-color: #222222;
+    min-width: 14rem;
+}
+.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu li a{
+    padding: 7px 17px;
+    /* text-align: right; */
+}
+.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
+    right: -5px;
+}
+/* END CUSTOM */
 /*====Top Header Css End====*/
 /*====Main Header Css Start====*/
 .blog_main_header {
