@@ -8,7 +8,7 @@ const {body, validationResult, matchedData} = require("express-validator");
 
 // adminRouter.use(authUtils.checkAuthenticatedAdmin);
 
-module.exports = function(adminRouter, {passport}){
+module.exports = function(adminRouter){
     adminRouter.get(
         "/administrators", 
         async (req, res) => {

@@ -24,12 +24,12 @@ const administratorRouter = require('./administrator');
 // adminRouter.use(adminPassport.initialize());
 // adminRouter.use(adminPassport.session());
 // adminPassportSetup(passport);
-authRouter(adminRouter, {passport});
+authRouter(adminRouter);
 // authRouter(adminRouter, {passport: adminPassport});
 // adminRouter.use(authUtils.checkAuthenticatedAdmin);
 // indexRouter(adminRouter, {passport: adminPassport});
 // administratorRouter(adminRouter, {passport: adminPassport});
-indexRouter(adminRouter, {passport});
-administratorRouter(adminRouter, {passport});
+indexRouter(adminRouter);
+administratorRouter(adminRouter);
 
 module.exports = adminRouter;

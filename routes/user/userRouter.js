@@ -1,7 +1,7 @@
 const express = require('express');
 const userRouter = express.Router();
 // const Passport = require('passport').Passport;
-const passport = require('../../server').passport;
+// const passport = require('../../server').passport;
 const session = require('express-session');
 const userPassport = require('../../passports/userPassport');
 
@@ -27,7 +27,7 @@ const authRouter = require('./authRouter');
 
 // indexRouter(userRouter, {passport: userPassport});
 // authRouter(userRouter, {passport: userPassport});
-indexRouter(userRouter, {passport: passport});
-authRouter(userRouter, {passport: passport});
+indexRouter(userRouter);
+authRouter(userRouter);
 
 module.exports = userRouter;

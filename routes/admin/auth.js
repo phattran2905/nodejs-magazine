@@ -1,11 +1,11 @@
 // const express = require("express");
 // const authRouter = express.Router();
-// const passport = require("passport");
+const passport = require("passport");
 const authUtils = require("../../utils/authUtils");
 const AdminModel = require("../../models/AdministratorModel");
 
-module.exports = function (adminRouter, {passport}){
-  passport = require('passport');
+module.exports = function (adminRouter){
+  
   adminRouter.get("/login", 
     authUtils.checkNotAuthenticatedAdmin,
     (req, res) => {
@@ -30,6 +30,7 @@ module.exports = function (adminRouter, {passport}){
 
   adminRouter.get('/logout', (req,res) => {
     req.logout();
+    req.session.admin = undefined;
     res.redirect('/admin/login');
   })
 

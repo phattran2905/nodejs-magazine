@@ -1,6 +1,6 @@
 // const express = require('express');
 // const authRouter = express.Router();
-// const passport = require("passport");
+const passport = require("passport");
 const AuthorModel = require('../../models/AuthorModel');
 const authorUtils = require('../../utils/authorUtils');
 const commonUtils = require('../../utils/commonUtils');
@@ -9,8 +9,8 @@ const validateAuth = require('../../validation/validateAuth');
 const validationUtils = require('../../utils/validationUtils');
 
 
-module.exports = function (userRouter, {passport}) {
-    passport = require('passport');
+module.exports = function (userRouter) {
+    // passport = require('passport');
     userRouter.get('/login', (req,res) => {
         res.render("user/auth/login");
     })
@@ -29,7 +29,13 @@ module.exports = function (userRouter, {passport}) {
                 res.redirect('/');
             }
     )
-    
+        
+    userRouter.get('/logout', (req,res) => {
+        req.logout();
+        req.session.user = undefined;
+        return res.redirect('/');
+    })
+
     userRouter.get('/signup', (req,res) => {
         res.render("user/auth/signup");
     })

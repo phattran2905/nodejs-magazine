@@ -1,7 +1,7 @@
 // const express = require('express');
 // const userRouter = express.Router();
 
-module.exports = function(userRouter, moduleArray) {
+module.exports = function(userRouter) {
 
     userRouter.get('/',
       async (req,res) => { 
@@ -14,7 +14,7 @@ module.exports = function(userRouter, moduleArray) {
             status: req.session.user.status
           }
         }
-        
+
         return res.render('user/index', {loggedUser: loggedUser});
     });
 

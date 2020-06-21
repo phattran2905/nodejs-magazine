@@ -3,7 +3,7 @@
 const authUtils = require("../../utils/authUtils");
 const AdminModel = require("../../models/AdministratorModel");
 
-module.exports = function(adminRouter, {passport}) {
+module.exports = function(adminRouter) {
     
   adminRouter.get("/",
   authUtils.checkAuthenticatedAdmin,
