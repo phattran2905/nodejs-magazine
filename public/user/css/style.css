@@ -327,8 +327,9 @@ button:focus {
 .blog_tranding_slider p span,.blog_date_div p span, .blog_temperature_div p span {
     margin-right: 10px;
 }
-.blog_date_div {
-    width: 18rem;
+.blog_date_div,
+.blog_temperature_div {
+    width: 10rem;
     padding: 10px 0;
     text-align: center;
 }
@@ -339,38 +340,53 @@ button:focus {
 }
 .blog_date_div a.blog_auth, 
 .blog_temperature_div a.blog_auth,
-.blog_temperature_div div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
+.blog_profile div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
     color: #fff;
 }
 .blog_date_div a.blog_auth i , 
 .blog_temperature_div a.blog_auth i,
-.blog_temperature_div div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth i{
+.blog_profile div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth i{
     margin-right: 10px;
     color: rgb(255, 35, 35);
-}
-.blog_temperature_div {
-	width: 18rem;
-    padding: 10px 0px;
-    text-emphasis: center;
 }
 .blog_temperature_div p span svg{
 	margin-top:-4px;
 }
 /* CUSTOM */
-.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
+.blog_date_div,
+.blog_temperature_div {
+    border-left: 2px solid #f5f7fa;
+}
+.blog_date_div:hover,
+.blog_temperature_div:hover {
+    cursor: pointer;
+    background-color: #626569;
+    transition: 0.2s ease-out;
+}
+.blog_profile:hover {
+    cursor: pointer;
+    background-color: #626569;
+    transition: 0.2s ease-out;
+}
+.blog_profile {
+    width: 14rem;
+    padding: 10px 5px;
+    text-align: center;
+}
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
     padding: 0;
 }
-.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu {
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu {
     background-color: #222222;
-    min-width: 14rem;
+    min-width: 10rem;
 }
-.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu li a{
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu li a{
     padding: 7px 17px;
-    /* text-align: right; */
+    text-align: right;
 }
-.blog_temperature_div .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
     right: -5px;
-    top: 36px;
+    top: 38px;
 }
 /* END CUSTOM */
 /*====Top Header Css End====*/
