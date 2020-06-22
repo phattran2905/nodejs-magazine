@@ -354,7 +354,8 @@ button:focus {
 }
 /* CUSTOM */
 .blog_date_div,
-.blog_temperature_div {
+.blog_temperature_div,
+.blog_profile {
     border-left: 2px solid #f5f7fa;
 }
 .blog_date_div:hover,
@@ -382,10 +383,10 @@ button:focus {
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu li a{
     padding: 7px 17px;
-    text-align: right;
+    text-align: center;
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
-    right: -5px;
+    right: 5px;
     top: 38px;
 }
 /* END CUSTOM */
