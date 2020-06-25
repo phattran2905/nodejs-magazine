@@ -1,4 +1,4 @@
-
+/* 
 .invalid-input p{
     margin-top: 5px;
     margin-bottom: 0;
@@ -9,5 +9,65 @@
 
 a#verify_to_login_btn:hover {
     color: white; 
-}
+} */
 
+.profile_div_sidebar {
+    border: 1px solid #333333;
+    border-radius: 15px;
+}
+.profile_div_sidebar_upper {
+    padding: 10px 30px;
+}
+.profile_avatar {
+    margin-top: 2rem;
+    height: 13rem;
+    border-radius: 50%;
+    border: 1px solid #333333;
+}
+.profile_avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.upload-profile-avatar{
+    margin-top: 5px;
+    padding: 10px;
+}
+.upload-profile-avatar form button i {
+    margin-right: 5px;
+}
+.profile_div_sidebar_lower{
+    /* border-top: 1px solid #333333; */
+    /* padding-top: 20px; */
+    padding: 20px 0 30px 0;
+}
+.profile_div_sidebar_lower ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.profile_div_sidebar_lower ul li {
+}
+.profile_div_sidebar_lower ul li a {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #ff3657;
+    border-bottom: 1px solid #ffffff;
+    border-radius: 10px;
+}
+.profile_div_sidebar_lower ul li a:hover {
+    text-decoration: none;
+    background-color: #007bff;
+    transition: linear 0.5s;
+}
+/* .profile_div_sidebar_lower ul li:hover,
+.profile_div_sidebar_lower ul li a:hover {
+    background-color: aqua;
+    color: #333333;
+    cursor: pointer;
+} */
