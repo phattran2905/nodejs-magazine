@@ -35,7 +35,32 @@ const authUtils = {
         }
         return res.redirect("/");
     },
-    
+    getLoggedAuthor: (req) => {
+        let loggedAuthor = null;
+        if (typeof req.session.user !== 'undefined' && req.session.user){
+            loggedAuthor = {
+                username: req.session.user.username,
+                email: req.session.user.email,
+                role: req.session.user.role,
+                status: req.session.user.status
+            };
+        }
+
+        return loggedAuthor;
+    },
+    getLoggedAdmin: (req) => {
+        let loggedAdmin = null;
+        if (typeof req.session.admin !== 'undefined' && req.session.admin){
+            loggedAdmin = {
+                username: req.session.admin.username,
+                email: req.session.admin.email,
+                role: req.session.admin.role,
+                status: req.session.admin.status
+            };
+        }
+
+        return loggedAdmin;
+    }
 }
 
 module.exports =  authUtils;
