@@ -14,7 +14,7 @@ module.exports = function(userRouter) {
             status: req.session.user.status
           }
         }
-
+        
         return res.render('user/index', {loggedUser: loggedUser});
     });
 

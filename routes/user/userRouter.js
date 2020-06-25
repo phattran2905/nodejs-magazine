@@ -1,33 +1,21 @@
 const express = require('express');
 const userRouter = express.Router();
-// const Passport = require('passport').Passport;
-// const passport = require('../../server').passport;
-const session = require('express-session');
-const userPassport = require('../../passports/userPassport');
+const authUtils = require('../../utils/authUtils');
 
+// Routers
 const indexRouter = require('./indexRouter');
 const authRouter = require('./authRouter');
+const profileRouter = require('./profileRouter');
 
-// const moduleObjects = {passport};
-// userRouter.use(session({
-//     name: 'client_sid',
-//     secret: "secret_key for @user_session",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         name: 'user_sessionID',
-//         path: '/',
-//         maxAge: 24*3600*1000*7,
-//         sameSite: true,
-//     }
-// }));
-// userRouter.use(userPassport.initialize());
-// userRouter.use(userPassport.session());
-// userPassportSetup(passport);
-
-// indexRouter(userRouter, {passport: userPassport});
-// authRouter(userRouter, {passport: userPassport});
-indexRouter(userRouter);
 authRouter(userRouter);
+indexRouter(userRouter);
+userRouter.use((req,res, next) => { 
+    if(req.url.match('/admin')) {
+        return next();
+    }else {
+        return authUtils.checkAuthenticatedAuthor(req, res, next);
+    }
+});
+profileRouter(userRouter);
 
 module.exports = userRouter;
