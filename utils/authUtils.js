@@ -13,7 +13,7 @@ const authUtils = {
     checkNotAuthenticatedAdmin : (req,res,next) => {
         // const successRedirectPath = req.path;
         // req.successRedirectPath = successRedirectPath;
-        if (req.isUnauthenticated()){
+        if (req.isUnauthenticated() || (req.isAuthenticated && req.session.admin)){
             return next();
         }
         return res.redirect("/admin");
@@ -30,7 +30,7 @@ const authUtils = {
     checkNotAuthenticatedAuthor : (req,res,next) => {
         // const successRedirectPath = req.path;
         // req.successRedirectPath = successRedirectPath;
-        if (req.isUnauthenticated()){
+        if (req.isUnauthenticated() || (req.isAuthenticated && req.session.user)){
             return next();
         }
         return res.redirect("/");
