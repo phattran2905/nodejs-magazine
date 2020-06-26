@@ -369,7 +369,7 @@ button:focus {
     background-color: #626569;
     transition: 0.2s ease-out;
 }
-.blog_profile {
+.blog_profile .blog_dropdown{
     width: 14rem;
     padding: 10px 5px;
     text-align: center;

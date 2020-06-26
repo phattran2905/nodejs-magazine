@@ -6,7 +6,14 @@ module.exports = function(userRouter) {
         '/profile',
         async (req,res) => {
             const loggedAuthor = authUtils.getLoggedAuthor(req);
-            res.render('user/profile', {loggedUser: loggedAuthor});
+            const profilePage = {
+                profile_content: 'information',
+                content_header: 'information'
+            }
+            res.render('user/profile', {
+                loggedUser: loggedAuthor,
+                page: profilePage
+            });
         }
     );
 };
