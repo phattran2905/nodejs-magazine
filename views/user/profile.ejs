@@ -66,10 +66,27 @@
                 </div>
                 <div class="profile_div_sidebar_lower">
                   <ul>
+                    <% if (page.profile_content === 'information') { %> 
                     <li><a class="sidebar_menu_link active" href="/profile">Information</a></li>
-                    <li><a class="sidebar_menu_link" href="#">Dashboard</a></li>
-                    <li><a class="sidebar_menu_link" href="">Articles</a></li>
-                    <li><a class="sidebar_menu_link" href="">Change password</a></li>
+                    <% } else { %> 
+                    <li><a class="sidebar_menu_link" href="/profile">Information</a></li>
+                    <% } %> 
+                    <% if (page.profile_content === 'dashboard') { %> 
+                      <li><a class="sidebar_menu_link active" href="#">Dashboard</a></li>
+                    <% } else { %> 
+                      <li><a class="sidebar_menu_link" href="#">Dashboard</a></li>
+                    <% } %> 
+                    <% if (page.profile_content === 'articles') { %> 
+                      <li><a class="sidebar_menu_link active" href="#">Articles</a></li>
+                    <% } else { %> 
+                      <li><a class="sidebar_menu_link" href="#">Articles</a></li>
+                    <% } %> 
+                    <% if (page.profile_content === 'change_password') { %> 
+                      <li><a class="sidebar_menu_link active" href="/profile/change_password">Change password</a></li>
+                    <% } else { %> 
+                      <li><a class="sidebar_menu_link" href="/profile/change_password">Change password</a></li>
+                    <% } %> 
+
                     <li><a href="/logout">Logout</a></li>
                   </ul>
                 </div>
@@ -79,6 +96,9 @@
                 <div class="profile_div_content">
                   <% if (page.profile_content === 'information') { %> 
                     <%- include('./profile/information') %> 
+                    <% } %>
+                  <% if (page.profile_content === 'change_password') { %> 
+                    <%- include('./profile/change_password') %> 
                     <% } %>
                 </div>
                 <!-- end profile content -->
@@ -110,7 +130,7 @@
     let total_links = menu_links.length;
     for(let i = 0; i < total_links; i++){
       menu_links[i].addEventListener('click', function(e) {
-        e.preventDefault();
+        /*e.preventDefault();*/
 
         if (menu_links[i].classList.length === 1){
           menu_links[i].classList.add('active');
