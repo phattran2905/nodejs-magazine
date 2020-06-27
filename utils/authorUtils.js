@@ -204,7 +204,7 @@ const AuthorUtils = {
                 profile: {
                     fullname: fullname,
                     gender: gender,
-                    dateOfBirth: new Date(dob),
+                    dateOfBirth: new Date(dob), // Parse it to UTC/GMT instead of locale time
                     phone: phone
                 }
               });
