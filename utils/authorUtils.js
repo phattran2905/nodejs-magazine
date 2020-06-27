@@ -180,6 +180,27 @@ const AuthorUtils = {
             return null;
         }
     },
+    updateAuthorProfile: async function({fullname, username, email, gender, dob, phone}) {
+        if (!fullname || !username || !email || !gender || !dob || !phone) return null;
+
+        try {
+            const updateResponse = await AuthorModel.updateOne({
+                username: username.toLowerCase(),
+                email: email.toLowerCase(),
+                profile: {
+                    fullname: fullname,
+                    gender: gender,
+                    dateOfBirth: dob,
+                    phone: phone
+                }
+              });
+            
+            return updateResponse;    
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    },
     verifyAccountByToken: async (normalizedToken = null) => {
         if(!normalizedToken) return null;
 
