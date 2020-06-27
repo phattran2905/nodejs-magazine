@@ -204,7 +204,7 @@ const AuthorUtils = {
                 profile: {
                     fullname: fullname,
                     gender: gender,
-                    dateOfBirth: dob,
+                    dateOfBirth: new Date(dob),
                     phone: phone
                 }
               });
