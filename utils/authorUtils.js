@@ -138,6 +138,20 @@ const validate = {
             return Promise.reject(false);
         }
     },
+    checkPresentPwd: async (pwd = null, {req} = {}) => {
+        if(!pwd || typeof req.session.user === 'undefined') {return Promise.reject(false)};
+        
+        const userPwd = req.session.user.password;
+        try {
+            const match = await bcrypt.compare(pwd, userPwd);
+            if (match) {return Promise.resolve(true);}
+
+            return Promise.reject(false);
+        } catch (error) {
+            return Promise.reject(false);
+        }
+    }
+
 }
 
 const AuthorUtils = {
@@ -184,7 +198,7 @@ const AuthorUtils = {
         if (!fullname || !username || !email || !gender || !dob || !phone) return null;
 
         try {
-            const updateResponse = await AuthorModel.updateOne({
+            const updateResponse = await AuthorModel.updateOne({username: username},{
                 username: username.toLowerCase(),
                 email: email.toLowerCase(),
                 profile: {
@@ -195,6 +209,23 @@ const AuthorUtils = {
                 }
               });
             
+            return updateResponse;    
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    },
+    changePwd: async function({id, new_password}) {
+        console.log(id);
+        console.log(new_password);
+        if (!id || !new_password) return null;
+
+        try {
+            const hashed_pwd = await bcrypt.hash(new_password,await bcrypt.genSalt(12));
+            const updateResponse = await AuthorModel.updateOne({_id: id},{
+                password: hashed_pwd
+              });
+            console.log(updateResponse);
             return updateResponse;    
         } catch (error) {
             console.log(error);
@@ -322,24 +353,24 @@ const AuthorUtils = {
 
         return null;
     },
-    change_pwd: async (email, new_pwd) => {
-        if (!email || !new_pwd) return null;
+    // change_pwd: async (email, new_pwd) => {
+    //     if (!email || !new_pwd) return null;
         
-        try {
-            const new_hashedPwd = await bcrypt.hash(new_pwd, await bcrypt.genSalt(12));
-            const author = await AuthorModel.findOne({email: email}).exec();
-            if (!author) return null;
-            if (author.verifyToken.token && author.verifyToken.expiredOn) {
-                author.verifyToken.token = null;
-                author.verifyToken.expiredOn = null;
-            } 
-            author.password = new_hashedPwd;
-            await author.save();
-            return author;
-        } catch (error) {
-            return null;
-        }
-    },
+    //     try {
+    //         const new_hashedPwd = await bcrypt.hash(new_pwd, await bcrypt.genSalt(12));
+    //         const author = await AuthorModel.findOne({email: email}).exec();
+    //         if (!author) return null;
+    //         if (author.verifyToken.token && author.verifyToken.expiredOn) {
+    //             author.verifyToken.token = null;
+    //             author.verifyToken.expiredOn = null;
+    //         } 
+    //         author.password = new_hashedPwd;
+    //         await author.save();
+    //         return author;
+    //     } catch (error) {
+    //         return null;
+    //     }
+    // },
 
     validate: validate
 };
