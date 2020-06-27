@@ -7,6 +7,12 @@ const validationUtils = {
         }
         return false;
     },
+    checkMatchedNewPassword: function(password, {req}) {
+        if (password === req.body.new_password){
+            return true;
+        }
+        return false;
+    },
 };
 
 
