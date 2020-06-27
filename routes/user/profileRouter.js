@@ -1,7 +1,7 @@
 const authUtils = require('../../utils/authUtils');
 const authorUtils = require('../../utils/authorUtils');
 const validateProfile = require('../../validation/validateProfile');
-const AuthorUtils = require('../../utils/authorUtils');
+const commonUtils = require('../../utils/commonUtils');
 
 module.exports = function(userRouter) {
     userRouter.get(
@@ -33,17 +33,16 @@ module.exports = function(userRouter) {
     userRouter.post(
         '/profile/information',
         async (req,res) => {
-            // return console.log(req.body.gender);
             const reqInformation = {
                 fullname: req.body.fullname,
                 username: req.body.username,
-                email: req.body.email,
                 gender: req.body.gender,
                 dob: req.body.dob,
                 phone: req.body.phone
             }
+            
             const updatedQuery = await authorUtils.updateAuthorProfile(reqInformation);
-            if (updatedQuery.n === 1 && updatedQuery.ok === 1){
+            if (updatedQuery && updatedQuery.n === 1 && updatedQuery.ok === 1){
                 const reloadAuthorInfo = await authUtils.reloadLoggedUser(req, req.session.user._id);
                 if(reloadAuthorInfo) {
                     req.flash('success', 'Successfully! Your changes were saved.');
@@ -96,7 +95,7 @@ module.exports = function(userRouter) {
                 id: req.session.user._id,
                 new_password: req.body.new_password
             });
-            if(changePwdQuery.n ===1 && changePwdQuery.ok ===1) {
+            if(changePwdQuery && changePwdQuery.n ===1 && changePwdQuery.ok ===1) {
                 const reloadAuthorInfo = await authUtils.reloadLoggedUser(req, req.session.user._id);
                 if(reloadAuthorInfo) {
                     req.flash('success', 'Successfully! Your new password was saved.');

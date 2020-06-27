@@ -194,13 +194,11 @@ const AuthorUtils = {
             return null;
         }
     },
-    updateAuthorProfile: async function({fullname, username, email, gender, dob, phone}) {
-        if (!fullname || !username || !email || !gender || !dob || !phone) return null;
+    updateAuthorProfile: async function({fullname, username, gender, dob, phone}) {
+        if (!fullname || !username || !gender || !dob || !phone) return null;
 
         try {
             const updateResponse = await AuthorModel.updateOne({username: username},{
-                username: username.toLowerCase(),
-                email: email.toLowerCase(),
                 profile: {
                     fullname: fullname,
                     gender: gender,
@@ -216,8 +214,6 @@ const AuthorUtils = {
         }
     },
     changePwd: async function({id, new_password}) {
-        console.log(id);
-        console.log(new_password);
         if (!id || !new_password) return null;
 
         try {
@@ -225,7 +221,7 @@ const AuthorUtils = {
             const updateResponse = await AuthorModel.updateOne({_id: id},{
                 password: hashed_pwd
               });
-            console.log(updateResponse);
+            
             return updateResponse;    
         } catch (error) {
             console.log(error);
