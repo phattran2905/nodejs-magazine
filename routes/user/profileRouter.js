@@ -1,5 +1,7 @@
 const authUtils = require('../../utils/authUtils');
 const authorUtils = require('../../utils/authorUtils');
+const validateProfile = require('../../validation/validateProfile');
+const AuthorUtils = require('../../utils/authorUtils');
 
 module.exports = function(userRouter) {
     userRouter.get(
@@ -15,7 +17,7 @@ module.exports = function(userRouter) {
                 phone: loggedAuthor.profile.phone,
                 avatar_img: loggedAuthor.profile.avatar_img
             }
-            console.log(information);
+            
             const profilePage = {
                 profile_content: 'information',
                 content_header: 'information'
@@ -50,6 +52,60 @@ module.exports = function(userRouter) {
             }
             req.flash('fail', 'Failed! An error occurred during the process.');
             return res.redirect('/profile');
+            
+        }
+    );
+
+    userRouter.get(
+        '/profile/change_password',
+        (req, res) => {
+            const loggedAuthor = authUtils.getLoggedAuthor(req);
+            const profilePage = {
+                profile_content: 'change_password',
+                content_header: 'Change Password'
+            }
+            res.render('user/profile', {
+                loggedUser: loggedAuthor,
+                page: profilePage,
+                // information: information
+            });
+        }
+    );
+
+    userRouter.post(
+        '/profile/change_password',
+        validateProfile.change_password,
+        async (req, res) => {
+            const { hasError, errors, validInput } = validateProfile.result(req);
+            
+            if(hasError) {
+                console.log(errors);
+                const profilePage = {
+                    profile_content: 'change_password',
+                    content_header: 'Change Password'
+                };
+                return  res.render('user/profile',{
+                    errors: errors, 
+                    validInput: validInput,
+                    page: profilePage,
+                });
+            };
+    
+            
+            const changePwdQuery = await authorUtils.changePwd({
+                id: req.session.user._id,
+                new_password: req.body.new_password
+            });
+            if(changePwdQuery.n ===1 && changePwdQuery.ok ===1) {
+                const reloadAuthorInfo = await authUtils.reloadLoggedUser(req, req.session.user._id);
+                if(reloadAuthorInfo) {
+                    req.flash('success', 'Successfully! Your new password was saved.');
+                    return res.redirect('/profile/change_password');
+                }
+            }
+
+            req.flash('fail', 'Failed! An error occurred during the process.');
+            return res.redirect('/profile/change_password');
             
         }
     );
