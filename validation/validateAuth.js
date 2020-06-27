@@ -22,7 +22,7 @@ const validateAuthor = {
     verify: [
         body('verify_token')
             .custom(authorUtils.validate.checkExistentVerifyToken)
-            .bail().custom(authorUtils.validate.checkUsableVerifyToken)
+            // .bail().custom(authorUtils.validate.checkUsableVerifyToken)
     ],
     send_verification: [
         body('email')
