@@ -12,17 +12,19 @@ a#verify_to_login_btn:hover {
 } */
 
 .profile_div_sidebar {
-    border: 1px solid #333333;
+    border: 1px solid #00958c;
     border-radius: 15px;
+    /* background-color: #27333a; */
+    padding: 0;
 }
 .profile_div_sidebar_upper {
-    padding: 10px 30px;
+    padding: 10px 57px;
 }
 .profile_avatar {
     margin-top: 2rem;
-    height: 13rem;
+    height: 10rem;
     border-radius: 50%;
-    border: 1px solid #333333;
+    border: 1px solid #27333a;
 }
 .profile_avatar img {
     width: 100%;
@@ -30,14 +32,14 @@ a#verify_to_login_btn:hover {
     border-radius: 50%;
 }
 .upload-profile-avatar{
-    margin-top: 15px;
+    margin-top: 1.5rem;
 }
 .upload-profile-avatar form button i {
     margin-right: 5px;
 }
 .profile_div_sidebar_lower{
     /* border-top: 1px solid #333333; */
-    /* padding-top: 20px; */
+    margin-top: 15px;
     padding: 20px 0 30px 0;
 }
 .profile_div_sidebar_lower ul {
@@ -49,40 +51,55 @@ a#verify_to_login_btn:hover {
 }
 .profile_div_sidebar_lower ul li a {
     width: 100%;
-    margin-top: 6px;
-    padding: 7px 0;
+    padding: 15px 0;
     color: #ffffff;
     font-size: 1rem;
     text-align: center;
     text-transform: capitalize;
-    background-color: #ff3657;
+    background-color: #00958c;
     border-bottom: 1px solid #ffffff;
-    border-radius: 10px;
 }
+a.sidebar_menu_link.active,
 .profile_div_sidebar_lower ul li a:hover {
     text-decoration: none;
-    background-color: #007bff;
+    /* background-color: #007bff; */
+    background-color: #ff3657;
     transition: linear 0.5s;
 }
-.blog_contact_form_div .profile_div_content_header {;
-}
-.blog_contact_form_div .profile_div_content_header h3{
-    width: 65%;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 1.4rem;
-    text-transform: capitalize;
-    position: absolute;
-    top: -18px;
-    right: 45px;
-    color: #ffffff;
+.blog_heading_div .profile_div_content_header {
+    border-radius: 0 20px 20px 0;
+    min-width: 170px;
+    z-index: -20;
+    left: -10px;
     background-color: #ff3657;
-    border-radius: 10px;
+    padding-left: 20px;
 }
 .profile_div_content_container {
     padding-left: 0;
 }
 .profile_div_content{
-    padding: 20px 10px;
-    /* text-align: center; */
+    padding: 0 10px 20px 10px;
+}
+button#information_save_btn {
+    background-color: #00958c;
+    margin-top: 30px;
+}
+button#information_save_btn:hover {
+    background-color: #ff3657;
+    transition: 0.5s linear;
+}
+.blog_form_group .btn-group label.male-radio-label {
+    background-color: #27333a;
+    color: #ffffff;
+}
+.blog_form_group .btn-group label.female-radio-label {
+    background-color: #ff3657;
+    color: #ffffff;
+}
+div.btn-group label.male-radio-label.active,
+div.btn-group label.female-radio-label.active{
+    box-shadow: 0 5px 0 #007bff;
+}
+form.profile_information_form {
+    margin-top: 40px;
 }

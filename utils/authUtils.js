@@ -36,17 +36,7 @@ const authUtils = {
         return res.redirect("/");
     },
     getLoggedAuthor: (req) => {
-        let loggedAuthor = null;
-        if (typeof req.session.user !== 'undefined' && req.session.user){
-            loggedAuthor = {
-                username: req.session.user.username,
-                email: req.session.user.email,
-                role: req.session.user.role,
-                status: req.session.user.status
-            };
-        }
-
-        return loggedAuthor;
+        if (typeof req.session.user !== 'undefined' && req.session.user) {return req.session.user;}
     },
     getLoggedAdmin: (req) => {
         let loggedAdmin = null;
@@ -60,6 +50,15 @@ const authUtils = {
         }
 
         return loggedAdmin;
+    },
+    reloadLoggedUser: async (req, id ) => {
+        try {
+            const authorInfo = await AuthorModel.findById(id);
+            req.session.user = authorInfo;
+            return authorInfo;
+        } catch(error) {
+            return null;
+        }
     }
 }
 

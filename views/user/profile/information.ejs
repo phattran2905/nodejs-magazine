@@ -1,18 +1,38 @@
-
-<!-- Profile-content -->
-<div class="profile_div_content_container ">
+  <!-- Flash -->
+  <%- include('../base/flash_messages') %>
   <!-- Form -->
-  <div class="profile_div_content">
-    <form action="/signup" method="POST" >
+    <form action="/profile/information" method="POST" class="profile_information_form">
     <div class="contact_form">
       <div class="form-group row">
-        <!-- Username -->
+        <!-- Fullname -->
+        <label for="Fullname" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Fullname</label>
+        <div class="col-lg-7 col-md-9 col-sm-12 col-12">
+          <div class="blog_form_group">
+          <input type="text" id="fullname" name="fullname" class="form-control" value="<%= information.fullname %>" required>
+          <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
+            <% if (errors) { %> 
+            <% errors.forEach( (error) =>  { %> 
+              <% if (error.param === 'fullname') { %> 
+            <input type="text" value="<%= error.value %>" id="fullname" name="fullname" class="form-control" placeholder="Enter your fullname" required>
+            <div class="invalid-input">
+              <p><%= error.msg %> </p>
+            </div>
+              <% } %>
+            <% }) %>
+            <% } %>  
+            <% if (validInput && validInput.fullname) { %> 
+              <input type="text" value="<%= validInput.fullname %>" id="fullname" name="fullname" class="form-control" placeholder="Enter your fullname" required>
+            <% } %> 
+          <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">  
+      <!-- Username -->
         <label for="username" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Username</label>
         <div class="col-lg-7 col-md-9 col-sm-12 col-12">
           <div class="blog_form_group">
-          <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
-            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
-          <% } %>
+          <input type="text" id="username" name="username" class="form-control" value="<%= information.username %>" required>
           <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
             <% if (errors) { %> 
             <% errors.forEach( (error) =>  { %> 
@@ -31,15 +51,13 @@
           </div>
         </div>
       </div>
-          
+        
       <div class="form-group row">
         <!-- Email -->
         <label for="email" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Email</label>
         <div class="col-lg-7 col-md-9 col-sm-12 col-12">
-          <div class="blog_form_group">
-            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
-              <input type="text" id="email" name="email" class="form-control" placeholder="Enter email" required>
-              <% } %>
+          <div class="blog_form_group input-group ">
+            <input type="text" id="email" name="email" class="form-control" value="<%= information.email %>" required>
               <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
                 <% if (errors) { %> 
                   <% errors.forEach( (error) =>  { %> 
@@ -55,18 +73,39 @@
                   <input type="text" value="<%= validInput.email %>" id="email" name="email" class="form-control" placeholder="Enter email" required>
                 <% } %>
               <% } %>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="mdi mdi-email"></i></span>
+            </div>
           </div>
         </div>
       </div>
       
       <div class="form-group row">
-        <label for="password" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Password</label>
+        <!-- Gender -->
+        <label for="gender" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Gender</label>
         <div class="col-lg-7 col-md-9 col-sm-12 col-12">
           <div class="blog_form_group">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <div class="btn-group btn-group-toggle mt-2 mt-lg-0" data-toggle="buttons">
+              <% if(information.gender === 'male') { %> 
+              <label class="btn male-radio-label focus active">
+                  <input type="radio" name="gender" value="male" id="male" checked=""> <i class="mdi mdi-human-male"></i> Male
+                  <% } else { %> 
+              <label class="btn male-radio-label">
+                  <input type="radio" name="gender" value="male" id="male"> <i class="mdi mdi-human-male"></i> Male
+                    <% } %> 
+              </label>
+              <% if(information.gender === 'female') { %> 
+              <label class="btn female-radio-label focus active">
+                <input type="radio" name="gender" value="female" id="female" checked=""> <i class="mdi mdi-human-female"></i> Female
+                <% } else { %> 
+              <label class="btn female-radio-label ">
+                <input type="radio" name="gender" value="female" id="female"> <i class="mdi mdi-human-female"></i> Female
+                  <% } %> 
+              </label>
+          </div>
             <% if (typeof errors !== 'undefined' && errors) { %>
               <% errors.forEach( (error) =>  { %> 
-              <% if(error.param === 'password') { %>
+              <% if(error.param === 'gender') { %>
             <div class="invalid-input">
               <p><%= error.msg %> </p>
             </div>
@@ -77,13 +116,19 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="confirm_password" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Confirm Password</label>
+        <!-- Date of birth -->
+        <label for="dob" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Date of birth</label>
         <div class="col-lg-7 col-md-9 col-sm-12 col-12">
-          <div class="blog_form_group">
-            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+          <div class="blog_form_group input-group ">
+              <input type="text" name="dob" class="form-control" placeholder="mm/dd/yyyy" value="<%= information.dob %>" data-provide="datepicker" data-date-autoclose="true">    
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+            
             <% if (typeof errors !== 'undefined' && errors) { %>
               <% errors.forEach( (error) =>  { %> 
-              <% if(error.param === 'confirm_password') { %>
+              <% if(error.param === 'dob') { %>
             <div class="invalid-input">
               <p><%= error.msg %> </p>
             </div>
@@ -92,11 +137,30 @@
             <% } %>
           </div>
         </div>
-    </div>
+      </div>
+      <div class="form-group row">
+        <!-- Phone number -->
+        <label for="phone" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Phone number</label>
+        <div class="col-lg-7 col-md-9 col-sm-12 col-12">
+          <div class="blog_form_group  input-group ">
+            <input class="form-control" name="phone" type="tel" value="<%= information.phone %>" id="phone">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="mdi mdi-phone"></i></span>
+          </div>
+            <% if (typeof errors !== 'undefined' && errors) { %>
+              <% errors.forEach( (error) =>  { %> 
+              <% if(error.param === 'phone') { %>
+            <div class="invalid-input">
+              <p><%= error.msg %> </p>
+            </div>
+              <% } %> 
+              <% }) %> 
+            <% } %>
+          </div>
+        </div>
+      </div>
                       
       <div class="form-group row">
-        <button id="login_btn" class="col-lg-8 offset-lg-2 col-md-12 col-sm-12 col-12 blog_btn blog_bg_pink">Sign up</button>
-    </div>
+        <button id="information_save_btn" class="col-lg-8 offset-lg-2 col-md-12 col-sm-12 col-12 blog_btn">Update changes</button>
+      </div>
     </form>
-  </div>
-</div>

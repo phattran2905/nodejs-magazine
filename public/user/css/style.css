@@ -327,14 +327,20 @@ button:focus {
 .blog_tranding_slider p span,.blog_date_div p span, .blog_temperature_div p span {
     margin-right: 10px;
 }
-.blog_date_div,
+/* .blog_date_div ,
 .blog_temperature_div {
+    width: 10rem;
+    padding: 10px 0;
+    text-align: center;
+} */
+.blog_date_div a.blog_auth,
+.blog_temperature_div a.blog_auth{
+    height: 100%;
     width: 10rem;
     padding: 10px 0;
     text-align: center;
 }
 .blog_date_div a.blog_auth{
-    margin: 0;
     color: #fff;
     border-width: 0px 1px;
 }
@@ -349,6 +355,9 @@ button:focus {
     margin-right: 10px;
     color: rgb(255, 35, 35);
 }
+.blog_profile div.blog_main_menu div.blog_main_menu_innerdiv ul li.blog_dropdown:hover a.blog_auth i {
+    color: #f5f7fa;
+}
 .blog_temperature_div p span svg{
 	margin-top:-4px;
 }
@@ -359,20 +368,24 @@ button:focus {
     border-left: 2px solid #f5f7fa;
 }
 .blog_date_div:hover,
-.blog_temperature_div:hover {
-    cursor: pointer;
-    background-color: #626569;
-    transition: 0.2s ease-out;
-}
+.blog_temperature_div:hover,
 .blog_profile:hover {
     cursor: pointer;
-    background-color: #626569;
+    background-color: #ff3657;
     transition: 0.2s ease-out;
 }
+
 .blog_profile .blog_dropdown{
     width: 14rem;
     padding: 10px 5px;
     text-align: center;
+}
+.blog_profile .blog_main_menu ,
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv ,
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv > ul ,
+.blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li.blog_dropdown 
+{
+    height: 100%;
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li.blog_dropdown a.blog_auth {
     padding: 0;
@@ -382,12 +395,13 @@ button:focus {
     min-width: 10rem;
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu li a{
+    height: 100%;
     padding: 7px 17px;
     text-align: center;
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
     right: 5px;
-    top: 38px;
+    top: 48px;
 }
 /* END CUSTOM */
 /*====Top Header Css End====*/
