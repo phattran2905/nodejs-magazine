@@ -35,22 +35,6 @@ const authUtils = {
         }
         return res.redirect("/");
     },
-    getLoggedAuthor: (req) => {
-        if (typeof req.session.user !== 'undefined' && req.session.user) {return req.session.user;}
-    },
-    getLoggedAdmin: (req) => {
-        let loggedAdmin = null;
-        if (typeof req.session.admin !== 'undefined' && req.session.admin){
-            loggedAdmin = {
-                username: req.session.admin.username,
-                email: req.session.admin.email,
-                role: req.session.admin.role,
-                status: req.session.admin.status
-            };
-        }
-
-        return loggedAdmin;
-    },
     reloadLoggedUser: async (req, id ) => {
         try {
             const authorInfo = await AuthorModel.findById(id);
@@ -59,6 +43,20 @@ const authUtils = {
         } catch(error) {
             return null;
         }
+    },
+    getAuthorProfile: (req) => {
+        if(typeof req.session.user !== 'undefined' && req.session.user)
+            return {
+                username: req.session.user.username,
+                email: req.session.user.email,
+                fullname: req.session.user.profile.fullname,
+                gender: req.session.user.profile.gender,
+                dob: req.session.user.profile.dateOfBirth,
+                phone: req.session.user.profile.phone,
+                avatar_img: req.session.user.profile.avatar_img
+            }
+        
+        return null;
     }
 }
 
