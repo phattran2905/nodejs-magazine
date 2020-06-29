@@ -8,11 +8,11 @@ module.exports = function(userRouter) {
         (req,res) => {
             const information = authUtils.getAuthorProfile(req);
             
-            res.render('user/profile', {
+            res.render('user/profile_base', {
                 // loggedUser: information,
                 page: {
-                    profile_content: 'information',
-                    content_header: 'information'
+                    profile_content: 'profile',
+                    content_header: 'profile'
                 },
                 information: information
             });
@@ -20,20 +20,20 @@ module.exports = function(userRouter) {
     );
 
     userRouter.post(
-        '/profile/information',
+        '/profile',
         validateProfile.information,
         async (req,res) => {
             const { hasError, errors, validInput } = validateProfile.result(req);
             
             if(hasError) {
                 const information = authUtils.getAuthorProfile(req);
-                return  res.render('user/profile',{
+                return  res.render('user/profile_base',{
                     errors: errors, 
                     validInput: validInput,
                     // loggedUser: ,
                     page: {
-                        profile_content: 'information',
-                        content_header: 'information'
+                        profile_content: 'profile',
+                        content_header: 'profile'
                     },
                     information: information
                 });
@@ -69,7 +69,7 @@ module.exports = function(userRouter) {
         '/profile/change_password',
         (req, res) => {
             const information = authUtils.getAuthorProfile(req);
-            res.render('user/profile', {
+            res.render('user/profile_base', {
                 // loggedUser: loggedAuthor,
                 page:  {
                     profile_content: 'change_password',
@@ -87,7 +87,7 @@ module.exports = function(userRouter) {
             const { hasError, errors, validInput } = validateProfile.result(req);
             
             if(hasError) {
-                return  res.render('user/profile',{
+                return  res.render('user/profile_base',{
                     errors: errors, 
                     validInput: validInput,
                     page: {
