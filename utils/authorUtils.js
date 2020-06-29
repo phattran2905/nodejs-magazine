@@ -2,6 +2,7 @@ const AuthorModel = require('../models/AuthorModel');
 const commonUtils = require('./commonUtils');
 const mailUtils = require('./mailUtils');
 const bcrypt = require('bcrypt');
+const {check, isAlpha} = require('express-validator');
 
 const validate = {
     // Express-validator requires returning a Promise
@@ -150,6 +151,23 @@ const validate = {
         } catch (error) {
             return Promise.reject(false);
         }
+    },
+    checkFullnameValid: async(fullname = null, {req} = {}) => {
+        if (!fullname) return Promise.reject(false);
+        if(fullname.match(/\s/g)) {
+            const wordsArr = fullname.split(" ");
+            
+            for (let i = 0; i < wordsArr.length; i++){
+                if(wordsArr[i].match(/\W|\d/)) {return Promise.reject(false)};
+            }
+
+            return Promise.resolve(true);
+        } else if (fullname.match(/\w/g)){
+            return Promise.resolve(true);
+        } else {
+            return Promise.reject(false);
+        }
+       
     }
 
 }
@@ -206,7 +224,7 @@ const AuthorUtils = {
                     phone: phone
                 }
               });
-            
+              
             return updateResponse;    
         } catch (error) {
             console.log(error);
