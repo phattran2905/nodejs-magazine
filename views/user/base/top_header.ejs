@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <% if (typeof loggedUser === 'undefined') { %> 
+  <% if (typeof information === 'undefined') { %> 
   <!-- Sign up -->
   <div class="blog_date_div">
       <a class="blog_auth" href="/signup"> <i class="fa fa-user-plus"></i>Sign up </a>
@@ -69,7 +69,7 @@
         <div class="blog_main_menu_innerdiv">
         <ul>
           <li class="blog_dropdown">
-            <a href="#" class="blog_auth"><i class="fa fa-user"></i><%= loggedUser.username %></a>
+            <a href="#" class="blog_auth"><i class="fa fa-user"></i><%= information.username %></a>
             <ul class="sub-menu profile_sub_menu">
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="blog_single_with_sidebar.html">Articles</a></li>
