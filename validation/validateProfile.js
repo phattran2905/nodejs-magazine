@@ -2,7 +2,16 @@ const {body, validationResult, matchedData} = require('express-validator');
 const authorUtils = require('../utils/authorUtils');
 const validationUtils = require('../utils/validationUtils');
 
-const validateAuthor = {
+const validateProfile = {
+    information: [
+        body('fullname')
+            .trim()
+            .custom(authorUtils.validate.checkFullnameValid).withMessage('Your name must be alphabetic characters.'),
+        body('dob') // isDate() was removed from express-validator
+            .isBefore('1/1/2004').withMessage('Invalid Date'),
+        body('phone')
+            .isMobilePhone().withMessage('Phone number only contains numeric character.')
+    ],
     change_password: [
         body('present_password')
             .custom(authorUtils.validate.checkPresentPwd).withMessage('Your present password was not correct.'),
@@ -29,4 +38,4 @@ const validateAuthor = {
     },
 }
 
-module.exports = validateAuthor;
+module.exports = validateProfile;
