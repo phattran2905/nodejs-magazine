@@ -16,15 +16,16 @@ var storage = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
+        const extension = file.mimetype.substr(6,);
         switch (file.fieldname) {
             case 'thumbnail_img':
-                cb(null, req.user.id + '-' + Date.now());
+                cb(null, req.user.id + '-' + Date.now() + '.' + extension);
                 break;
             case 'profile_img':
-                cb(null, req.user.id + '-' + Date.now());
+                cb(null, req.user.id + '-' + Date.now() + '.'  + extension);
                 break;
             default:
-                cb(null, file.fieldname + '-' + Date.now())
+                cb(null, file.fieldname + '-' + Date.now() + '.' + extension);
                 break;
         }
     }
