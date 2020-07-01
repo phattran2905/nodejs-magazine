@@ -46,16 +46,23 @@ const authUtils = {
     },
     getAuthorProfile: (req) => {
         if(typeof req.session.user !== 'undefined' && req.session.user)
-            return {
-                username: req.session.user.username,
-                email: req.session.user.email,
-                fullname: req.session.user.profile.fullname,
-                gender: req.session.user.profile.gender,
-                dob: req.session.user.profile.dateOfBirth,
-                phone: req.session.user.profile.phone,
-                avatar_img: req.session.user.profile.avatar_img
+            {
+                return {
+                    id: req.session.user._id,
+                    username: req.session.user.username,
+                    email: req.session.user.email,
+                    fullname: req.session.user.profile.fullname,
+                    gender: req.session.user.profile.gender,
+                    dob: req.session.user.profile.dateOfBirth,
+                    phone: req.session.user.profile.phone,
+                    avatar_img: {
+                        path: req.session.user.profile.avatar_img.path,
+                        filename: req.session.user.profile.avatar_img.filename,
+                        contentType: req.session.user.profile.avatar_img.contentType
+                    }
+                }
             }
-        
+            
         return null;
     }
 }
