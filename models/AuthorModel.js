@@ -19,8 +19,10 @@ const AuthorSchema = mongoose.Schema({
         dateOfBirth: Date,
         phone: String,
         avatar_img: {
-            type: String,
-            default: 'default_avatar'
+            path: String,
+            contentType: String,
+            filename: String,
+            size: Number
         }
     },
     popularity: {
