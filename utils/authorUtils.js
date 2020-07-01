@@ -2,6 +2,7 @@ const AuthorModel = require('../models/AuthorModel');
 const commonUtils = require('./commonUtils');
 const mailUtils = require('./mailUtils');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 const {check, isAlpha} = require('express-validator');
 
 const validate = {
@@ -183,6 +184,32 @@ const AuthorUtils = {
         }catch(error){
             return null;
         }
+    },
+    update_avatar: async(author_id = null, {path, contentType, filename, size} = {}) => {
+        if (!author_id || !path || !contentType || !filename || !size) 
+            {return null;}
+
+        try {
+            const author = await AuthorModel.findById(author_id);
+            
+            if (author) {
+                const updateQuery = await AuthorModel.updateOne(
+                    {_id: author.id},
+                    {
+                        'profile.avatar_img': {
+                            path: path,
+                            contentType: contentType,
+                            filename: filename,
+                            size: size
+                        }
+                    }
+                );
+                return updateQuery;
+            }
+        } catch (error) {
+            return null;
+        }
+        return null;
     },
     createNewAuthor: async function(username = null, email = null, pwd = null) {
         if (!username || !email || !pwd) return null;

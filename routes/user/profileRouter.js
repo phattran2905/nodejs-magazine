@@ -1,12 +1,19 @@
 const authUtils = require('../../utils/authUtils');
 const authorUtils = require('../../utils/authorUtils');
 const validateProfile = require('../../validation/validateProfile');
+const upload = require('../../config/upload-setup');
+const fs = require('fs');
+const path = require('path');
+const commonUtils = require('../../utils/commonUtils');
+const AuthorUtils = require('../../utils/authorUtils');
+const { information } = require('../../validation/validateProfile');
+const { info } = require('console');
 
 module.exports = function(userRouter) {
     userRouter.get(
         '/profile',
         (req,res) => {
-            const information = authUtils.getAuthorProfile(req);
+            let information = authUtils.getAuthorProfile(req);
             
             res.render('user/profile_base', {
                 // loggedUser: information,
@@ -64,6 +71,31 @@ module.exports = function(userRouter) {
             }
         }
     );
+    
+    userRouter.post(
+        '/upload_avatar',
+        upload.single('avatar_img'),
+        async (req, res) => {
+            let information = authUtils.getAuthorProfile(req);
+
+            const updateQuery = await authorUtils.update_avatar(
+                information.id, 
+                {
+                    path: req.file.path,
+                    contentType: req.file.mimetype,
+                    filename: req.file.filename,
+                    size: req.file.size
+                });
+            if (updateQuery && updateQuery.n === 1 && updateQuery.nModified === 1) {
+                const reloaded_user = await authUtils.reloadLoggedUser(req, information.id);
+                if(reloaded_user) {return res.redirect('/profile');}
+            }
+            
+            req.flash('fail', 'Failed! An error occurred during the process.');
+            return res.redirect('/profile');
+        }
+    )
+
 
     userRouter.get(
         '/profile/change_password',

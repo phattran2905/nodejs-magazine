@@ -52,21 +52,23 @@
             </div>
             <!-- form_div_inner -->
 						<div class="row blog_contact_form_div_inner">
-              <!-- Flash -->
+              <!-- profile sidebar -->
               <div class="profile_div_sidebar col-md-3 col-sm-2">
                 <div class="profile_div_sidebar_upper">
                   <div class="profile_avatar">
-                    <img src="/static/images/logo.png" alt="..." class="mx-auto d-block">
+                    <img src="/avatar/<%= information.avatar_img.filename %>" alt="..." class="mx-auto d-block">
                   </div>
                   <div class="form-inline upload-profile-avatar">
-                    <form action="#" class="mx-auto">
-                      <button class="btn btn-primary"><i class="mdi mdi-cloud-upload" aria-hidden="true"></i>Upload</button>                    
+                    <form action="/upload_avatar/" class="mx-auto" method="POST" enctype="multipart/form-data">
+                      <input hidden onchange="this.form.submit()" type="file" id="avatar_img"  name="avatar_img" accept="image/*" />
+                      <label for="avatar_img" class="btn btn-primary"><i class="mdi mdi-cloud-upload" aria-hidden="true"></i>Upload</label>
+                      <!-- <button type="file" class=""></button>                     -->
                     </form>
                   </div>
                 </div>
                 <div class="profile_div_sidebar_lower">
                   <ul>
-                    <% if (page.profile_content === 'information') { %> 
+                    <% if (page.profile_content === 'profile') { %> 
                     <li><a class="sidebar_menu_link active" href="/profile">Profile</a></li>
                     <% } else { %> 
                     <li><a class="sidebar_menu_link" href="/profile">Profile</a></li>
