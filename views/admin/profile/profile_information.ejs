@@ -1,0 +1,189 @@
+<!-- Form -->
+<form action="/admin/profile" method="POST" class="p-5 mx-4 needs-validation profile_form" novalidate>
+  <div class="form-group row mb-4">
+    <!-- Username -->
+    <label for="username" class="col-md-2 col-form-label pl-4">Username</label>
+    <div class="col-md-7 input-group">
+      <input type="text" id="username" name="username" class="form-control" value="<%= information.username %>"
+        readonly>
+      <div class="input-group-append">
+        <span class="input-group-text"><i class="mdi mdi-ticket-account"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <!-- Email -->
+    <label for="email" class="col-md-2 col-form-label pl-4">Email</label>
+    <div class="col-md-7 input-group">
+      <input type="text" id="email" name="email" class="form-control" value="<%= information.email %>" readonly>
+      <div class="input-group-append">
+        <span class="input-group-text"><i class="mdi mdi-email"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <!-- Fullname -->
+    <label for="fullname" class="col-md-2 col-form-label pl-4">Fullname</label>
+    <div class="col-md-7 input-group">
+      <input type="text" id="fullname" name="fullname" class="form-control" value="<%= information.fullname %>"
+        required>
+      <% if (typeof errors !== 'undefined' && errors) { %>
+      <% errors.forEach( (error) =>  { %>
+      <% if (error.param === 'fullname') { %>
+      <div class="invalid-input">
+        <p><%= error.msg %> </p>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
+      <div class="input-group-append">
+        <span class="input-group-text"><i class="mdi mdi-tag-text-outline"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <!-- Gender -->
+    <label for="gender" class="col-md-2 col-form-label pl-4">Gender</label>
+    <div class="col-md-7 col-sm-12 col-12">
+      <div class="blog_form_group">
+        <div class="btn-group btn-group-toggle mt-2 mt-lg-0" data-toggle="buttons">
+          <% if(information.gender === 'male') { %>
+          <label class="btn btn-primary male-radio-label focus active">
+            <input type="radio" name="gender" value="male" id="male" checked=""> <i class="mdi mdi-human-male"></i> Male
+            <% } else { %>
+            <label class="btn male-radio-label">
+              <input type="radio" name="gender" value="male" id="male"> <i class="mdi mdi-human-male"></i> Male
+              <% } %>
+            </label>
+            <% if(information.gender === 'female') { %>
+            <label class="btn female-radio-label focus active">
+              <input type="radio" name="gender" value="female" id="female" checked=""> <i
+                class="mdi mdi-human-female"></i> Female
+              <% } else { %>
+              <label class="btn female-radio-label ">
+                <input type="radio" name="gender" value="female" id="female"> <i class="mdi mdi-human-female"></i>
+                Female
+                <% } %>
+              </label>
+        </div>
+        <% if (typeof errors !== 'undefined' && errors) { %>
+        <% errors.forEach( (error) =>  { %>
+        <% if(error.param === 'gender') { %>
+        <div class="invalid-input">
+          <p><%= error.msg %> </p>
+        </div>
+        <% } %>
+        <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <!-- Date of birth -->
+    <label for="dob" class="col-md-2 col-form-label pl-4">Date of birth</label>
+    <div class="col-md-7 col-sm-12 col-12">
+      <div class="blog_form_group input-group ">
+        <input type="text" name="dob" class="form-control"
+          value="<%= new Date(information.dob).toLocaleDateString('en-US',{year: 'numeric' ,month: '2-digit',day: '2-digit'}) %>"
+          data-provide="datepicker" data-date-autoclose="true">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+      </div>
+
+      <% if (typeof errors !== 'undefined' && errors) { %>
+      <% errors.forEach( (error) =>  { %>
+      <% if(error.param === 'dob') { %>
+      <div class="invalid-input">
+        <p><%= error.msg %> </p>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <!-- Phone number -->
+    <label for="phone" class="col-md-2 col-form-label pl-4">Phone number</label>
+    <div class="col-md-7 col-sm-12 col-12">
+      <div class="blog_form_group  input-group ">
+        <input class="form-control" name="phone" type="tel" value="<%= information.phone %>" id="phone">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="mdi mdi-phone"></i></span>
+        </div>
+      </div>
+      <% if (typeof errors !== 'undefined' && errors) { %>
+      <% errors.forEach( (error) =>  { %>
+      <% if(error.param === 'phone') { %>
+      <div class="invalid-input">
+        <p><%= error.msg %> </p>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <label class="col-md-2 col-form-label pl-4">Role</label>
+    <div class="col-md-7">
+      <% if (typeof errors !== 'undefined') { %>
+      <% errors.forEach( (error) => { %>
+      <% if (error.param === 'role') { %>
+      <select class="custom-select is-invalid" name="role">
+        <option selected value="">Choose a role</option>
+        <option value="SuperAdmin">SuperAdmin</option>
+        <option value="Admin">Admin</option>
+        <option value="Moderator">Moderator</option>
+      </select>
+      <div class="invalid-feedback">
+        <%= error.msg %>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
+
+      <% if (typeof validInput !== 'undefined' && typeof validInput.role !== 'undefined') { %>
+      <select class="custom-select is-valid" name="role">
+        <option value="">Choose a role</option>
+        <% if (validInput.role === 'SuperAdmin') { %>
+        <option selected value="SuperAdmin">SuperAdmin</option>
+        <option value="Admin">Admin</option>
+        <option value="Moderator">Moderator</option>
+        <% } else if (validInput.role === 'Admin') { %>
+        <option value="SuperAdmin">SuperAdmin</option>
+        <option selected value="Admin">Admin</option>
+        <option value="Moderator">Moderator</option>
+        <% } else if (validInput.role === 'Moderator') { %>
+        <option value="SuperAdmin">SuperAdmin</option>
+        <option value="Admin">Admin</option>
+        <option selected value="Moderator">Moderator</option>
+        <% } %>
+      </select>
+      <% } %>
+
+      <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
+      <select class="custom-select" name="role" required>
+        <option value="">Choose a role</option>
+        <option value="SuperAdmin">SuperAdmin</option>
+        <option value="Admin">Admin</option>
+        <option value="Moderator">Moderator</option>
+      </select>
+      <% } %>
+
+    </div>
+  </div>
+  <div class="form-group row mt-4 ">
+    <div class="col-md-7"></div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100">
+        <i class="far fa-save mr-2"></i>Save changes
+      </button>
+    </div>
+  </div>
+</form>

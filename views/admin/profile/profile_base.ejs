@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../base/head.ejs') %>
+  <link href="/admin/static/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+  <link href="/admin/static/assets/libs/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+  <link href="/admin/static/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+  <!-- custom css -->
+  <link href="/admin/static/assets/css/myCustom.css" rel="stylesheet" type="text/css" />
+  
+</head>
+
+<body data-sidebar="dark">
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+    <%- include('../base/topbar') %>
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="vertical-menu">
+      <div data-simplebar class="h-100">
+        <%- include('../base/left-sidebar') %>
+      </div>
+    </div>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          <!-- start page title -->
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 font-size-18">
+                  <%= page.content_header.toUpperCase() %>
+                </h4>
+
+                <div class="page-title-right">
+                  <!-- <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                      <a href="javascript: void(0);">Apaxy</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a href="javascript: void(0);">Email</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                      Profile
+                    </li>
+                  </ol> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end page title -->
+
+          <div class="row mb-4">
+            <!-- Left bar -->
+            <div class="col-xl-3">
+              <div class="card h-100">
+                <div class="card-body email-leftbar">
+                  <img class="d-flex mx-auto mb-4 rounded-circle avatar-profile"
+                    src="/admin/static/assets/images/users/avatar-1.jpg" alt="Generic placeholder image" />
+                  <a href="email-compose.html" class="btn btn-primary btn-block btn-rounded waves-effect waves-light">
+                    <i class="mdi mdi-cloud-upload mr-1"></i> Change avatar</a>
+
+                  <div class="mail-list mt-4">
+                    <a href="#" class="active"><i class="mdi mdi-inbox mr-2">
+                      </i> Inbox <span class="ml-1 float-right">(18)</span>
+                    </a>
+                    <a href="/admin/profile">
+                      <i class="mdi mdi-account-badge-horizontal mr-2"></i>Profile
+                    </a>
+                    <a href="#"><i class="mdi mdi-key-star mr-2"></i>Change password</a>
+                    <a href="#"><i class="mdi mdi-logout-variant mr-2"></i>Log out</a>
+                    <!-- <a href="#"><i class="mdi mdi-send-check-outline mr-2"></i>Sent Mail</a>
+                    <a href="#"><i class="mdi mdi-trash-can-outline mr-2"></i>Trash</a> -->
+                  </div>
+
+                  <!-- <div>
+                    <h6 class="mt-4">Labels</h6>
+
+                    <div class="mail-list mt-1">
+                      <a href="#"><span class="mdi mdi-circle-outline mr-2 text-info"></span>Theme
+                        Support</a>
+                      <a href="#"><span class="mdi mdi-circle-outline mr-2 text-warning"></span>Freelance</a>
+                      <a href="#"><span class="mdi mdi-circle-outline mr-2 text-primary"></span>Social</a>
+                      <a href="#"><span class="mdi mdi-circle-outline mr-2 text-danger"></span>Friends</a>
+                      <a href="#"><span class="mdi mdi-circle-outline mr-2 text-success"></span>Family</a>
+                    </div>
+                  </div> -->
+                  
+                </div>
+              </div>
+            </div>
+            <!-- end left bar -->
+
+            <div class="col-xl-9">
+              <!-- <div class="row">
+                <div class="col-md-7">
+                  <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group mr-2 mb-3">
+                      <button type="button" class="btn btn-primary waves-light waves-effect">
+                        <i class="fa fa-inbox"></i>
+                      </button>
+                      <button type="button" class="btn btn-primary waves-light waves-effect">
+                        <i class="fa fa-exclamation-circle"></i>
+                      </button>
+                      <button type="button" class="btn btn-primary waves-light waves-effect">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </div>
+                    <div class="btn-group mr-2 mb-3">
+                      <button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle"
+                        data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-folder"></i>
+                        <i class="mdi mdi-chevron-down ml-1"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Updates</a>
+                        <a class="dropdown-item" href="#">Social</a>
+                        <a class="dropdown-item" href="#">Team Manage</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="btn-toolbar justify-content-md-end" role="toolbar">
+                    <div class="btn-group ml-md-2 mb-3">
+                      <button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle"
+                        data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-tag"></i>
+                        <i class="mdi mdi-chevron-down ml-1"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Updates</a>
+                        <a class="dropdown-item" href="#">Social</a>
+                        <a class="dropdown-item" href="#">Team Manage</a>
+                      </div>
+                    </div>
+
+                    <div class="btn-group ml-2 mb-3">
+                      <button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle"
+                        data-toggle="dropdown" aria-expanded="false">
+                        More
+                        <i class="mdi mdi-dots-vertical ml-1"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Mark as Unread</a>
+                        <a class="dropdown-item" href="#">Mark as Important</a>
+                        <a class="dropdown-item" href="#">Add to Tasks</a>
+                        <a class="dropdown-item" href="#">Add Star</a>
+                        <a class="dropdown-item" href="#">Mute</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="card mb-0">
+                <div class="card-body">
+                  <!-- Flash messages -->
+                  <%- include('../base/flash_messages.ejs') %>
+                  <!-- End Flash messages -->
+
+                  <!-- right bar component -->
+                  <% if (page.content === 'profile') { %> 
+                  <%- include('./profile_information') %>
+                  <% } %> 
+                  <!-- end right bar component -->
+                </div>
+              </div>
+              <!-- end card -->
+            </div>
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+      </div>
+      <!-- End Page-content -->
+
+      <!-- footer -->
+      <%- include('../base/footer') %>
+      <!-- end footer -->
+    </div>
+    <!-- end main content-->
+  </div>
+  <!-- END layout-wrapper -->
+
+  <!-- Right Sidebar -->
+  <%- include('../base/right-sidebar') %>
+  <!-- /Right-bar -->
+
+  <!-- script -->
+  <%- include('../base/js') %>
+  <script src="/admin/static/assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+  <script src="/admin/static/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+  <script src="/admin/static/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+  <script src="/admin/static/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+  <!-- form advanced init -->
+  <script src="/admin/static/assets/js/pages/form-advanced.init.js"></script>
+</body>
+
+</html>
