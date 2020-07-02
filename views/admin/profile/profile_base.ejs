@@ -35,7 +35,7 @@
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between">
                 <h4 class="mb-0 font-size-18">
-                  <%= page.content_header.toUpperCase() %>
+                  <%= content.toUpperCase() %>
                 </h4>
 
                 <div class="page-title-right">
@@ -67,16 +67,15 @@
                     <i class="mdi mdi-cloud-upload mr-1"></i> Change avatar</a>
 
                   <div class="mail-list mt-4">
-                    <a href="#" class="active"><i class="mdi mdi-inbox mr-2">
+                    <!-- <a href="#" class="active"><i class="mdi mdi-inbox mr-2">
                       </i> Inbox <span class="ml-1 float-right">(18)</span>
-                    </a>
-                    <a href="/admin/profile">
+                    </a> -->
+                    
+                    <a href="/admin/profile" class="left-bar-link <% if (content === 'profile') { %><%= 'active' %><% } %> ">
                       <i class="mdi mdi-account-badge-horizontal mr-2"></i>Profile
                     </a>
                     <a href="#"><i class="mdi mdi-key-star mr-2"></i>Change password</a>
                     <a href="#"><i class="mdi mdi-logout-variant mr-2"></i>Log out</a>
-                    <!-- <a href="#"><i class="mdi mdi-send-check-outline mr-2"></i>Sent Mail</a>
-                    <a href="#"><i class="mdi mdi-trash-can-outline mr-2"></i>Trash</a> -->
                   </div>
 
                   <!-- <div>
@@ -166,7 +165,7 @@
                   <!-- End Flash messages -->
 
                   <!-- right bar component -->
-                  <% if (page.content === 'profile') { %> 
+                  <% if (content === 'profile') { %> 
                   <%- include('./profile_information') %>
                   <% } %> 
                   <!-- end right bar component -->

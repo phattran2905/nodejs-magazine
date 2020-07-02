@@ -1,0 +1,33 @@
+
+.avatar-profile {
+    height: 12.5rem;
+    width: 12.5rem;
+}
+.email-leftbar a{
+    font-size: 1.1rem;
+}
+.mail-list a ,
+.mail-list a i{
+    line-height: 40px;
+    font-size: 1.2rem;
+}
+.mail-list a:hover,
+.mail-list a:hover i{
+    color: #fb4d53;
+}
+.profile_form ,
+.profile_form input{
+    font-size: 1.1rem;
+    /* padding: 10px 30px; */
+}
+.profile_form div.form-group input[readonly]{
+    background-color: antiquewhite;
+    cursor: not-allowed;
+}
+div.btn-group label.gender-label.active,
+div.btn-group label.gender-label.active{
+    box-shadow: 0 5px 0 #007bff;
+}
+a.left-bar-link[text]{
+    text-align: center;
+}

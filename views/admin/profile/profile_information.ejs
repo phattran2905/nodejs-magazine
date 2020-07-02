@@ -2,72 +2,85 @@
 <form action="/admin/profile" method="POST" class="p-5 mx-4 needs-validation profile_form" novalidate>
   <div class="form-group row mb-4">
     <!-- Username -->
-    <label for="username" class="col-md-2 col-form-label pl-4">Username</label>
-    <div class="col-md-7 input-group">
-      <input type="text" id="username" name="username" class="form-control" value="<%= information.username %>"
-        readonly>
-      <div class="input-group-append">
+    <label for="username" class="col-md-2 col-form-label">Username</label>
+    <div class="col-md-7 input-group pl-4">
+      <div class="input-group-prepend">
         <span class="input-group-text"><i class="mdi mdi-ticket-account"></i></span>
       </div>
+      <input type="text" id="username" name="username" class="form-control" value="<%= information.username %>"
+        readonly>
     </div>
   </div>
 
   <div class="form-group row mb-4">
     <!-- Email -->
-    <label for="email" class="col-md-2 col-form-label pl-4">Email</label>
-    <div class="col-md-7 input-group">
-      <input type="text" id="email" name="email" class="form-control" value="<%= information.email %>" readonly>
-      <div class="input-group-append">
+    <label for="email" class="col-md-2 col-form-label">Email</label>
+    <div class="col-md-7 input-group pl-4">
+      <div class="input-group-prepend">
         <span class="input-group-text"><i class="mdi mdi-email"></i></span>
       </div>
+      <input type="text" id="email" name="email" class="form-control" value="<%= information.email %>" readonly>
     </div>
   </div>
 
   <div class="form-group row mb-4">
     <!-- Fullname -->
-    <label for="fullname" class="col-md-2 col-form-label pl-4">Fullname</label>
-    <div class="col-md-7 input-group">
+    <label for="fullname" class="col-md-2 col-form-label">Fullname</label>
+    <div class="col-md-7 input-group pl-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="mdi mdi-tag-text-outline"></i></span>
+      </div>
+      <%# when not submit %>
+      <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
       <input type="text" id="fullname" name="fullname" class="form-control" value="<%= information.fullname %>"
         required>
+      <% } %>
+
+      <%# has error %>
       <% if (typeof errors !== 'undefined' && errors) { %>
       <% errors.forEach( (error) =>  { %>
       <% if (error.param === 'fullname') { %>
-      <div class="invalid-input">
+        <input type="text" id="fullname" name="fullname" 
+        class="is-invalid form-control" value="<%= error.value %>"
+        required>
+      <div class="invalid-feedback">
         <p><%= error.msg %> </p>
       </div>
       <% } %>
       <% }) %>
       <% } %>
-      <div class="input-group-append">
-        <span class="input-group-text"><i class="mdi mdi-tag-text-outline"></i></span>
-      </div>
+      
+      <%# has validInput %>
+      <% if (typeof validInput !== 'undefined' && validInput.fullname) { %>
+        <input type="text" id="fullname" name="fullname" 
+        class="form-control is-valid" value="<%= validInput.fullname %>"
+          required>
+      <% } %>
     </div>
   </div>
 
   <div class="form-group row mb-4">
     <!-- Gender -->
-    <label for="gender" class="col-md-2 col-form-label pl-4">Gender</label>
-    <div class="col-md-7 col-sm-12 col-12">
-      <div class="blog_form_group">
+    <label for="gender" class="col-md-2 col-form-label">Gender</label>
+    <div class="col-md-7 input-group pl-4">
         <div class="btn-group btn-group-toggle mt-2 mt-lg-0" data-toggle="buttons">
-          <% if(information.gender === 'male') { %>
-          <label class="btn btn-primary male-radio-label focus active">
-            <input type="radio" name="gender" value="male" id="male" checked=""> <i class="mdi mdi-human-male"></i> Male
-            <% } else { %>
-            <label class="btn male-radio-label">
-              <input type="radio" name="gender" value="male" id="male"> <i class="mdi mdi-human-male"></i> Male
-              <% } %>
-            </label>
-            <% if(information.gender === 'female') { %>
-            <label class="btn female-radio-label focus active">
-              <input type="radio" name="gender" value="female" id="female" checked=""> <i
-                class="mdi mdi-human-female"></i> Female
-              <% } else { %>
-              <label class="btn female-radio-label ">
-                <input type="radio" name="gender" value="female" id="female"> <i class="mdi mdi-human-female"></i>
-                Female
-                <% } %>
-              </label>
+          <label class="btn btn-dark gender-label">
+            <input type="radio" name="gender" value="male" id="male" 
+            <% if (information.gender === 'male') { %> 
+            checked 
+            <% } %>
+            >
+            <i class="mdi mdi-human-male"></i> Male
+          </label>
+
+          <label class="btn btn-danger gender-label">
+            <input type="radio" name="gender" value="female" id="female" 
+            <% if (information.gender === 'female') { %> 
+            checked
+            <% } %>
+            > 
+            <i class="mdi mdi-human-female"></i> Female
+          </label>
         </div>
         <% if (typeof errors !== 'undefined' && errors) { %>
         <% errors.forEach( (error) =>  { %>
@@ -78,106 +91,94 @@
         <% } %>
         <% }) %>
         <% } %>
-      </div>
+
     </div>
   </div>
 
   <div class="form-group row mb-4">
     <!-- Date of birth -->
-    <label for="dob" class="col-md-2 col-form-label pl-4">Date of birth</label>
-    <div class="col-md-7 col-sm-12 col-12">
-      <div class="blog_form_group input-group ">
+    <label for="dob" class="col-md-2 col-form-label">Date of birth</label>
+    <div class="col-md-7 input-group pl-4">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+        <%# when not submit %>
+        <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
         <input type="text" name="dob" class="form-control"
           value="<%= new Date(information.dob).toLocaleDateString('en-US',{year: 'numeric' ,month: '2-digit',day: '2-digit'}) %>"
           data-provide="datepicker" data-date-autoclose="true">
-        <div class="input-group-append">
-          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-        </div>
-      </div>
-
+        <% } %> 
+        
+      <%# has error %>
       <% if (typeof errors !== 'undefined' && errors) { %>
       <% errors.forEach( (error) =>  { %>
       <% if(error.param === 'dob') { %>
-      <div class="invalid-input">
-        <p><%= error.msg %> </p>
-      </div>
+        <input type="text" name="dob" class="form-control is-invalid"
+          value="<%= new Date(error.value).toLocaleDateString('en-US',{year: 'numeric' ,month: '2-digit',day: '2-digit'}) %>"
+          data-provide="datepicker" data-date-autoclose="true">
+        <div class="invalid-feedback">
+          <p><%= error.msg %> </p>
+        </div>
       <% } %>
       <% }) %>
       <% } %>
+      
+        <%# has validInput %>
+        <% if (typeof validInput !== 'undefined' && validInput.dob) { %>
+          <input type="text" name="dob" class="form-control is-valid"
+          value="<%= new Date(validInput.dob).toLocaleDateString('en-US',{year: 'numeric' ,month: '2-digit',day: '2-digit'}) %>"
+          data-provide="datepicker" data-date-autoclose="true">
+        <% } %>
     </div>
   </div>
 
   <div class="form-group row mb-4">
     <!-- Phone number -->
-    <label for="phone" class="col-md-2 col-form-label pl-4">Phone number</label>
-    <div class="col-md-7 col-sm-12 col-12">
-      <div class="blog_form_group  input-group ">
-        <input class="form-control" name="phone" type="tel" value="<%= information.phone %>" id="phone">
-        <div class="input-group-append">
+    <label for="phone" class="col-md-2 col-form-label">Phone number</label>
+    <div class="col-md-7 input-group pl-4 ">
+        <div class="input-group-prepend">
           <span class="input-group-text"><i class="mdi mdi-phone"></i></span>
         </div>
-      </div>
+      <%# when not submit %>
+      <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+        <input class="form-control" name="phone" type="tel" 
+        value="<%= information.phone %>" id="phone" required>
+      <% } %>
+  
+      <%# has error %>
       <% if (typeof errors !== 'undefined' && errors) { %>
-      <% errors.forEach( (error) =>  { %>
-      <% if(error.param === 'phone') { %>
-      <div class="invalid-input">
-        <p><%= error.msg %> </p>
-      </div>
-      <% } %>
-      <% }) %>
-      <% } %>
+          <% errors.forEach( (error) =>  { %>
+          <% if(error.param === 'phone') { %>
+            <input class="is-invalid form-control" name="phone" type="tel" 
+            value="<%= error.value %>" id="phone" required>
+        <div class="invalid-feedback">
+          <p><%= error.msg %> </p>
+        </div>
+          <% } %>
+          <% }) %>
+          <% } %>
+        
+        <%# has validInput %>
+        <% if (typeof validInput !== 'undefined' && validInput.phone) { %>
+          <input type="tel" id="phone" name="phone" 
+          class="form-control is-valid" value="<%= validInput.phone %>"
+            required>
+        <% } %>
     </div>
   </div>
 
   <div class="form-group row mb-4">
-    <label class="col-md-2 col-form-label pl-4">Role</label>
-    <div class="col-md-7">
-      <% if (typeof errors !== 'undefined') { %>
-      <% errors.forEach( (error) => { %>
-      <% if (error.param === 'role') { %>
-      <select class="custom-select is-invalid" name="role">
-        <option selected value="">Choose a role</option>
-        <option value="SuperAdmin">SuperAdmin</option>
-        <option value="Admin">Admin</option>
-        <option value="Moderator">Moderator</option>
-      </select>
-      <div class="invalid-feedback">
-        <%= error.msg %>
+    <!-- Role -->
+    <label for="role" class="col-md-2 col-form-label">Role</label>
+    <div class="col-md-7 input-group pl-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="mdi mdi-ticket-account"></i></span>
       </div>
-      <% } %>
-      <% }) %>
-      <% } %>
-
-      <% if (typeof validInput !== 'undefined' && typeof validInput.role !== 'undefined') { %>
-      <select class="custom-select is-valid" name="role">
-        <option value="">Choose a role</option>
-        <% if (validInput.role === 'SuperAdmin') { %>
-        <option selected value="SuperAdmin">SuperAdmin</option>
-        <option value="Admin">Admin</option>
-        <option value="Moderator">Moderator</option>
-        <% } else if (validInput.role === 'Admin') { %>
-        <option value="SuperAdmin">SuperAdmin</option>
-        <option selected value="Admin">Admin</option>
-        <option value="Moderator">Moderator</option>
-        <% } else if (validInput.role === 'Moderator') { %>
-        <option value="SuperAdmin">SuperAdmin</option>
-        <option value="Admin">Admin</option>
-        <option selected value="Moderator">Moderator</option>
-        <% } %>
-      </select>
-      <% } %>
-
-      <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
-      <select class="custom-select" name="role" required>
-        <option value="">Choose a role</option>
-        <option value="SuperAdmin">SuperAdmin</option>
-        <option value="Admin">Admin</option>
-        <option value="Moderator">Moderator</option>
-      </select>
-      <% } %>
-
+      <input type="text" id="role" name="role" class="form-control" value="<%= information.role %>"
+        readonly>
     </div>
   </div>
+
   <div class="form-group row mt-4 ">
     <div class="col-md-7"></div>
     <div class="col-md-2">
