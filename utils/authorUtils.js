@@ -243,14 +243,15 @@ const AuthorUtils = {
         if (!fullname || !username || !gender || !dob || !phone) return null;
 
         try {
-            const updateResponse = await AuthorModel.updateOne({username: username},{
-                profile: {
-                    fullname: fullname,
-                    gender: gender,
-                    dateOfBirth: new Date(dob), // Parse it to UTC/GMT instead of locale time
-                    phone: phone
+            const updateResponse = await AuthorModel.updateOne(
+                {username: username},
+                {
+                    'profile.fullname': fullname,
+                    'profile.gender': gender,
+                    'profile.dateOfBirth': new Date(dob), // Parse it to UTC/GMT instead of locale time
+                    'profile.phone': phone
                 }
-              });
+              );
               
             return updateResponse;    
         } catch (error) {
