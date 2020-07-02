@@ -85,11 +85,12 @@ const authUtils = {
                     gender: req.session.admin.profile.gender,
                     dob: req.session.admin.profile.dateOfBirth,
                     phone: req.session.admin.profile.phone,
-                    avatar_img: {
-                        path: req.session.admin.profile.avatar_img.path,
-                        filename: req.session.admin.profile.avatar_img.filename,
-                        contentType: req.session.admin.profile.avatar_img.contentType
-                    }
+                    role: req.session.admin.role,
+                    // avatar_img: {
+                    //     path: req.session.admin.profile.avatar_img.path,
+                    //     filename: req.session.admin.profile.avatar_img.filename,
+                    //     contentType: req.session.admin.profile.avatar_img.contentType
+                    // }
                 }
             }
             
