@@ -75,11 +75,14 @@
                       </i> Inbox <span class="ml-1 float-right">(18)</span>
                     </a> -->
                     
-                    <a href="/admin/profile" class="left-bar-link <% if (content === 'profile') { %><%= 'active' %><% } %> ">
+                    <a href="/admin/profile" class="<% if (content === 'profile') { %><%= 'active' %><% } %> ">
                       <i class="mdi mdi-account-badge-horizontal mr-2"></i>Profile
                     </a>
-                    <a href="#"><i class="mdi mdi-key-star mr-2"></i>Change password</a>
-                    <a href="#"><i class="mdi mdi-logout-variant mr-2"></i>Log out</a>
+                    <a href="/admin/profile/change_password" 
+                        class="<% if (content === 'change password') { %><%= 'active' %><% } %> ">
+                        <i class="mdi mdi-key-star mr-2"></i>Change password
+                    </a>
+                    <a href="/admin/logout"><i class="mdi mdi-logout-variant mr-2"></i>Log out</a>
                   </div>
 
                   <!-- <div>
@@ -171,6 +174,8 @@
                   <!-- right bar component -->
                   <% if (content === 'profile') { %> 
                   <%- include('./profile_information') %>
+                  <% } else if (content === 'change password') { %> 
+                  <%- include('./change_password') %>
                   <% } %> 
                   <!-- end right bar component -->
                 </div>

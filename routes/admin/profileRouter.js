@@ -21,7 +21,7 @@ module.exports = function(adminRouter) {
       async (req,res) => {
         const { hasError, errors, validInput } = validation.result(req);
             
-        if(hasError) { console.log(errors); console.log(validInput);
+        if(hasError) { 
             return  res.render('admin/profile/profile_base',{
                 errors: errors, 
                 validInput: validInput,
@@ -61,7 +61,6 @@ module.exports = function(adminRouter) {
       upload.single('avatar_img'),
       async (req, res) => {
         const information = authUtils.getAdminProfile(req);
-        console.log(req.file)
         const updateQuery = await adminUtils.update_avatar(
             information.id, 
             {
@@ -79,4 +78,54 @@ module.exports = function(adminRouter) {
         return res.redirect('/admin/profile');
       }
     );
+
+    adminRouter.get (
+      '/profile/change_password',
+      (req,res) => {
+        res.render('admin/profile/profile_base',
+        {
+            content: 'change password',
+            information: authUtils.getAdminProfile(req)
+        });
+      }
+    );
+
+    adminRouter.post(
+      '/profile/change_password',
+      validation.change_password,
+      async (req,res) => {
+        const { hasError, errors, validInput } = validation.result(req);
+        
+        if(hasError) {console.log(errors); console.log(validInput);
+            return  res.render('admin/profile/profile_base',{
+                errors: errors, 
+                validInput: validInput,
+                content:  'change password',
+                information : authUtils.getAdminProfile(req)
+            });
+        };
+
+        try {
+            const changePwdQuery = await adminUtils.changePwd({
+                id: req.session.admin._id,
+                new_password: req.body.new_password
+            });
+            console.log(changePwdQuery);
+            if(changePwdQuery && changePwdQuery.n ===1 && changePwdQuery.ok ===1) {
+                const reloadInfo = await authUtils.reloadLoggedAdmin(req, req.session.admin._id);
+                if(reloadInfo) {
+                    req.flash('success', 'Successfully! Your new password was saved.');
+                    return res.redirect('/admin/profile/change_password');
+                }
+            }
+
+            req.flash('fail', 'Failed! An error occurred during the process.');
+            return res.redirect('/admin/profile/change_password');
+
+        } catch (error) {
+            req.flash('fail', 'Failed! An error occurred during the process.');
+            return res.redirect('/profile/change_password');
+        }
+      }
+    )
 }
