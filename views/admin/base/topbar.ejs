@@ -305,7 +305,7 @@
         >
           <img
             class="rounded-circle header-profile-user"
-            src="/admin/static/assets/images/users/avatar-1.jpg"
+            src="/avatar/<%= information.avatar_img %>"
             alt="Header Avatar"
           />
           <span class="d-none d-sm-inline-block ml-1"><%= information.username %></span>
@@ -323,11 +323,11 @@
             ></i>
             Billing</a
           >
-          <a class="dropdown-item" href="#"
+          <a class="dropdown-item" href="/admin/profile/change_password"
             ><i
-              class="mdi mdi-account-settings font-size-16 align-middle mr-1"
+              class="mdi mdi-key-change font-size-16 align-middle mr-1"
             ></i>
-            Settings</a
+            Change password</a
           >
           <a class="dropdown-item" href="#"
             ><i class="mdi mdi-lock font-size-16 align-middle mr-1"></i> Lock
