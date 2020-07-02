@@ -6,7 +6,7 @@ const validateProfile = {
     information: [
         body('fullname')
             .trim()
-            .custom(authorUtils.validate.checkFullnameValid).withMessage('Your name must be alphabetic characters.'),
+            .custom(validationUtils.checkFullnameValid).withMessage('Your name must be alphabetic characters.'),
         body('dob') // isDate() was removed from express-validator
             .isBefore('1/1/2004').withMessage('Invalid Date'),
         body('phone')
