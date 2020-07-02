@@ -5,8 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('express-flash');
 const passportSetup = require('./config/passport-setup');
-// router
-// const router = require('./routes/router');
+
 // Connect to database
 mongoose.connect("mongodb://localhost/electronic_newspaper", {
     useNewUrlParser: true,
@@ -44,20 +43,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes for Users
-// app.use(router.userRouter);
-// app.use(router.user_authRouter);
 const userRouter = require('./routes/user/userRouter');
 app.use(userRouter);
 
 // Routes for Administrators
-// app.use("/admin", router.admin_authRouter);
-// app.use("/admin", router.adminRouter);
-// app.use("/admin", router.categoryRouter);
-// app.use("/admin", router.accountRouter);
-// app.use("/admin", router.administratorRouter);
-// app.use("/admin", router.authorRouter);
-// app.use("/admin", router.articleRouter);
-
 const adminRouter = require('./routes/admin/adminRouter');
 app.use('/admin', adminRouter);
 
