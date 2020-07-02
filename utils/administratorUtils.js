@@ -33,6 +33,20 @@ const AdminUtils = {
       }
       return true;
     },
+    checkPresentPwd: async (pwd = null, {req} = {}) => {
+        if(!pwd || typeof req.session.admin === 'undefined') {return Promise.reject(false)};
+        
+        const adminPwd = req.session.admin.password;
+        try {
+          console.log(adminPwd);
+            const match = await bcrypt.compare(pwd, adminPwd);
+            if (match) {return Promise.resolve(true);}
+
+            return Promise.reject(false);
+        } catch (error) {
+            return Promise.reject(false);
+        }
+    },
   },
   // 
   createNewAdmin: async (adminObj = {
@@ -81,7 +95,7 @@ const AdminUtils = {
                 'profile.phone': phone
             }
         );
-        console.log(updateResponse);
+        
         return updateResponse;    
     } catch (error) {
         console.log(error);
@@ -114,6 +128,23 @@ const AdminUtils = {
         return null;
     }
     return null;
+  },
+  changePwd: async function({id, new_password}) {
+    if (!id || !new_password) return null;
+    console.log({id, new_password});
+    try {
+        const hashed_pwd = await bcrypt.hash(new_password,await bcrypt.genSalt(12));
+        const updateResponse = await AdminModel.updateOne(
+          {_id: id},
+          {
+            password: hashed_pwd
+          });
+        
+        return updateResponse;    
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 },
 };
 
