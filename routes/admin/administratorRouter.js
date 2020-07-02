@@ -2,57 +2,51 @@ const AdminModel = require("../../models/AdministratorModel");
 const authUtils = require("../../utils/authUtils");
 const adminUtils = require("../../utils/administratorUtils");
 const commonUtils = require("../../utils/commonUtils");
+const validation = require('../../validation/admin/validateAdministrator');
 const {body, validationResult, matchedData} = require("express-validator");
-
-// adminRouter.use(authUtils.checkAuthenticatedAdmin);
 
 module.exports = function(adminRouter){
     adminRouter.get(
         "/administrators", 
         async (req, res) => {
-        const administrators = await AdminModel.find();
-        res.render(
-            "admin/administrator/administrator",
-            { 
-                administrators: administrators, 
-                information: authUtils.getAdminProfile(req)
-            });
-    });
+            const administrators = await AdminModel.find();
+            res.render(
+                "admin/administrator/administrator_base",
+                { 
+                    content: 'list',
+                    administrators: administrators, 
+                    information: authUtils.getAdminProfile(req)
+                });
+        }
+    );
     
     adminRouter.get(
         "/administrators/add", 
-        (req,res) => {
-        
-        res.render(
-            "admin/administrator/administrator_add",
-            {
-                information: authUtils.getAdminProfile(req)
-            });
-    });
+        (req,res) => {    
+            res.render(
+                "admin/administrator/administrator_base",
+                {
+                    content: 'add',
+                    information: authUtils.getAdminProfile(req)
+                });
+        }
+    );
     
     adminRouter.post(
         "/administrators/add",
-        [
-            body('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.")
-                .trim().escape()
-                .bail().custom(adminUtils.checkExistedUsername),
-            body('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
-                .bail().custom(adminUtils.checkExistedEmail),
-            body('password').isLength({min: 4}).withMessage('Password must be at least 4 characters.').trim().escape(),
-            body('role').not().isEmpty().withMessage("Assign a role for account.")
-        ],
+        validation.add,
         async (req, res) => {
-            const errors = validationResult(req);
-            const validInput = matchedData(req, {location: ['body']});
-            if (!errors.isEmpty()) {
-                return res.render(
-                    "admin/administrator/administrator_add", 
-                    {
-                        errors: errors.array(), 
-                        validInput: validInput,
-                        information: authUtils.getAdminProfile(req)
-                    });
-            }
+            const { hasError, errors, validInput } = validation.result(req);
+                
+            if(hasError) { 
+                return  res.render('admin/administrator/administrator_base',{
+                    errors: errors, 
+                    validInput: validInput,
+                    content: 'add',
+                    information: authUtils.getAdminProfile(req)
+                });
+            };
+
             try {
                 const adminObj = await adminUtils.createNewAdmin(
                     req.body.username,
@@ -62,16 +56,17 @@ module.exports = function(adminRouter){
                 );
     
                 if (adminObj) {
-                    req.flash("addSuccess", "Successfully. A new administrator was added.");
+                    req.flash("success", "Successfully. A new administrator was added.");
                 } else {
-                    req.flash("addFail", "Failed. An error occurred during the process.");
+                    req.flash("fail", "Failed. An error occurred during the process.");
                 }
     
                 return res.redirect("/admin/administrators/add");
             } catch (error) {
                 return res.sendStatus(404).render('pages/404');
             }
-    });
+        }
+    );
     
     adminRouter.get(
       "/administrators/update/:username",
