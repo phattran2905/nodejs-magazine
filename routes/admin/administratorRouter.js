@@ -1,5 +1,3 @@
-const express = require("express");
-const adminRouter = express.Router();
 const AdminModel = require("../../models/AdministratorModel");
 const authUtils = require("../../utils/authUtils");
 const adminUtils = require("../../utils/administratorUtils");
@@ -17,7 +15,7 @@ module.exports = function(adminRouter){
             "admin/administrator/administrator",
             { 
                 administrators: administrators, 
-                loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                information: authUtils.getAdminProfile(req)
             });
     });
     
@@ -28,7 +26,7 @@ module.exports = function(adminRouter){
         res.render(
             "admin/administrator/administrator_add",
             {
-                loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                information: authUtils.getAdminProfile(req)
             });
     });
     
@@ -52,7 +50,7 @@ module.exports = function(adminRouter){
                     {
                         errors: errors.array(), 
                         validInput: validInput,
-                        loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                        information: authUtils.getAdminProfile(req)
                     });
             }
             try {
@@ -85,7 +83,7 @@ module.exports = function(adminRouter){
                 "admin/administrator/administrator_update", 
                   { 
                       admin: admin,
-                      loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                      information: authUtils.getAdminProfile(req)
                   });
           }
           return res.render("pages/404");
@@ -118,7 +116,7 @@ module.exports = function(adminRouter){
                                 errors: errors.array(), 
                                 validInput: validInput, 
                                 admin: admin,
-                                loggedAdmin:  commonUtils.getLoggedAccount(req.user)
+                                information: authUtils.getAdminProfile(req)
                             });
                     }
                     const updatedAdmin = await AdminModel.findOneAndUpdate(
