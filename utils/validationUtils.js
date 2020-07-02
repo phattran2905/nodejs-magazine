@@ -13,6 +13,23 @@ const validationUtils = {
         }
         return false;
     },
+    checkFullnameValid: async(fullname = null) => {
+        if (!fullname) return false;
+        if(fullname.match(/\s/g)) {
+            const wordsArr = fullname.split(" ");
+            
+            for (let i = 0; i < wordsArr.length; i++){
+                if(wordsArr[i].match(/\W|\d/)) {return false};
+            }
+
+            return true;
+        } else if (fullname.match(/\w/g)){
+            return true;
+        } else {
+            return false;
+        }
+       
+    }
 };
 
 
