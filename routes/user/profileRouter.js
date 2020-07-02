@@ -120,6 +120,7 @@ module.exports = function(userRouter) {
                         profile_content: 'change_password',
                         content_header: 'Change Password'
                     },
+                    information: authUtils.getAuthorProfile(req)
                 });
             };
     
