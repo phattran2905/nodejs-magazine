@@ -20,7 +20,12 @@ const AdminSchema = new mongoose.Schema({
         gender: String,
         dateOfBirth: Date,
         phone: String,
-        avatar_img: String
+        avatar_img: {
+            path: String,
+            contentType: String,
+            filename: String,
+            size: Number
+        }
     },
     role: {
         type: String,
