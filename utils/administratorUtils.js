@@ -87,7 +87,34 @@ const AdminUtils = {
         console.log(error);
         return null;
     }
-  }
+  },
+
+  update_avatar: async(admin_id = null, {path, contentType, filename, size} = {}) => {
+    if (!admin_id || !path || !contentType || !filename || !size) 
+        {return null;}
+
+    try {
+        const admin = await AdminModel.findById(admin_id);
+        
+        if (admin) {
+            const updateQuery = await AdminModel.updateOne(
+                {_id: admin.id},
+                {
+                    'profile.avatar_img': {
+                        path: path,
+                        contentType: contentType,
+                        filename: filename,
+                        size: size
+                    }
+                }
+            );
+            return updateQuery;
+        }
+    } catch (error) {
+        return null;
+    }
+    return null;
+},
 };
 
 module.exports = AdminUtils;

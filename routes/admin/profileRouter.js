@@ -1,7 +1,7 @@
 const adminUtils = require('../../utils/administratorUtils');
 const authUtils = require("../../utils/authUtils");
 const validation = require('../../validation/admin/validateProfile');
-const { update } = require('../../models/AuthorModel');
+const upload = require('../../config/upload-setup');
 
 module.exports = function(adminRouter) {
     adminRouter.get(
@@ -53,6 +53,30 @@ module.exports = function(adminRouter) {
           req.flash('fail', 'Failed! An error occurred during the process.');
           return res.redirect('/admin/profile');
       }
+      }
+    );
+
+    adminRouter.post(
+      '/profile/upload_avatar',
+      upload.single('avatar_img'),
+      async (req, res) => {
+        const information = authUtils.getAdminProfile(req);
+        console.log(req.file)
+        const updateQuery = await adminUtils.update_avatar(
+            information.id, 
+            {
+                path: req.file.path,
+                contentType: req.file.mimetype,
+                filename: req.file.filename,
+                size: req.file.size
+            });
+        if (updateQuery && updateQuery.n === 1 && updateQuery.nModified === 1) {
+            const reloaded_admin = await authUtils.reloadLoggedAdmin(req, information.id);
+            if(reloaded_admin) {return res.redirect('/admin/profile');}
+        }
+        
+        req.flash('fail', 'Failed! An error occurred during the process.');
+        return res.redirect('/admin/profile');
       }
     );
 }
