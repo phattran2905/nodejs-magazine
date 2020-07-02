@@ -2,8 +2,6 @@ const AuthorModel = require('../models/AuthorModel');
 const commonUtils = require('./commonUtils');
 const mailUtils = require('./mailUtils');
 const bcrypt = require('bcrypt');
-const fs = require('fs');
-const {check, isAlpha} = require('express-validator');
 
 const validate = {
     // Express-validator requires returning a Promise
@@ -153,24 +151,7 @@ const validate = {
             return Promise.reject(false);
         }
     },
-    checkFullnameValid: async(fullname = null, {req} = {}) => {
-        if (!fullname) return Promise.reject(false);
-        if(fullname.match(/\s/g)) {
-            const wordsArr = fullname.split(" ");
-            
-            for (let i = 0; i < wordsArr.length; i++){
-                if(wordsArr[i].match(/\W|\d/)) {return Promise.reject(false)};
-            }
-
-            return Promise.resolve(true);
-        } else if (fullname.match(/\w/g)){
-            return Promise.resolve(true);
-        } else {
-            return Promise.reject(false);
-        }
-       
-    }
-
+    
 }
 
 const AuthorUtils = {
@@ -395,24 +376,6 @@ const AuthorUtils = {
 
         return null;
     },
-    // change_pwd: async (email, new_pwd) => {
-    //     if (!email || !new_pwd) return null;
-        
-    //     try {
-    //         const new_hashedPwd = await bcrypt.hash(new_pwd, await bcrypt.genSalt(12));
-    //         const author = await AuthorModel.findOne({email: email}).exec();
-    //         if (!author) return null;
-    //         if (author.verifyToken.token && author.verifyToken.expiredOn) {
-    //             author.verifyToken.token = null;
-    //             author.verifyToken.expiredOn = null;
-    //         } 
-    //         author.password = new_hashedPwd;
-    //         await author.save();
-    //         return author;
-    //     } catch (error) {
-    //         return null;
-    //     }
-    // },
 
     validate: validate
 };
