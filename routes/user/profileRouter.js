@@ -2,12 +2,7 @@ const authUtils = require('../../utils/authUtils');
 const authorUtils = require('../../utils/authorUtils');
 const validateProfile = require('../../validation/validateProfile');
 const upload = require('../../config/upload-setup');
-const fs = require('fs');
-const path = require('path');
-const commonUtils = require('../../utils/commonUtils');
-const AuthorUtils = require('../../utils/authorUtils');
-const { information } = require('../../validation/validateProfile');
-const { info } = require('console');
+// const AuthorUtils = require('../../utils/authorUtils');
 
 module.exports = function(userRouter) {
     userRouter.get(
@@ -16,7 +11,6 @@ module.exports = function(userRouter) {
             let information = authUtils.getAuthorProfile(req);
             
             res.render('user/profile_base', {
-                // loggedUser: information,
                 page: {
                     profile_content: 'profile',
                     content_header: 'profile'
