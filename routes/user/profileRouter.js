@@ -1,8 +1,7 @@
 const authUtils = require('../../utils/authUtils');
 const authorUtils = require('../../utils/authorUtils');
-const validateProfile = require('../../validation/validateProfile');
+const validateProfile = require('../../validation/user/validateProfile');
 const upload = require('../../config/upload-setup');
-// const AuthorUtils = require('../../utils/authorUtils');
 
 module.exports = function(userRouter) {
     userRouter.get(

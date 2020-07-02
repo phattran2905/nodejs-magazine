@@ -5,8 +5,7 @@ const AuthorModel = require('../../models/AuthorModel');
 const authorUtils = require('../../utils/authorUtils');
 const commonUtils = require('../../utils/commonUtils');
 const mailUtils = require('../../utils/mailUtils');
-const validateAuth = require('../../validation/validateAuth');
-const validationUtils = require('../../utils/validationUtils');
+const validateAuth = require('../../validation/user/validateAuth');
 
 
 module.exports = function (userRouter) {

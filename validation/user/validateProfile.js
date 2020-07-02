@@ -1,6 +1,6 @@
 const {body, validationResult, matchedData} = require('express-validator');
-const authorUtils = require('../utils/authorUtils');
-const validationUtils = require('../utils/validationUtils');
+const authorUtils = require('../../utils/authorUtils');
+const validationUtils = require('../../utils/validationUtils');
 
 const validateProfile = {
     information: [
