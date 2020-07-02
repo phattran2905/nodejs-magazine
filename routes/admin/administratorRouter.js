@@ -13,7 +13,7 @@ module.exports = function(adminRouter){
             res.render(
                 "admin/administrator/administrator_base",
                 { 
-                    content: 'list',
+                    content: 'administrators',
                     administrators: administrators, 
                     information: authUtils.getAdminProfile(req)
                 });
@@ -63,7 +63,10 @@ module.exports = function(adminRouter){
     
                 return res.redirect("/admin/administrators/add");
             } catch (error) {
-                return res.sendStatus(404).render('pages/404');
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/administrators'}
+                  );
             }
         }
     );
@@ -75,45 +78,47 @@ module.exports = function(adminRouter){
           const admin = await AdminModel.findOne({ username: req.params.username });
           if(admin) {
             return res.render(
-                "admin/administrator/administrator_update", 
+                "admin/administrator/administrator_base", 
                   { 
+                      content: 'update',
                       admin: admin,
                       information: authUtils.getAdminProfile(req)
                   });
           }
-          return res.render("pages/404");
+
+          return res.render(
+              "pages/404", 
+              {redirectLink: '/admin/administrators'}
+            );
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/administrators'}
+              );
         }
       }
     );
     
     adminRouter.post(
         "/administrators/update/:username", 
-        [
-            body('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.").trim()
-                .bail().custom(adminUtils.checkExistedUsername),
-            body('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
-                .bail().custom(adminUtils.checkExistedEmail),
-            body('role').not().isEmpty().withMessage("Must assign a role for the account.")
-        ],
+        validation.update,
         async (req, res) => {
             try {
                 const admin = await AdminModel.findOne({ username: req.params.username });
                 if (admin){
-                    const errors = validationResult(req);
-                    const validInput = matchedData(req, {location: ['body']});
-    
-                    if (!errors.isEmpty()) {
-                        return res.render(
-                            "admin/administrator/administrator_update", 
-                            {
-                                errors: errors.array(), 
-                                validInput: validInput, 
-                                admin: admin,
-                                information: authUtils.getAdminProfile(req)
-                            });
-                    }
+                    const { hasError, errors, validInput } = validation.result(req);
+            
+                    if(hasError) { 
+                        return  res.render(
+                            'admin/administrator/administrator_base',{
+                            errors: errors, 
+                            validInput: validInput,
+                            content: 'update',
+                            admin: admin,
+                            information: authUtils.getAdminProfile(req)
+                        });
+                    };
+
                     const updatedAdmin = await AdminModel.findOneAndUpdate(
                         {_id: admin.id},
                         {
@@ -125,18 +130,21 @@ module.exports = function(adminRouter){
                     if (updatedAdmin){
                         req.flash('updateSuccess', 'Successfully. All changes were saved.');
                         return res.redirect("/admin/administrators/update/" + updatedAdmin.username);
-                    }else {
-                        req.flash('updateFail', 'Failed. An error occurred during the process.');
-                        return res.redirect("/admin/administrators/update/" + admin.username);
                     }
-    
-                } else {
+                    
                     req.flash('updateFail', 'Failed. An error occurred during the process.');
-                    return res.redirect("/admin/administrators/update/" + req.params.username);
+                    return res.redirect("/admin/administrators/update/" + admin.username);
                 }
                 
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/administrators'}
+                );
             } catch (error) {
-                return res.sendStatus(404).render('pages/404');
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/administrators'}
+                );
             }
     });
     

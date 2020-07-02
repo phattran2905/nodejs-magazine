@@ -31,3 +31,6 @@ div.btn-group label.gender-label.active{
 a.left-bar-link[text]{
     text-align: center;
 }
+div.page-title-right ol li.breadcrumb-item.active {
+    text-transform: capitalize;
+}

@@ -3,7 +3,7 @@
 
 <head>
 
-  <%- include('./administrator_head.ejs') %>
+  <%- include('../base/head.ejs') %>
   <!-- DataTables -->
   <link href="/admin/static/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet"
     type="text/css" />
@@ -47,12 +47,19 @@
           <div class="row">
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between">
+                <% if (content === 'administrators') { %> 
                 <h4 class="mb-0 font-size-18">Administrator List</h4>
-
+                <% } else { %>
+                  <h4 class="mb-0 font-size-18">
+                    <a href="/admin/administrators" class="btn btn-dark">
+                      <i class="mdi mdi-keyboard-backspace"></i>
+                    </a>
+                  </h4>
+                  <% } %> 
                 <div class="page-title-right">
                   <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Account</a></li>
-                    <li class="breadcrumb-item active">Administrators</li>
+                    <li class="breadcrumb-item active"><%= content %></li>
                   </ol>
                 </div>
 
@@ -68,14 +75,16 @@
                   <!-- Flash messages -->
                   <%- include('../base/flash_messages.ejs') %>
                   <!-- End Flash messages -->
-                
-                  <%# content %> 
-                <% if (content === 'list') { %> 
-                    <%- include('../administrator/administrator.ejs') %> 
-                <% } else if (content === 'add') {%> 
-                    <%- include('../administrator/administrator_add.ejs') %> 
-                <% } %>
-                  <%# end content %> 
+
+                  <%# content %>
+                  <% if (content === 'administrators') { %>
+                  <%- include('../administrator/administrator.ejs') %>
+                  <% } else if (content === 'add') {%>
+                  <%- include('../administrator/administrator_add.ejs') %>
+                  <% } else if (content === 'update') {%>
+                  <%- include('../administrator/administrator_update.ejs') %>
+                  <% } %>
+                  <%# end content %>
                 </div>
               </div>
             </div> <!-- end col -->
