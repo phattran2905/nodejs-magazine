@@ -3,7 +3,6 @@ const authUtils = require("../../utils/authUtils");
 const adminUtils = require("../../utils/administratorUtils");
 const commonUtils = require("../../utils/commonUtils");
 const validation = require('../../validation/admin/validateAdministrator');
-const {body, validationResult, matchedData} = require("express-validator");
 
 module.exports = function(adminRouter){
     adminRouter.get(
@@ -48,14 +47,15 @@ module.exports = function(adminRouter){
             };
 
             try {
-                const adminObj = await adminUtils.createNewAdmin(
-                    req.body.username,
-                    req.body.email,
-                    req.body.password,
-                    req.body.role
-                );
-    
-                if (adminObj) {
+                const newAdmin = await adminUtils.createNewAdmin
+                ({
+                    username: req.body.username,
+                    email: req.body.email,
+                    pwd: req.body.password,
+                    role: req.body.role
+                });
+                
+                if (newAdmin) {
                     req.flash("success", "Successfully. A new administrator was added.");
                 } else {
                     req.flash("fail", "Failed. An error occurred during the process.");
@@ -128,11 +128,11 @@ module.exports = function(adminRouter){
                         },{new: true}); // Return the updated object
     
                     if (updatedAdmin){
-                        req.flash('updateSuccess', 'Successfully. All changes were saved.');
+                        req.flash('success', 'Successfully. All changes were saved.');
                         return res.redirect("/admin/administrators/update/" + updatedAdmin.username);
                     }
                     
-                    req.flash('updateFail', 'Failed. An error occurred during the process.');
+                    req.flash('fail', 'Failed. An error occurred during the process.');
                     return res.redirect("/admin/administrators/update/" + admin.username);
                 }
                 
@@ -149,39 +149,49 @@ module.exports = function(adminRouter){
     });
     
     adminRouter.post(
-        "/administrators/activate/:username", 
+        "/administrators/activate/", 
         async (req, res) => {
         try {
-            const adminObj = await AdminModel.findOne({ username: req.params.username });
-            if (adminObj && adminObj.status === "Deactivated") {
-                adminObj.status = "Activated";
-                await adminObj.save();
-    
-                req.flash("statusSuccess", "Successfully. The status was changed to 'Activated'");
+            const admin = await AdminModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Deactivated'}] },
+                { status: 'Activated'} );
+            
+            if (admin) {
+                req.flash("success", "Successfully. The account was activated.");
             } else {
-                req.flash("statusFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
+
             return res.redirect("/admin/administrators");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/administrators'}
+            );
         }
     });
     
     adminRouter.post(
-        "/administrators/deactivate/:username", 
+        "/administrators/deactivate/", 
         async (req, res) => {
         try {
-            const adminObj = await AdminModel.findOne({ username: req.params.username });
-            if (adminObj && adminObj.status === "Activated") {
-                adminObj.status = "Deactivated";
-                await adminObj.save();
-                req.flash("statusSuccess", "Successfully. The status was changed to 'Deactivated'");
+            // const adminObj = await AdminModel.findById(req.body.id);
+            const admin = await AdminModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Activated'}] },
+                { status: 'Deactivated'} );
+            
+            if (admin) {
+                req.flash("success", "Successfully. The account was deactivated.");
             } else {
-                req.flash("statusFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
+
             return res.redirect("/admin/administrators");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/administrators'}
+            );
         }
     });
     
@@ -189,15 +199,21 @@ module.exports = function(adminRouter){
         "/administrators/reset_password/", 
         async (req, res) => {
         try {
-            const adminObj = await AdminModel.findByIdAndUpdate({  _id: req.body.id },{ password: 'Reset Password' });
-            if (adminObj) {
-                req.flash("resetSuccess", "Successfully. A link was sent to email for setting up a new password.");
+            const admin = await AdminModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {password: {$ne: 'Reset Password'} }] },
+                { password: 'Reset Password' } );
+                
+            if (admin) {
+                req.flash("success", "Successfully. A link was sent to email for setting up a new password.");
             } else {
-                req.flash("resetFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
             return res.redirect("/admin/administrators");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/administrators'}
+            );
         }
     });
     
@@ -205,16 +221,19 @@ module.exports = function(adminRouter){
         "/administrators/delete/", 
         async (req, res) => {
         try {
-            const adminObj = await AdminModel.findByIdAndDelete({ _id: req.body.id });
+            const admin = await AdminModel.findByIdAndDelete(req.body.id);
             
-            if (adminObj) {
-                req.flash("deleteSuccess", "Successfully. The administrator was removed from the database.");
+            if (admin) {
+                req.flash("success", "Successfully. The administrator was removed from the database.");
             } else {
-                req.flash("deleteFail", "Failed. An error occurred during the process");
+                req.flash("fail", "Failed. An error occurred during the process");
             }
             return res.redirect("/admin/administrators");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/administrators'}
+            );
         }
     });
 };
