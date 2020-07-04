@@ -19,10 +19,10 @@ var storage = multer.diskStorage({
         const extension = file.mimetype.substr(6,);
         switch (file.fieldname) {
             case 'thumbnail_img':
-                cb(null, req.user.id + '-' + Date.now() + '.' + extension);
+                cb(null, req.user._id + '-' + Date.now() + '.' + extension);
                 break;
             case 'avatar_img':
-                cb(null, req.user.id + '-' + Date.now() + '.'  + extension);
+                cb(null, req.user._id + '-' + Date.now() + '.'  + extension);
                 break;
             default:
                 cb(null, file.fieldname + '-' + Date.now() + '.' + extension);
