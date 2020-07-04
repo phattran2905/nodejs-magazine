@@ -7,7 +7,7 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/profile',
         (req,res) => {
-            res.render('user/profile_base', {
+            res.render('user/profile/profile_base', {
                 page: {
                     content: 'profile',
                     header: 'profile'
@@ -24,7 +24,7 @@ module.exports = function(userRouter) {
             const { hasError, errors, validInput } = validateProfile.result(req);
             
             if(hasError) {
-                return  res.render('user/profile_base',{
+                return  res.render('user/profile/profile_base',{
                     errors: errors, 
                     validInput: validInput,
                     page: {
@@ -92,7 +92,7 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/profile/change_password',
         (req, res) => {
-            res.render('user/profile_base', {
+            res.render('user/profile/profile_base', {
                 page:  {
                     content: 'change_password',
                     header: 'Change Password'
@@ -109,7 +109,7 @@ module.exports = function(userRouter) {
             const { hasError, errors, validInput } = validateProfile.result(req);
             
             if(hasError) {
-                return  res.render('user/profile_base',{
+                return  res.render('user/profile/profile_base',{
                     errors: errors, 
                     validInput: validInput,
                     page: {
@@ -148,7 +148,7 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/profile/articles',
         (req, res) => {
-            res.render('user/profile_base', {
+            res.render('user/profile/profile_base', {
                 page:  {
                     content: 'articles',
                     header: 'Articles'

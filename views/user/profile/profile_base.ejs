@@ -10,7 +10,7 @@
     <meta name="author" content="kamleshyadav">
     <meta name="MobileOptimized" content="320">
     
-    <%- include('./base/css') %> 
+    <%- include('../base/css') %> 
     <!-- Icons Css -->
     <link href="/admin/static/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
@@ -29,11 +29,11 @@
 </div>
 <div class="blog_main_wrapper">
     <!-- top header -->
-    <%- include('./base/top_header') %>
+    <%- include('../base/top_header') %>
     <!-- end top header -->
 
     <!-- main_menu -->
-    <%- include('./base/main_menu') %>
+    <%- include('../base/main_menu') %>
     <!-- end main_menu -->
 
     <!-- main content -->
@@ -100,11 +100,11 @@
                 <!-- profile content -->
                 <div class="profile_div_content">
                   <% if (page.content === 'profile') { %> 
-                    <%- include('./profile/profile') %> 
+                    <%- include('./profile') %> 
                   <% } else if (page.content === 'articles') { %>
-                    <%- include('./profile/article') %> 
+                    <%- include('./article') %> 
                   <% } else if (page.content === 'change_password') { %> 
-                    <%- include('./profile/change_password') %> 
+                    <%- include('./change_password') %> 
                   <% } %>
                 </div>
                 <!-- end profile content -->
@@ -119,11 +119,11 @@
     <!-- end main content -->
     
     <!-- footer and copyright -->
-    <%- include('./base/footer') %>
+    <%- include('../base/footer') %>
     <!-- end footer and copyright -->
 </div>
 
-<%- include('./base/js') %> 
+<%- include('../base/js') %> 
 <script src="/admin/static/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="/admin/static/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
 <script src="/admin/static/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
