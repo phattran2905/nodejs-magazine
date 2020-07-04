@@ -1,183 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%- include('./category_head.ejs') %>
-    <!-- Additional -->
-    <link href="/admin/static/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
-  </head>
+<h4 class="header-title">Update Form</h4>
+<p class="card-title-desc">Submit the <code>SAVE</code> button to make changes.</p>
 
-    <body data-sidebar="dark">
+<form action="/admin/categories/update/<%= category.id %>" method="POST" class="needs-validation" novalidate>
+  <div class="form-group row">
+    <label for="username" class="col-md-2 col-form-label">Name</label>
+    <div class="col-md-10">
+      <% if (typeof errors !== 'undefined') { %>
+      <% errors.forEach( (error) => { %>
+      <% if (error.param === 'name') { %>
+      <input type="text" class="form-control is-invalid" value="<%= error.value %>" name="name" id="name"
+        placeholder="Enter name for the category" required>
+      <div class="invalid-feedback">
+        <%= error.msg %>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
 
-        <!-- Begin page -->
-        <div id="layout-wrapper">
+      <% if (typeof validInput !== 'undefined' && typeof validInput.name !== 'undefined') { %>
+      <input type="text" class="form-control is-valid" name="name" id="name" value="<%= validInput.name %>"
+        placeholder="Enter name for the category" required>
+      <% } %>
 
-          <%- include('../base/topbar') %>
+      <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+      <input type="text" class="form-control" name="name" id="name" value="<%= category.name %>"
+        placeholder="Enter name for the category" required>
+      <% } %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
+    <div class="col-md-2">
+      <% if (typeof errors !== 'undefined') { %>
+      <% errors.forEach( (error) => { %>
+      <% if (error.param === 'display_order') { %>
+      <input class="form-control is-invalid" value="<%= error.display_order %>" data-toggle="touchspin" type="text"
+        name="display_order" id="display_order" required>
+      <div class="invalid-feedback">
+        <%= error.msg %>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
 
-            <!-- ========== Left Sidebar Start ========== -->
-            <div class="vertical-menu">
+      <% if (typeof validInput !== 'undefined' && typeof validInput.display_order !== 'undefined') { %>
+      <input class="form-control is-valid" value="<%= validInput.display_order %>" data-toggle="touchspin" type="text"
+        name="display_order" id="display_order" required>
+      <% } %>
 
-                <div data-simplebar class="h-100">
+      <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
+      <input data-toggle="touchspin" value="<%= category.displayOrder %>" type="text" name="display_order"
+        id="display_order" required>
+      <% } %>
+    </div>
+  </div>
 
-                    <%- include('../base/left-sidebar') %>
-                </div>
-            </div>
-            <!-- Left Sidebar End -->
-
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
-            <div class="main-content">
-
-                <div class="page-content">
-                    <div class="container-fluid">
-
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-size-18">
-                                        <a href="/admin/categories" class="btn btn-dark">
-                                            <i class="mdi mdi-keyboard-backspace"></i>
-                                        </a>
-                                    </h4>
-
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Category</a></li>
-                                            <li class="breadcrumb-item"><a href="/admin/categories">List</a></li>
-                                            <li class="breadcrumb-item active">Update</li>
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>     
-                        <!-- end page title -->
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <% if(messages.updateSuccess) { %>
-                                            <div class="alert alert-success" role="alert">
-                                                <%= messages.updateSuccess %> 
-                                            </div>
-                                        <% } else if (messages.updateFail) { %>
-                                            <div class="alert alert-danger" role="alert">
-                                                <%= messages.updateFail %> 
-                                            </div>
-                                        <% } %> 
-                                        
-                                        <h4 class="header-title">Update Form</h4>
-                                        <p class="card-title-desc">Submit the <code>SAVE</code> button to make changes.</p>
-                                        
-                                        <form action="/admin/categories/update/<%= category.id %>" method="POST" class="needs-validation" novalidate>
-                                            <div class="form-group row">
-                                                <label for="username" class="col-md-2 col-form-label">Name</label>
-                                                <div class="col-md-10">
-                                                    <% if (typeof errors !== 'undefined') { %>
-                                                        <% errors.forEach( (error) => { %>
-                                                            <% if (error.param === 'name') { %> 
-                                                                <input type="text" class="form-control is-invalid" value="<%= error.value %>" name="name" id="name" placeholder="Enter name for the category" required>
-                                                                <div class="invalid-feedback">
-                                                                    <%= error.msg %>
-                                                                </div>
-                                                            <% } %> 
-                                                        <% }) %>
-                                                    <% } %> 
-
-                                                    <% if (typeof validInput !== 'undefined' && typeof validInput.name !== 'undefined') { %>
-                                                        <input type="text" class="form-control is-valid" name="name" id="name" value="<%= validInput.name %>" placeholder="Enter name for the category" required>
-                                                    <% } %> 
-
-                                                    <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
-                                                        <input type="text" class="form-control" name="name" id="name" value="<%= category.name %>" placeholder="Enter name for the category" required>
-                                                    <% } %> 
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
-                                                <div class="col-md-2">
-                                                    <% if (typeof errors !== 'undefined') { %>
-                                                        <% errors.forEach( (error) => { %>         
-                                                            <% if (error.param === 'display_order') { %> 
-                                                                <input class="form-control is-invalid" value="<%= error.display_order %>" 
-                                                                    data-toggle="touchspin" type="text" name="display_order" id="display_order" required >
-                                                                <div class="invalid-feedback">
-                                                                    <%= error.msg %>
-                                                                </div>
-                                                            <% } %> 
-                                                        <% }) %>
-                                                    <% } %>          
-
-                                                    <% if (typeof validInput !== 'undefined' && typeof validInput.display_order !== 'undefined') { %>
-                                                        <input class="form-control is-valid" value="<%= validInput.display_order %>" 
-                                                            data-toggle="touchspin" type="text" name="display_order" id="display_order" required >
-                                                    <% } %> 
-
-                                                    <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
-                                                        <input data-toggle="touchspin" value="<%= category.displayOrder %>" type="text" name="display_order" id="display_order" required >
-                                                    <% } %> 
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="status" class="col-md-2 col-form-label">Status</label>
-                                                <div class="col-md-10">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <% if (category) { %>
-                                                            <%  if (category.status === 'Activated') { %>
-                                                                    <label  class="btn btn-success active">
-                                                                    <input type="radio" name="options" id="activated_status_btn" checked="" value="<%= category.status %>" disabled><i class="mdi mdi-check-circle"></i> <%= category.status %>
-                                                                    </label>
-                                                                <% }else if(category.status === 'Deactivated') { %>
-                                                                    <label class="btn btn-secondary active">
-                                                                        <input type="radio" name="options" id="deactivated_status_btn" checked="" value="<%= category.status %>" disabled><i class="mdi mdi-block-helper"></i> <%= category.status %>
-                                                                    </label>
-                                                            <% } %>
-                                                        <% } %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-0">
-                                                <div class="col-lg-12">
-                                                    <div class="text-right">
-                                                        <button type="submit" class="btn btn-primary">SAVE</button> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div> <!-- end col -->
-                        </div> <!-- end row -->
-                        
-                        
-                    </div> <!-- container-fluid -->
-                </div>
-                <!-- End Page-content -->
-
-                
-        <!-- footer -->
-        <%- include('../base/footer') %>
-        <!-- end footer -->
-            </div>
-            <!-- end main content-->
-
-        </div>
-        <!-- END layout-wrapper -->
-
-        <!-- Right Sidebar -->
-        <%- include('../base/right-sidebar') %>
-        <!-- /Right-bar -->
-        
-    <!-- script -->
-    <%- include('../base/js') %>
-    <script src="/admin/static/assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-    <script src="/admin/static/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="/admin/static/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
-    <script src="/admin/static/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-    
-    <!-- form advanced init -->
-    <script src="/admin/static/assets/js/pages/form-advanced.init.js"></script>
-  </body>
-</html>
+  <div class="form-group row">
+    <label for="status" class="col-md-2 col-form-label">Status</label>
+    <div class="col-md-10">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <% if (category) { %>
+        <%  if (category.status === 'Activated') { %>
+        <label class="btn btn-success active">
+          <input type="radio" name="options" id="activated_status_btn" checked="" value="<%= category.status %>"
+            disabled><i class="mdi mdi-check-circle"></i>
+          <%= category.status %>
+        </label>
+        <% }else if(category.status === 'Deactivated') { %>
+        <label class="btn btn-secondary active">
+          <input type="radio" name="options" id="deactivated_status_btn" checked="" value="<%= category.status %>"
+            disabled><i class="mdi mdi-block-helper"></i>
+          <%= category.status %>
+        </label>
+        <% } %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-0">
+    <div class="col-lg-12">
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary">SAVE</button>
+      </div>
+    </div>
+  </div>
+</form>

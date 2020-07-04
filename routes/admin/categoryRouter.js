@@ -1,8 +1,8 @@
 const CategoryModel = require('../../models/CategoryModel')
-const {body, validationResult, matchedData} = require('express-validator')
-const commonUtils = require('../../utils/commonUtils');
 const authUtils = require('../../utils/authUtils');
 const categoryUtils = require('../../utils/categoryUtils');
+const validation = require('../../validation/admin/validateCategory');
+const { update } = require('../../models/CategoryModel');
 
 module.exports = function(adminRouter) {
     adminRouter.get(
@@ -11,14 +11,17 @@ module.exports = function(adminRouter) {
         try {
             const categories = await CategoryModel.find();
             return res.render(
-                'admin/category/category',
+                'admin/category/category_base',
                 {
+                    content: 'categories',
                     categories: categories,
                     information: authUtils.getAdminProfile(req)
                 });
         } catch (error) {
-            console.error(error);
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/categories'}
+            );
         }
     });
     
@@ -26,8 +29,9 @@ module.exports = function(adminRouter) {
         '/categories/add',
         (req,res) => {
         return res.render(
-            'admin/category/category_add',
+            'admin/category/category_base',
             {
+                content: 'add',
                 information: authUtils.getAdminProfile(req)
             });
         }
@@ -35,39 +39,39 @@ module.exports = function(adminRouter) {
     
     adminRouter.post(
         '/categories/add', 
-        [
-            body('name').isAlpha().withMessage("Only letters are allowed.").trim()
-                .bail().custom(categoryUtils.checkExistedName),
-            body('display_order').isInt({min: 0, max: 10000, allow_leading_zeroes: false}).withMessage("Only numbers are accepted.")
-                .toInt().bail().custom(categoryUtils.checkDuplicatedOrder)
-        ],
+        validation.add,
         async (req,res) => {
-            const errors = validationResult(req);
-            const validInput = matchedData(req, {location: ['body']});
-    
-            if (!errors.isEmpty()) {
-                return res.render(
-                    "admin/category/category_add", 
-                    {
-                        errors: errors.array(), 
-                        validInput: validInput,
-                        information: authUtils.getAdminProfile(req)
-                    });
-            }
+            const { hasError, errors, validInput } = validation.result(req);
+                
+            if(hasError) { 
+                return  res.render(
+                    'admin/category/category_base',{
+                    errors: errors, 
+                    validInput: validInput,
+                    content: 'add',
+                    information: authUtils.getAdminProfile(req)
+                });
+            };
+            
             try {
-                const categoryObj = await categoryUtils.createNewCategory(
-                    validInput.name,
-                    validInput.display_order
-                );
-                if (categoryObj) {
-                    req.flash("addSuccess", "Successfully. A new author was added.");
+                const category = await categoryUtils.createNewCategory(
+                    {
+                        name: validInput.name,
+                        display_order: validInput.display_order
+                    } );
+
+                if (category) {
+                    req.flash("success", "Successfully. A new author was added.");
                 } else {
-                    req.flash("addFail", "Failed. An error occurred during the process.");
+                    req.flash("fail", "Failed. An error occurred during the process.");
                 }
     
                 return res.redirect("/admin/categories/add");
             } catch (error) {
-                return res.sendStatus(404).render('pages/404');
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/categories'}
+                );
             }
         }
     )
@@ -80,104 +84,107 @@ module.exports = function(adminRouter) {
             
             if(category){
                 return res.render(
-                    "admin/category/category_update", 
+                    "admin/category/category_base", 
                     { 
                         category: category,
+                        content: 'update',
                         information: authUtils.getAdminProfile(req)
                     });
             }
-            return res.render("pages/404");
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/categories'}
+            );
           } catch (error) {
-                return res.sendStatus(404).render("pages/404");
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/categories'}
+            );
           }
         }
       );
       
       adminRouter.post(
           "/categories/update/:id", 
-          [
-            body('name').isAlpha().withMessage("Only letters are allowed.").trim()
-                .bail().custom(categoryUtils.checkExistedName),
-            body('display_order').isInt({min: 0, max: 10000, allow_leading_zeroes: false}).withMessage("Only numbers are accepted.")
-                .toInt().bail().custom(categoryUtils.checkDuplicatedOrder)
-          ],
+         validation.update,
           async (req, res) => {
+            const { hasError, errors, validInput } = validation.result(req);
+                    
+            if(hasError) {
+                return  res.render(
+                      'admin/category/category_base',{
+                      errors: errors, 
+                      validInput: validInput,
+                      content: 'update',
+                      category: category,
+                      information: authUtils.getAdminProfile(req)
+                  });
+              };
+
               try {
-                  const category = await CategoryModel.findOne({ _id: req.params.id });
-                    if (category) {
-                        const errors = validationResult(req);
-                        const validInput = matchedData(req, {location: ['body']});
-    
-                        if (!errors.isEmpty()) {
-                            return res.render(
-                                "admin/category/category_update", 
-                                {
-                                    errors: errors.array(), 
-                                    validInput: validInput, 
-                                    category: category,
-                                    information: authUtils.getAdminProfile(req)
-                                });
-                        }
-                            
-                        const updatedCategory = await CategoryModel.findByIdAndUpdate(
-                            {_id: category.id},
-                            {
-                                name: req.body.name,
-                                displayOrder: req.body.display_order
-                            }, {new: true}); // Return the updated object
-    
-                        if (updatedCategory) {
-                            req.flash('updateSuccess', 'Successfully. All changes were saved.');
-                            return res.redirect("/admin/categories/update/" + updatedCategory.id);
-                        }else {
-                            req.flash('updateFail', 'Failed. An error occurred during the process.');
-                            return res.redirect("/admin/categories/update/" + category.id);
-                        }
-    
-                    }else {
-                        req.flash('updateFail', 'Failed. An error occurred during the process.');
-                        return res.redirect("/admin/categories/update/" + req.params.id);
+                    const updatedCategory = await CategoryModel.findByIdAndUpdate(
+                        req.params.id,
+                        {
+                            name: req.body.name,
+                            displayOrder: req.body.display_order
+                        }, {new: true}); // Return the updated object
+
+                    if (updatedCategory) {
+                        req.flash('success', 'Successfully. All changes were saved.');
+                        return res.redirect("/admin/categories/update/" + updatedCategory.id);
                     }
-                  
+
+                    req.flash('fail', 'Failed. An error occurred during the process.');
+                    return res.redirect("/admin/categories/update/" + category.id);
               } catch (error) {
-                  return res.sendStatus(404).render('pages/404');
+                    return res.render(
+                        "pages/404", 
+                        {redirectLink: '/admin/categories'}
+                    );
               }
       });
     
     adminRouter.post(
-        "/categories/activate/:id", 
+        "/categories/activate", 
         async (req, res) => {
         try {
-            const categoryObj = await CategoryModel.findOne({ _id: req.params.id });
+            const category = await CategoryModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Deactivated'}] },
+                { status: 'Activated' } );
             
-            if (categoryObj && categoryObj.status === "Deactivated") {
-                categoryObj.status = "Activated";
-                await categoryObj.save();
-                req.flash("statusSuccess", "Successfully. The status was changed to 'Activated'");
+            if (category) {
+                req.flash("success", "Successfully. The status was changed to 'Activated'");
             } else {
-                req.flash("statusFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
             return res.redirect("/admin/categories");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/categories'}
+            );
         }
     });
     
     adminRouter.post(
-        "/categories/deactivate/:id", 
+        "/categories/deactivate", 
         async (req, res) => {
         try {
-            const categoryObj = await CategoryModel.findOne({ _id: req.params.id });
-            if (categoryObj && categoryObj.status === "Activated") {
-                categoryObj.status = "Deactivated";
-                await categoryObj.save();
-                req.flash("statusSuccess", "Successfully. The status was changed to 'Deactivated'");
+            const category = await CategoryModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Activated'}] },
+                { status: 'Deactivated' } );
+
+            if (category ) {
+                req.flash("success", "Successfully. The status was changed to 'Deactivated'");
             } else {
-                req.flash("statusFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
             return res.redirect("/admin/categories");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/categories'}
+            );
         }
     });
     
@@ -185,17 +192,19 @@ module.exports = function(adminRouter) {
         "/categories/delete/", 
         async (req, res) => {
         try {
-            const categoryObj = await CategoryModel.findById({ _id: req.body.id });
+            const category = await CategoryModel.findByIdAndDelete(req.body.id);
             
-            if (categoryObj) {
-                await CategoryModel.remove({_id: req.body.id});
-                req.flash("deleteSuccess", "Successfully. The author was removed from the database.");
+            if (category) {
+                req.flash("success", "Successfully. The author was removed from the database.");
             } else {
-                req.flash("deleteFail", "Failed. An error occurred during the process");
+                req.flash("fail", "Failed. An error occurred during the process");
             }
             return res.redirect("/admin/categories");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/categories'}
+            );
         }
     });
     
