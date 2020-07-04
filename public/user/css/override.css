@@ -103,3 +103,20 @@ div.btn-group label.female-radio-label.active{
 form.profile_information_form {
     margin-top: 40px;
 }
+#datatable_length label{
+    width: 80%;
+  }
+  #datatable_length label select {
+    width: 25%;
+    margin: 5px;
+  }
+  #datatable_filter label{
+    width: 100%;
+  }
+  #datatable_filter label input{
+    width: 75%;
+    float: right;
+  }
+  #datatable_paginate {
+    float: right;
+  }
