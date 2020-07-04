@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const uid = require('uid');
 const ArticleSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -11,10 +11,10 @@ const ArticleSchema = new mongoose.Schema({
     },
     thumbnail_img: [
         {
-            originalName: String,
             path: String,
-            mimetype: String,
-            stored_filename: String,
+            contentType: String,
+            filename: String,
+            size: Number
         },
     ],
     categoryId: {
@@ -42,27 +42,18 @@ const ArticleSchema = new mongoose.Schema({
         },
         comments: [
             {
-                audienceId: mongoose.Schema.Types.ObjectId,
+                comment_id: { type: String, default: uid(12) },
+                nickname: { type: String, default: 'Anonymous' },
+                text: String
             },
         ]
     },
     status: {
         type: String,
-        default: "Not published"
+        default: "Not verified"
     },
     updated: {
-        onDate: {
-            type: Date
-        },
-        By: {
-            accountType: {
-                type: String,
-                required: true
-            },
-            accountID: {
-                type: mongoose.Schema.Types.ObjectId
-            }
-        }
+        type: Date
     },
     createdAt: {
         type: Date,
