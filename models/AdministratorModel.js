@@ -42,9 +42,6 @@ const AdminSchema = new mongoose.Schema({
         type: String,
         default: "Deactivated"
     },
-    lastLogin: {
-        type: Date
-    },
     createdAt: {
         type: Date,
         default: Date.now
