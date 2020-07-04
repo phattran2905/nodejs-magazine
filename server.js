@@ -23,10 +23,10 @@ app.set("view engine", "ejs");
 app.set('views',path.join(__dirname, "views"));
 //  middleware
 app.use("/static", express.static(path.join(__dirname, "public/user")));
-app.use("/avatar", express.static(path.join(__dirname, "tmp/uploads")));
+app.use("/avatar", express.static(path.join(__dirname, "tmp/avatar_img")));
 app.use("/admin/static", express.static(path.join(__dirname, "public/admin/")));
 app.use(express.urlencoded({extended: false}));
-app.use('/', session({
+app.use(session({
     name: 'user-client',
     secret: "random string",
     resave: false,
@@ -54,5 +54,3 @@ app.use('/admin', adminRouter);
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is listening`); 
 });
-
-module.exports = {passport: passport};
