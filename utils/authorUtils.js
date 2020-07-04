@@ -7,16 +7,19 @@ const validate = {
     // Express-validator requires returning a Promise
     // If invalid, return { Promise.reject() }
     // If valid , return { Promise.resolve() }
-    checkExistentEmail: async (email = null, {req} = {}) => {
+    checkExistentEmail: async (
+        email = null, 
+        {req} = {}) => {
         if(!email) return Promise.reject(false);
 
-        let emailFromReq = null;
-        if (req) emailFromReq = req.params.email;
+        const usernameFromReq = (req.params.username) 
+            ? req.params.username 
+            : null;
         
         try {
-            const author = await AuthorModel.findOne({email: email}).exec();
+            const author = await AuthorModel.findOne({email: email});
             if (author){
-                if (emailFromReq && emailFromReq === author.email){
+                if (usernameFromReq && usernameFromReq === author.username){
                     return Promise.reject(false);
                 }
                 return Promise.resolve(true);
@@ -26,14 +29,17 @@ const validate = {
             return Promise.reject(false);  
         }
     },
-    checkExistentUsername: async (username, {req} = {}) => {
+    checkExistentUsername: async (
+        username, 
+        {req} = {}) => {
         if(!username) return Promise.reject(false);
 
-        let usernameFromReq = null;
-        if (req) usernameFromReq = req.params.username;
+        const usernameFromReq = (req.params.username) 
+            ? req.params.username 
+            : null;
 
         try {                
-            const author = await AuthorModel.findOne({username: username}).exec();
+            const author = await AuthorModel.findOne({username: username});
             
             if(author){
                 if (usernameFromReq && usernameFromReq === author.username){
@@ -49,8 +55,9 @@ const validate = {
     checkNotExistentUsername: async (username, {req} = {}) => {
         if(!username) return Promise.reject(false);
 
-        let usernameFromReq = null;
-        if (req) usernameFromReq = req.params.username;
+        const usernameFromReq = (req.params.username) 
+            ? req.params.username 
+            : null;
 
         try {                
             const author = await AuthorModel.findOne({username: username}).exec();
@@ -192,17 +199,18 @@ const AuthorUtils = {
         }
         return null;
     },
-    createNewAuthor: async function(username = null, email = null, pwd = null) {
-        if (!username || !email || !pwd) return null;
+    createNewAuthor: async (
+        {username , email, pwd} = {} 
+        ) => {
+        if (!username || !email || !pwd) {return null;}
 
-        let authorObj = { username: username, email: email};
         try {
-            authorObj.hashed_pwd = await bcrypt.hash(pwd,await bcrypt.genSalt(12));
-            authorObj.verifyToken = await commonUtils.generateToken(username + email, 7); // valid in 7 days 
-            const authorAccount = await AuthorModel.create({
-                username: authorObj.username.toLowerCase(),
-                email: authorObj.email.toLowerCase(),
-                password: authorObj.hashed_pwd,
+            const hashed_pwd = await bcrypt.hash(pwd, await bcrypt.genSalt(12));
+            const verifyToken = await commonUtils.generateToken(username + email, 7); // valid in 7 days 
+            const author = await AuthorModel.create({
+                username: username.toLowerCase(),
+                email: email.toLowerCase(),
+                password: hashed_pwd,
                 profile: {
                     fullname: "",
                     gender: "Male",
@@ -210,12 +218,12 @@ const AuthorUtils = {
                     phone: ""
                 },
                 verifyToken: {
-                    token: authorObj.verifyToken.tokenStr,
-                    expiredOn: authorObj.verifyToken.expiredOn
+                    token: verifyToken.tokenStr,
+                    expiredOn: verifyToken.expiredOn
                 }
               });
             
-            return authorAccount;    
+            return author;
         } catch (error) {
             return null;
         }

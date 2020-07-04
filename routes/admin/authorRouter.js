@@ -1,29 +1,31 @@
 const authUtils = require("../../utils/authUtils");
-const commonUtils = require("../../utils/commonUtils");
 const authorUtils = require("../../utils/authorUtils");
 const AuthorModel = require('../../models/AuthorModel');
-const {body, validationResult, matchedData} = require('express-validator');
+const validation = require('../../validation/admin/validateAuthor');
 
 module.exports = function(adminRouter) {
     
     adminRouter.get(
-    '/authors' , 
-    async (req,res) => {
-    const authors = await AuthorModel.find();
-    res.render(
-        'admin/author/author',
-        {
-            authors: authors,
-            information: authUtils.getAdminProfile(req)
-        });
-    });
+        '/authors' ,
+        async (req,res) => {
+        const authors = await AuthorModel.find();
+        res.render(
+            'admin/author/author_base',
+            {
+                content: 'authors',
+                authors: authors,
+                information: authUtils.getAdminProfile(req)
+            });
+        }
+    );
 
     adminRouter.get(
         '/authors/add',
         (req,res) => {
         res.render(
-            'admin/author/author_add',
+            'admin/author/author_base',
             {
+                content: 'add',
                 information: authUtils.getAdminProfile(req)
             });
         }
@@ -31,44 +33,42 @@ module.exports = function(adminRouter) {
 
     adminRouter.post(
         '/authors/add', 
-        [
-            body('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.").trim()
-                // .isIn(['(admin|root|administrator|moderator)']).withMessage("Username must not contain special keywords.")
-                .bail().custom(authorUtils.checkExistedUsername),
-            body('email').isEmail().normalizeEmail().withMessage("Email is not valid.").trim()
-                // .isIn(['*admin*','*root*','*administrator*','*moderator*']).withMessage("Email must not contain special keywords.")
-                .bail().custom(authorUtils.checkExistedEmail),
-            body('password').isLength({min: 4}).withMessage('Password must be at least 4 characters.').trim().escape(),
-        ],
+        validation.add,
         async (req,res) => {
-            const errors = validationResult(req);
-            const validInput = matchedData(req, {location: ['body']});
-
-            if (!errors.isEmpty()) {
-                return res.render(
-                    "admin/author/author_add", 
+            const { hasError, errors, validInput } = validation.result(req);
+                
+            if(hasError) { 
+                return  res.render(
+                    "admin/author/author_base", 
                     {
-                        errors: errors.array(), 
-                        validInput: validInput,
-                        information: authUtils.getAdminProfile(req)
-                    });
-            }
+                    errors: errors, 
+                    validInput: validInput,
+                    content: 'add',
+                    information: authUtils.getAdminProfile(req)
+                });
+            };
+
             try {
-                const authorObj = await authorUtils.createNewAuthor(
-                    req.body.username,
-                    req.body.email,
-                    req.body.password
+                const author = await authorUtils.createNewAuthor(
+                   { 
+                       username: req.body.username,
+                       email: req.body.email,
+                       pwd: req.body.password
+                    }
                 );
 
-                if (authorObj) {
-                    req.flash("addSuccess", "Successfully. A new author was added.");
+                if (author) {
+                    req.flash("success", "Successfully. A new author was added.");
                 } else {
-                    req.flash("addFail", "Failed. An error occurred during the process.");
+                    req.flash("fail", "Failed. An error occurred during the process.");
                 }
 
                 return res.redirect("/admin/authors/add");
             } catch (error) {
-                return res.sendStatus(404).render('pages/404');
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/authors'}
+                  );
             }
         }
     )
@@ -76,109 +76,124 @@ module.exports = function(adminRouter) {
     adminRouter.get(
         "/authors/update/:username",
         async (req, res) => {
-        try {
-            const author = await AuthorModel.findOne({ username: req.params.username });
-            
-            if(author){
+            try {
+                const author = await AuthorModel.findOne({ username: req.params.username });
+                
+                if(author){
+                    return res.render(
+                        "admin/author/author_base", 
+                        { 
+                            author: author,
+                            content: 'update',
+                            information: authUtils.getAdminProfile(req)
+                        });
+                }
+
                 return res.render(
-                    "admin/author/author_update", 
-                    { 
-                        author: author,
-                        information: authUtils.getAdminProfile(req)
-                    });
+                    "pages/404", 
+                    {redirectLink: '/admin/authors'}
+                  );
+            } catch (error) {
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/authors'}
+                  );
             }
-            return res.render("pages/404");
-        } catch (error) {
-                return res.sendStatus(404).render("pages/404");
-        }
         }
     );
     
     adminRouter.post(
         "/authors/update/:username", 
-        [
-            body('username').isAlphanumeric().withMessage("Only letters and numbers are allowed.").trim()
-                .bail().custom(authorUtils.checkExistedUsername),
-            body('email').isEmail().normalizeEmail().withMessage("Email is not valid.")
-                .bail().custom(authorUtils.checkExistedEmail)
-        ],
+        validation.update,
         async (req, res) => {
             try {
                 const author = await AuthorModel.findOne({ username: req.params.username });
                     if (author) {
-                        const errors = validationResult(req);
-                        const validInput = matchedData(req, {location: ['body']});
-
-                        if (!errors.isEmpty()) {
-                            return res.render(
-                                "admin/author/author_update", 
+                                
+                        const { hasError, errors, validInput } = validation.result(req);
+                            
+                        if(hasError) { 
+                            return  res.render(
+                                "admin/author/author_base", 
                                 {
-                                    errors: errors.array(), 
-                                    validInput: validInput, 
+                                    errors: errors, 
+                                    validInput: validInput,
+                                    content: 'update',
                                     author: author,
                                     information: authUtils.getAdminProfile(req)
                                 });
-                        }
+                        };
+                        
                             
                         const updatedAuthor = await AuthorModel.findByIdAndUpdate(
-                            {_id: author.id},
+                            author.id,
                             {
                                 username: req.body.username,
                                 email: req.body.email
                             }, {new: true}); // Return the updated object
 
                         if (updatedAuthor) {
-                            req.flash('updateSuccess', 'Successfully. All changes were saved.');
+                            req.flash('success', 'Successfully. All changes were saved.');
                             return res.redirect("/admin/authors/update/" + updatedAuthor.username);
                         }else {
-                            req.flash('updateFail', 'Failed. An error occurred during the process.');
+                            req.flash('fail', 'Failed. An error occurred during the process.');
                             return res.redirect("/admin/authors/update/" + author.username);
                         }
 
-                    }else {
-                        req.flash('updateFail', 'Failed. An error occurred during the process.');
-                        return res.redirect("/admin/authors/update/" + req.params.username);
                     }
-                
+
+                    return res.render(
+                        "pages/404", 
+                        {redirectLink: '/admin/authors'}
+                      );
             } catch (error) {
-                return res.sendStatus(404).render('pages/404');
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/authors'}
+                  );
             }
     });
 
     adminRouter.post(
-        "/authors/activate/:username", 
+        "/authors/activate/", 
         async (req, res) => {
         try {
-            const authorObj = await AuthorModel.findOne({ username: req.params.username });
+            const author = await AuthorModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Deactivated'}] },
+                { status: 'Activated' });
             
-            if (authorObj && authorObj.status === "Deactivated") {
-                authorObj.status = "Activated";
-                await authorObj.save();
-                req.flash("statusSuccess", "Successfully. The status was changed to 'Activated'");
+            if (author) {
+                req.flash("success", "Successfully. The status was changed to 'Activated'");
             } else {
-                req.flash("statusFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
             return res.redirect("/admin/authors");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/authors'}
+              );
         }
     });
 
     adminRouter.post(
-        "/authors/deactivate/:username", 
+        "/authors/deactivate", 
         async (req, res) => {
         try {
-            const authorObj = await AuthorModel.findOne({ username: req.params.username });
-            if (authorObj && authorObj.status === "Activated") {
-                authorObj.status = "Deactivated";
-                await authorObj.save();
-                req.flash("statusSuccess", "Successfully. The status was changed to 'Deactivated'");
+            const author = await AuthorModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Activated'}] },
+                { status: 'Deactivated' });
+            if (author) {
+                req.flash("success", "Successfully. The status was changed to 'Deactivated'");
             } else {
-                req.flash("statusFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
             return res.redirect("/admin/authors");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/authors'}
+              );
         }
     });
 
@@ -186,17 +201,21 @@ module.exports = function(adminRouter) {
         "/authors/reset_password/", 
         async (req, res) => {
         try {
-            const authorObj = await AuthorModel.findById({  _id: req.body.id });
-            if (authorObj) {
-                authorObj.password = 'Reset Password' ;
-                await authorObj.save();
-                req.flash("resetSuccess", "Successfully. A link was sent to email for setting up a new password.");
+            const author = await AuthorModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {password: {$ne: 'Reset Password'} }] },
+                { password: 'Reset Password' } );
+
+            if (author) {
+                req.flash("success", "Successfully. A link was sent to email for setting up a new password.");
             } else {
-                req.flash("resetFail", "Failed. An error occurred during the process.");
+                req.flash("fail", "Failed. An error occurred during the process.");
             }
             return res.redirect("/admin/authors");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/authors'}
+              );
         }
     });
 
@@ -204,17 +223,19 @@ module.exports = function(adminRouter) {
         "/authors/delete/", 
         async (req, res) => {
         try {
-            const authorObj = await AuthorModel.findById({ _id: req.body.id });
+            const author = await AuthorModel.findByIdAndDelete(req.body.id);
             
-            if (authorObj) {
-                await AuthorModel.remove({_id: req.body.id});
-                req.flash("deleteSuccess", "Successfully. The author was removed from the database.");
+            if (author) {
+                req.flash("success", "Successfully. The author was removed from the database.");
             } else {
-                req.flash("deleteFail", "Failed. An error occurred during the process");
+                req.flash("fail", "Failed. An error occurred during the process");
             }
             return res.redirect("/admin/authors");
         } catch (error) {
-            return res.sendStatus(404).render('pages/404');
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/admin/authors'}
+              );
         }
     });
 }
