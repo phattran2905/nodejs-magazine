@@ -11,9 +11,7 @@ const authUtils = {
     },
 
     checkNotAuthenticatedAdmin : (req,res,next) => {
-        // const successRedirectPath = req.path;
-        // req.successRedirectPath = successRedirectPath;
-        if (req.isUnauthenticated() || (req.isAuthenticated && req.session.admin)){
+        if (req.isUnauthenticated() || typeof req.session.admin === 'undefined') {
             return next();
         }
         return res.redirect("/admin");
@@ -28,9 +26,7 @@ const authUtils = {
     },
 
     checkNotAuthenticatedAuthor : (req,res,next) => {
-        // const successRedirectPath = req.path;
-        // req.successRedirectPath = successRedirectPath;
-        if (req.isUnauthenticated() || (req.isAuthenticated && req.session.user)){
+        if (req.isUnauthenticated() || typeof req.session.user === 'undefined'){
             return next();
         }
         return res.redirect("/");
@@ -64,11 +60,7 @@ const authUtils = {
                     gender: req.session.user.profile.gender,
                     dob: req.session.user.profile.dateOfBirth,
                     phone: req.session.user.profile.phone,
-                    avatar_img: {
-                        path: req.session.user.profile.avatar_img.path,
-                        filename: req.session.user.profile.avatar_img.filename,
-                        contentType: req.session.user.profile.avatar_img.contentType
-                    }
+                    avatar_img: req.session.user.profile.avatar_img.filename
                 }
             }
             
