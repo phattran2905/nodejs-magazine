@@ -7,8 +7,8 @@ var storage = multer.diskStorage({
             case 'thumbnail_img':
                 cb(null,'tmp/thumbnail_img');
                 break;
-            case 'profile_img':
-                cb(null,'tmp/profile_img');
+            case 'avatar_img':
+                cb(null,'tmp/avatar_img');
                 break;
             default:
                 cb(null,'tmp/uploads/')
@@ -21,7 +21,7 @@ var storage = multer.diskStorage({
             case 'thumbnail_img':
                 cb(null, req.user.id + '-' + Date.now() + '.' + extension);
                 break;
-            case 'profile_img':
+            case 'avatar_img':
                 cb(null, req.user.id + '-' + Date.now() + '.'  + extension);
                 break;
             default:
