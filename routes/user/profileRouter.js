@@ -7,14 +7,12 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/profile',
         (req,res) => {
-            let information = authUtils.getAuthorProfile(req);
-            
             res.render('user/profile_base', {
                 page: {
-                    profile_content: 'profile',
-                    content_header: 'profile'
+                    content: 'profile',
+                    header: 'profile'
                 },
-                information: information
+                information: authUtils.getAuthorProfile(req)
             });
         }
     );
@@ -26,16 +24,14 @@ module.exports = function(userRouter) {
             const { hasError, errors, validInput } = validateProfile.result(req);
             
             if(hasError) {
-                const information = authUtils.getAuthorProfile(req);
                 return  res.render('user/profile_base',{
                     errors: errors, 
                     validInput: validInput,
-                    // loggedUser: ,
                     page: {
-                        profile_content: 'profile',
-                        content_header: 'profile'
+                        content: 'profile',
+                        header: 'profile'
                     },
-                    information: information
+                    information: authUtils.getAuthorProfile(req)
                 });
             };
             
@@ -66,7 +62,7 @@ module.exports = function(userRouter) {
     );
     
     userRouter.post(
-        '/upload_avatar',
+        '/profile/upload_avatar',
         upload.single('avatar_img'),
         async (req, res) => {
             let information = authUtils.getAuthorProfile(req);
@@ -81,7 +77,10 @@ module.exports = function(userRouter) {
                 });
             if (updateQuery && updateQuery.n === 1 && updateQuery.nModified === 1) {
                 const reloaded_user = await authUtils.reloadLoggedUser(req, information.id);
-                if(reloaded_user) {return res.redirect('/profile');}
+                if(reloaded_user) {
+                    req.flash('success', 'Successfully! Your profile image was saved.');
+                    return res.redirect('/profile');
+                }
             }
             
             req.flash('fail', 'Failed! An error occurred during the process.');
@@ -93,14 +92,12 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/profile/change_password',
         (req, res) => {
-            const information = authUtils.getAuthorProfile(req);
             res.render('user/profile_base', {
-                // loggedUser: loggedAuthor,
                 page:  {
-                    profile_content: 'change_password',
-                    content_header: 'Change Password'
+                    content: 'change_password',
+                    header: 'Change Password'
                 },
-                information: information
+                information: authUtils.getAuthorProfile(req)
             });
         }
     );
@@ -116,8 +113,8 @@ module.exports = function(userRouter) {
                     errors: errors, 
                     validInput: validInput,
                     page: {
-                        profile_content: 'change_password',
-                        content_header: 'Change Password'
+                        content: 'change_password',
+                        header: 'Change Password'
                     },
                     information: authUtils.getAuthorProfile(req)
                 });
@@ -147,4 +144,24 @@ module.exports = function(userRouter) {
             
         }
     );
+
+    userRouter.get(
+        '/profile/articles',
+        (req, res) => {
+            res.render('user/profile_base', {
+                page:  {
+                    content: 'articles',
+                    header: 'Articles'
+                },
+                information: authUtils.getAuthorProfile(req)
+            });
+        }
+    );
+
+    userRouter.post(
+        '/profile/articles',
+        (req, res) => {
+            
+        }
+    )
 };
