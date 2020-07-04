@@ -11,7 +11,6 @@
       <th>Email</th>
       <th>Role</th>
       <th>Created at</th>
-      <th>Last login</th>
       <th>Status</th>
       <th>Action</th>
     </tr>
@@ -33,11 +32,6 @@
         <%= admin.role %>
       </td>
       <td><%= admin.createdAt.toDateString() %></td>
-      <td>
-        <% if(admin.lastLogin) { %>
-        <%= admin.lastLogin.toDateString() %>
-        <% } %>
-      </td>
       <% if(admin.status === 'Deactivated') { %>
       <td class="d-flex justify-content-around">
         <span id="deactivated_status_btn" class="btn btn-secondary text-light">
@@ -52,7 +46,8 @@
           </button>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <form action="/admin/administrators/activate/<%= admin.username %>" class="d-inline" method="POST">
+            <form action="/admin/administrators/activate" class="d-inline" method="POST">
+              <input type="hidden" name="id" value="<%= admin.id %>">
               <button class="btn btn-success text-light sa-warning-activate" type="button" role="button"
                 data-toggle="tooltip" data-placement="top" title="Activate" data-original-title="Activate">
                 <i class="mdi mdi-lock-open-variant-outline"></i>
@@ -72,8 +67,9 @@
           </button>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <form action="/admin/administrators/deactivate/<%= admin.username %>" class="d-inline" method="POST">
-              <button class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button"
+            <form action="/admin/administrators/deactivate" class="d-inline" method="POST">
+              <input type="hidden" name="id" value="<%= admin.id %>">
+              <button  class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button"
                 data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
                 <i class="mdi mdi-block-helper"></i>
               </button>
