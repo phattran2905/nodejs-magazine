@@ -80,11 +80,11 @@ const passportSetup = function (passport) {
   passport.deserializeUser(async function ({id, model}, done) {
     if (model === 'user') {
       AuthorModel.findById(id, function (err, user) {
-        done(err, {loggedUser: user});
+        done(null, user);
       });
     } else if(model === 'admin'){
       AdminModel.findById(id, function (err, admin) {
-        done(err, {loggedAdmin: admin});
+        done(null,admin);
       });
     } else {
       done(null,false);
