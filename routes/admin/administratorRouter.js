@@ -1,7 +1,6 @@
 const AdminModel = require("../../models/AdministratorModel");
 const authUtils = require("../../utils/authUtils");
 const adminUtils = require("../../utils/administratorUtils");
-const commonUtils = require("../../utils/commonUtils");
 const validation = require('../../validation/admin/validateAdministrator');
 
 module.exports = function(adminRouter){
