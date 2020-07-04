@@ -29,7 +29,7 @@ const AdminUtils = {
                 }
                 return Promise.reject(false);
             } catch (error) {
-                return Promise.reject(false);
+                return Promise.resolve(true);
             }
         },
         checkExistedUsername: async (
@@ -54,7 +54,7 @@ const AdminUtils = {
                 }
                 return Promise.reject(false);
             } catch (error) {
-                return Promise.reject(false);
+                return Promise.resolve(true);
             }
         },
         checkPresentPwd: async (pwd = null, {

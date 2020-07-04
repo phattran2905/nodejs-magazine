@@ -26,7 +26,7 @@ const validate = {
             }
             return Promise.reject(false);
         } catch(error) {
-            return Promise.reject(false);  
+            return Promise.resolve(true);
         }
     },
     checkExistentUsername: async (
@@ -49,7 +49,7 @@ const validate = {
             }
             return Promise.reject(false);
         } catch (error) {
-            return Promise.reject(false);
+            return Promise.resolve(true);
         }
     },
     checkNotExistentUsername: async (username, {req} = {}) => {
@@ -79,7 +79,7 @@ const validate = {
             }
             return Promise.reject(false);    
         } catch (error) {
-            return Promise.reject(false);
+            return Promise.resolve(true);
         }
         
     },
