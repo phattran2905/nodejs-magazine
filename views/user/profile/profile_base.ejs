@@ -50,10 +50,10 @@
             <!-- form_div_inner -->
 						<div class="row blog_contact_form_div_inner">
               <!-- profile sidebar -->
-              <div class="profile_div_sidebar col-md-3 col-sm-2">
+              <div class="profile_div_sidebar col-md-2 col-sm-2">
                 <div class="profile_div_sidebar_upper">
                   <div class="profile_avatar">
-                    <img src="/avatar/<%= information.avatar_img %>" alt="..." class="mx-auto d-block img-fluid">
+                    <img src="/avatar/<%= information.avatar_img %>" alt="avatar" class="rounded-circle img-fluid">
                   </div>
                   <div class="form-inline upload-profile-avatar">
                     <form action="/profile/upload_avatar" class="mx-auto" method="POST" enctype="multipart/form-data">
@@ -68,31 +68,31 @@
                       <a class="sidebar_menu_link <% if (page.content === 'profile') { %>
                         active 
                       <% } %> "
-                      href="/profile">Profile</a>
+                      href="/profile"><i class="mdi mdi-smart-card mr-2"></i> Profile</a>
                     </li>
                     <li>
                       <a class="sidebar_menu_link <% if (page.content === 'dashboard') { %>
                         active 
                       <% } %> "
-                      href="/profile/dashboard">Dashboard</a>
+                      href="/profile/dashboard"><i class="mdi mdi-monitor-dashboard mr-2"></i> Dashboard</a>
                     </li>
                     <li>
                       <a class="sidebar_menu_link <% if (page.content === 'articles') { %>
                         active 
                       <% } %> "
-                      href="/profile/articles">Articles</a>
+                      href="/profile/articles"><i class="mdi mdi-newspaper mr-2"></i> Articles</a>
                     </li>
                     <li>
                       <a class="sidebar_menu_link <% if (page.content === 'change_password') { %>
                         active 
                       <% } %> "
-                       href="/profile/change_password">Change password</a>
+                       href="/profile/change_password"><i class="mdi mdi-key-link mr-2"></i> Change password</a>
                     </li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="/logout"><i class="mdi mdi-keyboard-tab mr-2"></i> Logout</a></li>
                   </ul>
                 </div>
               </div>
-              <div class="profile_div_container col-md-9 col-sm-10">
+              <div class="profile_div_container col-md-10 col-sm-10">
                 <%# flash messages %> 
                   <!-- Flash -->
                 <%- include('../base/flash_messages') %>

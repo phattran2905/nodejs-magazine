@@ -18,7 +18,7 @@ a#verify_to_login_btn:hover {
     padding: 0;
 }
 .profile_div_sidebar_upper {
-    padding: 10px 57px;
+    padding: 10px 15px;
 }
 .profile_avatar {
     margin-top: 2rem;
@@ -26,10 +26,8 @@ a#verify_to_login_btn:hover {
     border-radius: 50%;
     border: 1px solid #27333a;
 }
-.profile_avatar img {
-    width: 100%;
+.profile_avatar img{
     height: 100%;
-    border-radius: 50%;
 }
 .upload-profile-avatar{
     margin-top: 1.5rem;
@@ -51,10 +49,10 @@ a#verify_to_login_btn:hover {
 }
 .profile_div_sidebar_lower ul li a {
     width: 100%;
-    padding: 15px 0;
+    padding: 15px 10px 15px 20px;
     color: #ffffff;
     font-size: 1rem;
-    text-align: center;
+    text-align: left;
     text-transform: capitalize;
     background-color: #00958c;
     border-bottom: 1px solid #ffffff;
