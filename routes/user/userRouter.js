@@ -6,6 +6,7 @@ const authUtils = require('../../utils/authUtils');
 const indexRouter = require('./indexRouter');
 const authRouter = require('./authRouter');
 const profileRouter = require('./profileRouter');
+const articleRouter = require('./articleRouter');
 
 authRouter(userRouter);
 indexRouter(userRouter);
@@ -17,5 +18,6 @@ userRouter.use((req,res, next) => {
     }
 });
 profileRouter(userRouter);
+articleRouter(userRouter);
 
 module.exports = userRouter;

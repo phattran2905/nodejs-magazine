@@ -145,23 +145,4 @@ module.exports = function(userRouter) {
         }
     );
 
-    userRouter.get(
-        '/profile/articles',
-        (req, res) => {
-            res.render('user/profile/profile_base', {
-                page:  {
-                    content: 'articles',
-                    header: 'Articles'
-                },
-                information: authUtils.getAuthorProfile(req)
-            });
-        }
-    );
-
-    userRouter.post(
-        '/profile/articles',
-        (req, res) => {
-            
-        }
-    )
 };

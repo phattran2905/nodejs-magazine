@@ -15,7 +15,7 @@
     <link href="/admin/static/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="/admin/static/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/statuc/css/override.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/override.css">
 </head>
 
 <body>
@@ -77,12 +77,6 @@
                       href="/profile/dashboard"><i class="mdi mdi-monitor-dashboard mr-2"></i> Dashboard</a>
                     </li>
                     <li>
-                      <a class="sidebar_menu_link <% if (page.content === 'articles') { %>
-                        active 
-                      <% } %> "
-                      href="/profile/articles"><i class="mdi mdi-newspaper mr-2"></i> Articles</a>
-                    </li>
-                    <li>
                       <a class="sidebar_menu_link <% if (page.content === 'change_password') { %>
                         active 
                       <% } %> "
@@ -101,8 +95,6 @@
                 <div class="profile_div_content">
                   <% if (page.content === 'profile') { %> 
                     <%- include('./profile') %> 
-                  <% } else if (page.content === 'articles') { %>
-                    <%- include('./article') %> 
                   <% } else if (page.content === 'change_password') { %> 
                     <%- include('./change_password') %> 
                   <% } %>

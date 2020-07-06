@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Wlog - Blog and Magazine HTML template </title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="description" content="Blog">
+  <meta name="keywords" content="">
+  <meta name="author" content="kamleshyadav">
+  <meta name="MobileOptimized" content="320">
+
+  <%- include('../base/css') %>
+  <!-- Icons Css -->
+  <link href="/admin/static/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+  <!-- App Css-->
+  <link href="/admin/static/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+  <!-- Summernote css -->
+  <link href="/admin/static/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/override.css">
+</head>
+
+<body>
+  <div id="blog_preloader_wrapper">
+    <div id="blog_preloader_box">
+      <div class="blog_loader">
+        <div></div>
+        <div></div>
+      </div>
+    </div>/
+  </div>
+  <div class="blog_main_wrapper">
+    <!-- top header -->
+    <%- include('../base/top_header') %>
+    <!-- end top header -->
+
+    <!-- main_menu -->
+    <%- include('../base/main_menu') %>
+    <!-- end main_menu -->
+
+    <!-- main content -->
+    <div class="blog_main_wrapper blog_toppadder20 blog_bottompadder60">
+      <div class="fluid-container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 col-sm-12 col-12 offset-lg-2 offset-md-1 blog_toppadder40">
+            <div class="mb-5 blog_contact_form_div wow fadeInUp">
+              <div class="blog_main_heading_div">
+                <div class="blog_heading_div">
+                  <h3 class="blog_bg_lightgreen"><%= page.header %></h3>
+                </div>
+              </div>
+
+              <!-- start page title -->
+              <% if (page.content !== 'article_list') { %>
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">
+                      <a href="/articles" class="btn btn-dark">
+                        <i class="mdi mdi-keyboard-backspace"></i>
+                      </a>
+                    </h4>
+
+                    <div class="page-title-right">
+                      <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="/articles">Article</a></li>
+                        <li class="breadcrumb-item active text-info">Add</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+
+              <!-- end page title -->
+
+              <div class="row">
+                <div class="col-12 px-5 py-4">
+                  <!-- Flash -->
+                  <%- include('../base/flash_messages') %>
+                  <!-- articles content -->
+                  <% if (page.content === 'article_list') { %>
+                  <%- include('./article_list') %>
+                  <% } else if (page.content === 'article_add') { %>
+                  <%- include('./article_add') %>
+                  <% } else if (page.content === 'change_password') { %>
+                  <%- include('./change_password') %>
+                  <% } %>
+                  <!-- end content -->
+                </div> <!-- end col -->
+              </div> <!-- end row -->
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end main content -->
+
+    <!-- footer and copyright -->
+    <%- include('../base/footer') %>
+    <!-- end footer and copyright -->
+  </div>
+
+  <%- include('../base/js') %>
+  <script src="/admin/static/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+  <script src="/admin/static/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+  <script src="/admin/static/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+  <script src="/admin/static/assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+
+  <!-- form advanced init -->
+  <script src="/admin/static/assets/js/pages/form-advanced.init.js"></script>
+
+  <script src="/admin/static/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="/admin/static/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+  <script src="/admin/static/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="/admin/static/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+
+  <script src="/admin/static/assets/js/pages/datatables.init.js"></script>
+  <!-- Summernote js -->
+  <script src="/admin/static/assets/libs/summernote/summernote-bs4.min.js"></script>
+
+  <!-- init js -->
+  <script src="/admin/static/assets/js/pages/summernote.init.js"></script>
+
+</body>
+
+</html>
