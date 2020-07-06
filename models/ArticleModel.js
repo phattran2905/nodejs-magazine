@@ -9,14 +9,12 @@ const ArticleSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    thumbnail_img: [
-        {
-            path: String,
-            contentType: String,
-            filename: String,
-            size: Number
-        },
-    ],
+    thumbnail_img: {
+        path: String,
+        contentType: String,
+        filename: String,
+        size: Number
+    },
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
@@ -26,10 +24,8 @@ const ArticleSchema = new mongoose.Schema({
         required: true,
     },
     body: {
-        text: {
-            type: String,
-            required: true,
-        }
+        type: String,
+        required: true,
     },
     interaction: {
         views: {
@@ -40,13 +36,17 @@ const ArticleSchema = new mongoose.Schema({
             type: Number,
             default: 0,
         },
-        comments: [
-            {
-                comment_id: { type: String, default: uid(12) },
-                nickname: { type: String, default: 'Anonymous' },
-                text: String
+        comments: [{
+            comment_id: {
+                type: String,
+                default: uid(12)
             },
-        ]
+            nickname: {
+                type: String,
+                default: 'Anonymous'
+            },
+            text: String
+        }, ]
     },
     status: {
         type: String,
