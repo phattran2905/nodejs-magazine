@@ -57,17 +57,27 @@
           </button>
 
           <div class="dropdown-menu p-2 text-center bg-secondary" aria-labelledby="dropdownMenuButton">
-            <a class="btn btn-info text-light" href="/admin/administrators/update/<%= articles[i]._id %>" role="button"
+            <a class="btn btn-primary text-light" href="/admin/administrators/update/<%= articles[i]._id %>" role="button"
               data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
               <i class="mdi mdi-pencil-outline"></i>
             </a>
-            <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
+            <% if (articles[i].status === 'Published' || articles[i].status === 'Pending') { %> 
+            <form action="/articles/unpublish" class="d-inline" method="POST">
               <input type="hidden" name="id" value="<%= articles[i]._id %>">
-              <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button"
-                data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
-                <i class="mdi mdi-rotate-3d-variant"></i>
+              <button class="btn btn-info text-light sa-warning-unpublish" type="button" role="button"
+                data-toggle="tooltip" data-placement="top" title="Unpublish" data-original-title="Unpublish">
+                <i class="mdi mdi-content-save"></i>
               </button>
             </form>
+            <% } else { %> 
+              <form action="/articles/publish" class="d-inline" method="POST">
+                <input type="hidden" name="id" value="<%= articles[i]._id %>">
+                <button class="btn btn-success text-light sa-warning-publish" type="button" role="button"
+                  data-toggle="tooltip" data-placement="top" title="Publish" data-original-title="Publish">
+                  <i class="mdi mdi-publish"></i>
+                </button>
+              </form>
+            <% } %> 
             <form action="/articles/delete" class="d-inline" method="POST">
               <input type="hidden" name="id" value="<%= articles[i]._id %>">
               <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button"

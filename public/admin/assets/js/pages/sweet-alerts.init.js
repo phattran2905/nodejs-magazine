@@ -74,7 +74,7 @@
         const form = this.parentElement;
         Swal.fire({
           title: "Are you sure?",
-          text: "You will activate this account!",
+          text: "You will activate this item!",
           icon: "warning",
           showCancelButton: !0,
           confirmButtonColor: "#11c46e",
@@ -91,7 +91,7 @@
         const form = this.parentElement;
         Swal.fire({
           title: "Are you sure?",
-          text: "You will deactivate this account!",
+          text: "You will deactivate this item!",
           icon: "warning",
           showCancelButton: !0,
           confirmButtonColor: "#11c46e",
@@ -102,6 +102,40 @@
                 form.submit();
             }
           t.value && Swal.fire("Deactivated!", "The item has been deactivated", "success");
+        });
+      }),
+      t(".sa-warning-publish").click(function () {
+        const form = this.parentElement;
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will publish this article!",
+          icon: "warning",
+          showCancelButton: !0,
+          confirmButtonColor: "#11c46e",
+          cancelButtonColor: "#f46a6a",
+          confirmButtonText: "Yes, publish it!",
+        }).then(function (t) {
+            if(t.value === true){
+                form.submit();
+            }
+          t.value && Swal.fire("Published!", "The item has been published", "success");
+        });
+      }),
+      t(".sa-warning-unpublish").click(function () {
+        const form = this.parentElement;
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will unpublish this article!",
+          icon: "warning",
+          showCancelButton: !0,
+          confirmButtonColor: "#11c46e",
+          cancelButtonColor: "#f46a6a",
+          confirmButtonText: "Yes, unpublish it!",
+        }).then(function (t) {
+            if(t.value === true){
+                form.submit();
+            }
+          t.value && Swal.fire("Unpublished!", "The item has been unpublished", "success");
         });
       }),
       t("#sa-params").click(function () {

@@ -120,7 +120,55 @@ module.exports = function(userRouter) {
         }
     );
 
-     
+    
+    userRouter.post(
+        "/articles/publish", 
+        async (req, res) => {
+        try {
+            const article = await ArticleModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, {status: 'Draft'}] },
+                { status: 'Pending'} );
+            
+            if (article) {
+                req.flash("success", "Successfully. The article was waiting for approval.");
+            } else {
+                req.flash("fail", "Failed. An error occurred during the process.");
+            }
+
+            return res.redirect("/articles");
+        } catch (error) {
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/articles'}
+            );
+        }}
+    );
+
+    userRouter.post(
+        "/articles/unpublish", 
+        async (req, res) => {
+        try {
+            const article = await ArticleModel.findOneAndUpdate(
+                { $and: [{_id: req.body.id}, 
+                    {$or: [{status: 'Published'},{status: 'Pending'}]} ] 
+                },
+                { status: 'Draft'} );
+            
+            if (article) {
+                req.flash("success", "Successfully. The article was unpublished.");
+            } else {
+                req.flash("fail", "Failed. An error occurred during the process.");
+            }
+
+            return res.redirect("/articles");
+        } catch (error) {
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/articles'}
+            );
+        }}
+    );
+
     userRouter.post(
         "/articles/delete/", 
         async (req, res) => {
@@ -128,7 +176,7 @@ module.exports = function(userRouter) {
             const article = await ArticleModel.findByIdAndDelete(req.body.id);
             
             if (article) {
-                req.flash("success", "Successfully. The administrator was removed from the database.");
+                req.flash("success", "Successfully. The article was removed.");
             } else {
                 req.flash("fail", "Failed. An error occurred during the process");
             }
