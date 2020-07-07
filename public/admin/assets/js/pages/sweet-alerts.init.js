@@ -50,7 +50,7 @@
             if(t.value === true){
                 form.submit();
             }
-          t.value && Swal.fire("Deleted!", "The account has been deleted.", "success");
+          t.value && Swal.fire("Deleted!", "The item has been deleted.", "success");
         });
       }),
       t(".sa-warning-reset-pwd").click(function () {
@@ -84,7 +84,7 @@
             if(t.value === true){
                 form.submit();
             }
-          t.value && Swal.fire("Activated!", "The account has been activated", "success");
+          t.value && Swal.fire("Activated!", "The item has been activated", "success");
         });
       }),
       t(".sa-warning-deactivate").click(function () {
@@ -101,7 +101,7 @@
             if(t.value === true){
                 form.submit();
             }
-          t.value && Swal.fire("Deactivated!", "The account has been deactivated", "success");
+          t.value && Swal.fire("Deactivated!", "The item has been deactivated", "success");
         });
       }),
       t("#sa-params").click(function () {

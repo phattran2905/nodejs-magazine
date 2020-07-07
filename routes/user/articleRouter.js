@@ -120,4 +120,24 @@ module.exports = function(userRouter) {
         }
     );
 
+     
+    userRouter.post(
+        "/articles/delete/", 
+        async (req, res) => {
+        try {
+            const article = await ArticleModel.findByIdAndDelete(req.body.id);
+            
+            if (article) {
+                req.flash("success", "Successfully. The administrator was removed from the database.");
+            } else {
+                req.flash("fail", "Failed. An error occurred during the process");
+            }
+            return res.redirect("/articles");
+        } catch (error) {
+            return res.render(
+                "pages/404", 
+                {redirectLink: '/articles'}
+            );
+        }}
+    );
 };

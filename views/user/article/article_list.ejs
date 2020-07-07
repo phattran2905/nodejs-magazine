@@ -62,14 +62,14 @@
               <i class="mdi mdi-pencil-outline"></i>
             </a>
             <form action="/admin/administrators/reset_password" class="d-inline" method="POST">
-              <input type="hidden" name="id" value="<%= articles[i].id %>">
+              <input type="hidden" name="id" value="<%= articles[i]._id %>">
               <button class="btn btn-warning text-light sa-warning-reset-pwd" type="button" role="button"
                 data-toggle="tooltip" data-placement="top" title="Reset password" data-original-title="Reset password">
                 <i class="mdi mdi-rotate-3d-variant"></i>
               </button>
             </form>
-            <form action="/admin/administrators/delete" class="d-inline" method="POST">
-              <input type="hidden" name="id" value="<%= articles[i].id %>">
+            <form action="/articles/delete" class="d-inline" method="POST">
+              <input type="hidden" name="id" value="<%= articles[i]._id %>">
               <button class="btn btn-danger text-light sa-warning-delete" type="button" role="button"
                 data-toggle="tooltip" data-placement="top" title="Delete" data-original-title="Delete">
                 <i class="mdi mdi-delete-alert"></i>
