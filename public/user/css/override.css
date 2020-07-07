@@ -118,3 +118,6 @@ form.profile_information_form {
   #datatable_paginate {
     float: right;
   }
+  #dropdownMenuButton::after {
+      display: none;
+  }
