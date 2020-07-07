@@ -17,10 +17,13 @@
   <link href="/admin/static/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
   <!-- Summernote css -->
   <link href="/admin/static/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css" />
-  
+
   <!-- Sweet Alert-->
   <link href="/admin/static/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" type="text/css" href="/static/css/override.css">
+  <style>
+    div.modal-backdrop.show {z-index: 0;}
+  </style>
 </head>
 
 <body>
@@ -67,11 +70,13 @@
                     <div class="page-title-right">
                       <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="/articles">Article</a></li>
-                        <% if (content === 'article_add') { %> 
+                        <% if (content === 'article_add') { %>
                         <li class="breadcrumb-item active text-info">Add</li>
-                        <% } else if (content === 'article_preview') { %> 
+                        <% } else if (content === 'article_preview') { %>
                         <li class="breadcrumb-item active text-info">Preview</li>
-                        <% } %> 
+                        <% } else if (content === 'article_update') { %>
+                        <li class="breadcrumb-item active text-info">Update</li>
+                        <% } %>
                       </ol>
                     </div>
                   </div>
@@ -85,20 +90,23 @@
                 <div class="col-12 px-5 py-4">
                   <div class="card m-3" style="border: 3px solid #f7f7f9;">
                     <div class="card-body mx-4 my-3">
-                  <!-- Flash -->
-                  <%- include('../base/flash_messages') %>
-                  <!-- articles content -->
-                  <% if (content === 'article_list') { %>
-                  <%- include('./article_list') %>
-                  <% } else if (content === 'article_add') { %>
-                  <%- include('./article_add') %>
-                  <% } else if (content === 'article_preview') { %>
-                  <%- include('./article_preview') %>
-                  <% } %>
-                  <!-- end content -->
-                </div> <!-- end col -->
-              </div> <!-- end row -->
-
+                      <!-- Flash -->
+                      <%- include('../base/flash_messages') %>
+                      <!-- articles content -->
+                      <% if (content === 'article_list') { %>
+                      <%- include('./article_list') %>
+                      <% } else if (content === 'article_add') { %>
+                      <%- include('./article_add') %>
+                      <% } else if (content === 'article_preview') { %>
+                      <%- include('./article_preview') %>
+                      <% } else if (content === 'article_update') { %>
+                      <%- include('./article_update') %>
+                      <% } %>
+                      <!-- end content -->
+                    </div> <!-- end col -->
+                  </div> <!-- end row -->
+                </div>
+              </div>
 
             </div>
           </div>
@@ -113,13 +121,12 @@
   </div>
 
   <%- include('../base/js') %>
+  <% if (content === 'article_list') { %>
   <script src="/admin/static/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
   <script src="/admin/static/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
   <script src="/admin/static/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
   <script src="/admin/static/assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
 
-  <!-- form advanced init -->
-  <script src="/admin/static/assets/js/pages/form-advanced.init.js"></script>
 
   <script src="/admin/static/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="/admin/static/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -128,17 +135,30 @@
   <script src="/admin/static/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
 
   <script src="/admin/static/assets/js/pages/datatables.init.js"></script>
+  <% } else { %>
   <!-- Summernote js -->
   <script src="/admin/static/assets/libs/summernote/summernote-bs4.min.js"></script>
 
   <!-- Sweet Alerts js -->
   <script src="/admin/static/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
+  <!-- form advanced init -->
+  <script src="/admin/static/assets/js/pages/form-advanced.init.js"></script>
   <!-- Sweet alert init js-->
   <script src="/admin/static/assets/js/pages/sweet-alerts.init.js"></script>
   <!-- init js -->
   <script src="/admin/static/assets/js/pages/summernote.init.js"></script>
 
+  <% } %>
+  <script>
+    var loadFile = function(event) {
+      var output = document.getElementById('old_thumbnail');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      output.onload = function() {
+        URL.revokeObjectURL(output.src) // free memory
+      }
+    };
+  </script>
 </body>
 
 </html>

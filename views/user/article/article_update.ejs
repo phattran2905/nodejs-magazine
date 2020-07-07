@@ -1,14 +1,14 @@
-<h4 class="header-title">Create Form</h4>
+<h4 class="header-title">Update Form</h4>
 <p class="card-title-desc">
 </p>
 
-<form action="/articles/add" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
-  <input type="hidden" name="authorId" value="<%= information.id %>">
+<form action="/articles/update/<%= article._id %>" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
   <div class="form-group">
     <label for="title" class="col-form-label font-weight-bolder">Title</label>
     <div class="col-md-12">
       <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
-        <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" required>
+        <input type="text" class="form-control" name="title" id="title" 
+        value="<%- article.title %>" required>
         <% } %> 
 
       <% if (typeof errors !== 'undefined' && errors) { %>
@@ -35,7 +35,7 @@
     <div class="col-md-12">
       <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
       <textarea id="summary" name="summary" class="form-control" maxlength="225" rows="3"
-      placeholder="Summary of the article."></textarea>
+      value="" ><%- article.summary %></textarea>
         <% } %> 
         
       <% if (typeof errors !== 'undefined' && errors) { %>
@@ -63,7 +63,7 @@
   <div class="form-group row">
     <label for="thumbnail_img" class="col-md-2 col-form-label font-weight-bolder">Thumbnail</label>
     <div class="col-md-2">
-        <img id="old_thumbnail" width="100px" height="100px" 
+        <img src="/thumbnail/<%= article.thumbnail_img.filename %>" id="old_thumbnail" width="100px" height="100px" 
             class="mb-1"/>
         <input class="my-auto" name="thumbnail_img" id="thumbnail_img" type="file" 
         onchange="loadFile(event)" accept="image/*">
@@ -77,9 +77,13 @@
     <label class="col-md-2 col-form-label font-weight-bolder">Category</label>
     <div class="col-md-5">
       <select class="custom-select" name="categoryId" id="categoryId">
-        <option value="0" selected="">Choose a category</option>
+        <option value="0" >Choose a category</option>
         <% for(let i = 0; i < categories.length ;i++) { %>
-        <option value="<%= categories[i]._id %>">
+        <option value="<%= categories[i]._id %>" 
+            <% if (categories[i]._id.toString() === article.categoryId.toString()) { %>
+                selected=""
+            <% } %> 
+            > <%# end option tag %>
           <%= categories[i].name %>
         </option>
         <% } %> 
@@ -88,23 +92,17 @@
   </div>
 
   <div class="form-group">
-    <label class="col-form-label font-weight-bolder mb-2">Body</label>
+    <label class="col-form-label mb-2 font-weight-bolder">Body</label>
     <div class="col-md-12">
-      <textarea class="summernote" name="body" id="body" cols="30" rows="10"></textarea>
+      <textarea class="summernote" name="body" id="body" cols="30" rows="10"><%- article.body %></textarea>
     </div>
-  </div>
-
-  <div class="form-group m-3 custom-control custom-checkbox ">
-    <input type="checkbox" value="Publish" class="custom-control-input" id="publishCheck" name="publishCheck">
-    <label class="custom-control-label" for="publishCheck">
-      Publish right after creating the article.</label>
   </div>
 
   <div class="form-group mb-0">
     <div class="col-lg-12">
       <div class="text-right">
         <a type="button" href="/articles" class="btn btn-secondary">Cancel</a>
-        <button type="submit" class="btn btn-primary">CREATE</button>
+        <button type="submit" class="btn btn-primary">Update</button>
       </div>
     </div>
   </div>
