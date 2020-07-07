@@ -1,43 +1,94 @@
 const ArticleModel = require('../models/ArticleModel');
+const CategoryModel = require('../models/CategoryModel');
+const AuthorModel = require('../models/AuthorModel');
 
 const articleUtils = {
-    createNewArticle: async (authorId, article_content, thumbnail ) => {
-        const publishCheck = (article_content.publishCheck === 'on') ? 'Published' : 'Not Published';
-        let articleObj = {
-            title: article_content.title,
-            summary: article_content.summary,
-            thumbnail_img: { // *multer* return an Object that contains an array of objects inside
-                originalName: thumbnail[0].originalName,
-                path: thumbnail[0].path,
-                mimetype: thumbnail[0].mimetype,
-                stored_filename: thumbnail[0].filename,
-            },
-            categoryId: article_content.category,
-            authorId: authorId,
-            body: {
-                text: article_content.body
-            },
-            updated: {
-                onDate: Date.now(),
-                By: {
-                    accountType: 'Author',
-                    accountID: authorId
-                }
-            },
-            status: publishCheck
-        };
-        try {
-            const addedArticle = await ArticleModel.create(articleObj);
-            if(!addedArticle) {
-                return null;
-            }
-            return addedArticle;
-        }catch(error) {
-            return error;
-        }
-        
+  validate: {
+    checkExistentTitle: async(
+      title = null, {req} = {}
+      ) => {
+        if (!title) {return Promise.reject(false)};
 
-    },
+        const articleIdFromReq = (req.params.article_id)
+          ? req.params.article_id
+          : null;
+
+          try {
+            const article = await ArticleModel.findOne({title: title});
+            if(article) {
+              if (articleIdFromReq && articleIdFromReq === article.title){
+                return Promise.reject(false);
+              }
+              return Promise.resolve(true);
+            }
+            return Promise.reject(false);
+          } catch (error) {
+            return Promise.resolve(true);
+          }
+    }
+  },
+  createNewArticle: async ({
+    authorId,
+    categoryId,
+    title,
+    summary,
+    thumbnail_img,
+    body,
+    publishCheck
+  } = {}) => {
+    /* Each article must be in 1 of 3 status:
+    // [Case 1]: 'Pending' -> is waiting for admin to approve
+    // [Case 2]: 'Published' -> is published.
+    // [Case 3]: 'Draft' -> is NOT published
+    // 
+    */
+    const status = (publishCheck === 'Publish') ?
+      'Pending' :
+      'Draft';
+    try {
+      const addedArticle = await ArticleModel.create({
+        title: title,
+        summary: summary,
+        thumbnail_img: {
+          path: thumbnail_img.path,
+          contenType: thumbnail_img.mimetype,
+          filename: thumbnail_img.filename,
+          size: thumbnail_img.size
+        },
+        categoryId: categoryId,
+        authorId: authorId,
+        body: body,
+        updated: Date.now(),
+        status: status
+      });
+
+      return addedArticle;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  getArticleById: async (article_id = null) => {
+    if (!article_id) {return null;}
+
+    try {
+      const article = await ArticleModel.findById(article_id); 
+      if (article) {
+        const categoryName = await CategoryModel.findById(article.categoryId);
+        const author = await AuthorModel.findById(article.authorId);
+        if (categoryName) {
+          article.categoryName = categoryName;
+          article.authorName = author.profile.fullname;
+          article.authorAvatar = author.profile.avatar_img.filename;
+        }
+        return article;
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+
+  }
 }
 
 module.exports = articleUtils;
