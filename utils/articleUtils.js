@@ -36,6 +36,8 @@ const articleUtils = {
     body,
     publishCheck
   } = {}) => {
+    if (!authorId || !categoryId || !title || !summary || !thumbnail_img || !body)
+      {return null;}
     /* Each article must be in 1 of 3 status:
     // [Case 1]: 'Pending' -> is waiting for admin to approve
     // [Case 2]: 'Published' -> is published.
@@ -51,7 +53,7 @@ const articleUtils = {
         summary: summary,
         thumbnail_img: {
           path: thumbnail_img.path,
-          contenType: thumbnail_img.mimetype,
+          contentType: thumbnail_img.mimetype,
           filename: thumbnail_img.filename,
           size: thumbnail_img.size
         },
@@ -67,6 +69,45 @@ const articleUtils = {
       return null;
     }
   },
+  
+  updateArticle: async (
+    articleId,
+    {
+      categoryId,
+      title,
+      summary,
+      thumbnail_img,
+      body
+    } = {} ) => {
+      if (!articleId || !categoryId || !title || !summary || !thumbnail_img || !body)
+      {return null;}
+      
+    try {
+      const article = await ArticleModel.findOne({_id: articleId});
+      if (!article) {return null;}
+
+      const updateResponse = await ArticleModel.updateOne(
+        {_id: articleId}, 
+        {
+          title: title,
+          summary: summary,
+          thumbnail_img: {
+            path: thumbnail_img.path,
+            contentType: thumbnail_img.mimetype,
+            filename: thumbnail_img.filename,
+            size: thumbnail_img.size
+          },
+          categoryId: categoryId,
+          body: body,
+          updated: Date.now(),
+          status: 'Draft'
+        });
+        
+      return updateResponse;
+    } catch (error) {
+        return null;
+    }
+},
 
   getArticleById: async (article_id = null) => {
     if (!article_id) {return null;}
