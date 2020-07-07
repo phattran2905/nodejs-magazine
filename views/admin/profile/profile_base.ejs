@@ -61,7 +61,7 @@
               <div class="card h-100">
                 <div class="card-body email-leftbar">
                   <img class="d-flex mx-auto mb-4 rounded-circle avatar-profile"
-                    src="/avatar/<%= information.avatar_img %> " alt="Generic placeholder image" />
+                    src="/avatar/<%= information.avatar_img.filename %> " alt="Generic placeholder image" />
                     <form action="/admin/profile/upload_avatar/" class="mx-auto" method="POST" enctype="multipart/form-data">
                         <input hidden onchange="this.form.submit()" type="file" id="avatar_img"  name="avatar_img" accept="image/*" />
                         <label for="avatar_img" class="btn btn-primary btn-block btn-rounded waves-effect waves-light">

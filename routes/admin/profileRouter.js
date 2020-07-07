@@ -71,7 +71,13 @@ module.exports = function(adminRouter) {
             });
         if (updateQuery && updateQuery.n === 1 && updateQuery.nModified === 1) {
             const reloaded_admin = await authUtils.reloadLoggedAdmin(req, information.id);
-            if(reloaded_admin) {return res.redirect('/admin/profile');}
+            if(reloaded_admin) {
+                const fs = require('fs');
+                const path = require('path');
+                fs.unlinkSync(path.join(process.cwd(),information.avatar_img.path));
+                req.flash('success', 'Successfully! Your profile image was saved.');
+                return res.redirect('/admin/profile');
+            }
         }
         
         req.flash('fail', 'Failed! An error occurred during the process.');

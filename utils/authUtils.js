@@ -60,7 +60,7 @@ const authUtils = {
                     gender: req.session.user.profile.gender,
                     dob: req.session.user.profile.dateOfBirth,
                     phone: req.session.user.profile.phone,
-                    avatar_img: req.session.user.profile.avatar_img.filename
+                    avatar_img: req.session.user.profile.avatar_img
                 }
             }
             
@@ -78,7 +78,7 @@ const authUtils = {
                     dob: req.session.admin.profile.dateOfBirth,
                     phone: req.session.admin.profile.phone,
                     role: req.session.admin.role,
-                    avatar_img: req.session.admin.profile.avatar_img.filename
+                    avatar_img: req.session.admin.profile.avatar_img
                 }
             }
             

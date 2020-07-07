@@ -66,7 +66,7 @@ module.exports = function(userRouter) {
         upload.single('avatar_img'),
         async (req, res) => {
             let information = authUtils.getAuthorProfile(req);
-
+            
             const updateQuery = await authorUtils.update_avatar(
                 information.id, 
                 {
@@ -78,6 +78,10 @@ module.exports = function(userRouter) {
             if (updateQuery && updateQuery.n === 1 && updateQuery.nModified === 1) {
                 const reloaded_user = await authUtils.reloadLoggedUser(req, information.id);
                 if(reloaded_user) {
+                    // Remove old thumbnail
+                    const fs = require('fs');
+                    const path = require('path');
+                    fs.unlinkSync(path.join(process.cwd(),information.avatar_img.path));
                     req.flash('success', 'Successfully! Your profile image was saved.');
                     return res.redirect('/profile');
                 }
