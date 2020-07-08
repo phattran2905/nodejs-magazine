@@ -38,6 +38,10 @@ const AdminSchema = new mongoose.Schema({
             required: true
         }
     },
+    remember_token: String,
+    lastLogin: {
+        type: Date
+    },
     status: {
         type: String,
         default: "Deactivated"

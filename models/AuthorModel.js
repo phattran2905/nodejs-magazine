@@ -46,6 +46,7 @@ const AuthorSchema = mongoose.Schema({
         type: String,
         default: "Deactivated"
     },
+    remember_token: String,
     lastLogin: {
         type: Date
     },
