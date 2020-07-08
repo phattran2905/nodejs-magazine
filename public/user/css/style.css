@@ -4876,6 +4876,7 @@ body.right_toggle_open .blog_right_toggle_sidebar .blog_togglediv {
 }
 .blog_date_div {
     width: 220px;
+    padding: 13px 10px;
 }
 .blog_temperature_div {
 	width: 170px;
