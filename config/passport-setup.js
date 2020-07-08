@@ -1,7 +1,9 @@
 const LocalStrategy = require("passport-local").Strategy;
+const RememberMeStrategy = require("passport-remember-me").Strategy;
 const AdminModel = require("../models/AdministratorModel");
 const AuthorModel = require("../models/AuthorModel");
 const bcrypt = require("bcrypt");
+const {nanoid} = require('nanoid')
 
 
 const isUser = async function(id) {
@@ -112,6 +114,71 @@ const passportSetup = function (passport) {
       authenticateUser
     )
   );
+
+  passport.use(
+    'remember-me',
+    new RememberMeStrategy(
+        // consume the token
+        async function (token, done) {
+                try {
+                    const user = await AuthorModel.findOne({
+                        remember_token: token
+                    });
+                    if (user) {
+                        await AuthorModel.findOneAndUpdate({
+                            _id: user.id
+                        }, {
+                            remember_token: null
+                        });
+                        return done(null, user);
+                    }
+                    const admin = await AdminModel.findOne({
+                        remember_token: token
+                    });
+                    if (admin) {
+                        await AdminModel.findOneAndUpdate({
+                            _id: user.id
+                        }, {
+                            remember_token: null
+                        })
+                        return done(null, admin);
+                    }
+                    return done(null, false, {
+                        message: 'Remember token is invalid.'
+                    });
+                } catch (error) {
+                    return done(error);
+                }
+
+            },
+            // issue new token
+            async function (obj, done) {
+                var token = nanoid(64);
+                if (await isUser(obj._id)) {
+                    const userWithNewToken = await AuthorModel.findOneAndUpdate({
+                        _id: obj._id
+                    }, {
+                        remember_token: token
+                    });
+                    if (userWithNewToken) {
+                        return done(null, userWithNewToken.remember_token);
+                    }
+                } else if (await isAdmin(obj._id)) {
+                    const admWithNewToken = await AdminModel.findOneAndUpdate({
+                        _id: obj._id
+                    }, {
+                        remember_token: token
+                    });
+                    if (admWithNewToken) {
+                        return done(null, admWithNewToken.remember_token);
+                    }
+                }
+                return done(null, false, {
+                    message: 'Can not issue token.'
+                });
+            }
+    )
+);
 };
 
 module.exports = passportSetup;
