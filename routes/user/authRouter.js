@@ -16,16 +16,32 @@ module.exports = function (userRouter) {
     userRouter.post('/login',
         passport.authenticate('auth-user',{
                 failureRedirect: "/login",
-                // successRedirect: "/",
                 failureFlash: true
-            }),
-            (req,res) => {
-                req.session.user = req.user;
-                res.redirect('/');
+        }),
+        async (req, res, next) => {
+            if (!req.body.remember_me) {return next();}
+                    
+            try {
+                const newToken = require('nanoid').nanoid(64);
+                const author = await AuthorModel.findOneAndUpdate({_id: req.user._id},{remember_token: newToken});
+                if(author) {
+                res.cookie('remember_me', author.remember_token, 
+                    { path: '/', httpOnly: true, maxAge: 604800000 }
+                );
+                }
+                return next(); 
+            } catch (error) {
+                return error;
             }
+        },
+        (req,res) => {
+            req.session.user = req.user;
+            res.redirect('/');
+        }
     )
         
     userRouter.get('/logout', (req,res) => {
+        res.clearCookie('remember_me');
         req.logout();
         req.session.user = undefined;
         return res.redirect('/');
