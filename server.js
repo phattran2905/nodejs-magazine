@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser')
 const flash = require('express-flash');
 const passportSetup = require('./config/passport-setup');
 
@@ -27,29 +28,27 @@ app.use("/avatar", express.static(path.join(__dirname, "tmp/avatar_img")));
 app.use("/thumbnail", express.static(path.join(__dirname, "tmp/thumbnail_img")));
 app.use("/admin/static", express.static(path.join(__dirname, "public/admin/")));
 app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
 app.use(session({
-    name: 'user-client',
-    secret: "random string",
+    name: 'user.id',
+    secret: "phatductran secret string",
     resave: false,
     saveUninitialized: false,
     cookie: {
-        name: 'user_sessionID',
         maxAge: 24*3600*1000*7,
-        // sameSite: true,
     }
 }));
 app.use(flash());
 passportSetup(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('remember-me'));
 
 // Routes for Users
-const userRouter = require('./routes/user/userRouter');
-app.use(userRouter);
+app.use( require('./routes/user/userRouter') );
 
 // Routes for Administrators
-const adminRouter = require('./routes/admin/adminRouter');
-app.use('/admin', adminRouter);
+app.use('/admin', require('./routes/admin/adminRouter') );
 
 // SET PORT
 app.listen(process.env.PORT || 5000, () => {
