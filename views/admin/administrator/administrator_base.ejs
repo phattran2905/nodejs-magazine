@@ -47,15 +47,18 @@
           <div class="row">
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between">
-                <% if (content === 'administrators') { %> 
-                <h4 class="mb-0 font-size-18">Administrator List</h4>
-                <% } else { %>
-                  <h4 class="mb-0 font-size-18">
-                    <a href="/admin/administrators" class="btn btn-dark">
-                      <i class="mdi mdi-keyboard-backspace"></i>
-                    </a>
-                  </h4>
-                  <% } %> 
+                
+                  <% if (content === 'administrators') { %> 
+                    <h4 class="mb-0 font-size-18"></h4>
+                    <% } else { %>
+                      <h4 class="mb-0 font-size-18">
+                        <a href="/admin/administrators" class="btn btn-dark">
+                          <i class="mdi mdi-keyboard-backspace"></i>
+                        </a>
+                      </h4>
+                      <% } %> 
+                  <h4 class="mb-0 font-size-18"><%= header %></h4>
+  
                 <div class="page-title-right">
                   <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Account</a></li>

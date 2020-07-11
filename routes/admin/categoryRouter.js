@@ -13,6 +13,7 @@ module.exports = function(adminRouter) {
             return res.render(
                 'admin/category/category_base',
                 {
+                    header: 'List of categories',
                     content: 'categories',
                     categories: categories,
                     information: authUtils.getAdminProfile(req)
@@ -31,6 +32,7 @@ module.exports = function(adminRouter) {
         return res.render(
             'admin/category/category_base',
             {
+                header: 'Add new category',
                 content: 'add',
                 information: authUtils.getAdminProfile(req)
             });
@@ -48,6 +50,7 @@ module.exports = function(adminRouter) {
                     'admin/category/category_base',{
                     errors: errors, 
                     validInput: validInput,
+                    header: 'Add new category',
                     content: 'add',
                     information: authUtils.getAdminProfile(req)
                 });
@@ -87,6 +90,7 @@ module.exports = function(adminRouter) {
                     "admin/category/category_base", 
                     { 
                         category: category,
+                        header: 'Update new category',
                         content: 'update',
                         information: authUtils.getAdminProfile(req)
                     });
@@ -115,6 +119,7 @@ module.exports = function(adminRouter) {
                       'admin/category/category_base',{
                       errors: errors, 
                       validInput: validInput,
+                      header: 'Update new category',
                       content: 'update',
                       category: category,
                       information: authUtils.getAdminProfile(req)

@@ -9,6 +9,7 @@ module.exports = function(adminRouter) {
       async (req,res) => {
           res.render('admin/profile/profile_base',
           {
+              header: 'Profile',
               content: 'profile',
               information: authUtils.getAdminProfile(req)
           });
@@ -25,6 +26,7 @@ module.exports = function(adminRouter) {
             return  res.render('admin/profile/profile_base',{
                 errors: errors, 
                 validInput: validInput,
+                header: 'Profile',
                 content: 'profile',
                 information: authUtils.getAdminProfile(req)
             });
@@ -90,6 +92,7 @@ module.exports = function(adminRouter) {
       (req,res) => {
         res.render('admin/profile/profile_base',
         {
+            header: 'Change password',
             content: 'change password',
             information: authUtils.getAdminProfile(req)
         });
@@ -106,6 +109,7 @@ module.exports = function(adminRouter) {
             return  res.render('admin/profile/profile_base',{
                 errors: errors, 
                 validInput: validInput,
+                header: 'Change password',
                 content:  'change password',
                 information : authUtils.getAdminProfile(req)
             });
@@ -116,7 +120,7 @@ module.exports = function(adminRouter) {
                 id: req.session.admin._id,
                 new_password: req.body.new_password
             });
-            console.log(changePwdQuery);
+            
             if(changePwdQuery && changePwdQuery.n ===1 && changePwdQuery.ok ===1) {
                 const reloadInfo = await authUtils.reloadLoggedAdmin(req, req.session.admin._id);
                 if(reloadInfo) {

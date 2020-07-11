@@ -11,6 +11,7 @@ module.exports = function(adminRouter){
             res.render(
                 "admin/administrator/administrator_base",
                 { 
+                    header: 'List of administrators',
                     content: 'administrators',
                     administrators: administrators, 
                     information: authUtils.getAdminProfile(req)
@@ -24,6 +25,7 @@ module.exports = function(adminRouter){
             res.render(
                 "admin/administrator/administrator_base",
                 {
+                    header: 'Add new administrator',
                     content: 'add',
                     information: authUtils.getAdminProfile(req)
                 });
@@ -40,6 +42,7 @@ module.exports = function(adminRouter){
                 return  res.render('admin/administrator/administrator_base',{
                     errors: errors, 
                     validInput: validInput,
+                    header: 'Add new administrator',
                     content: 'add',
                     information: authUtils.getAdminProfile(req)
                 });
@@ -79,6 +82,7 @@ module.exports = function(adminRouter){
             return res.render(
                 "admin/administrator/administrator_base", 
                   { 
+                    header: 'Update new administrator',
                       content: 'update',
                       admin: admin,
                       information: authUtils.getAdminProfile(req)
@@ -112,6 +116,7 @@ module.exports = function(adminRouter){
                             'admin/administrator/administrator_base',{
                             errors: errors, 
                             validInput: validInput,
+                            header: 'Update new administrator',
                             content: 'update',
                             admin: admin,
                             information: authUtils.getAdminProfile(req)

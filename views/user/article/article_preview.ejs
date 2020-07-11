@@ -39,10 +39,21 @@
     </div>
     <p><%- article.body %></p>
 
+    <div class="row category mt-3 ">
+      <div class="col p-2">
+          <p class="d-inline">
+              <u>Category </u>
+          </p>
+          <button class="ml-3 btn btn-primary p-2">
+              <%= article.categoryId.name %> 
+          </button>
+      </div>
+  </div>
+
   </div>
 <!-- </div> -->
 <!-- Comments -->
-<div class="blog_comment_div">
+<div class="blog_comment_div mt-4 border-top p-3">
   <h3 class="wow fadeInUp">Comments <span>(4)</span></h3>
   <ol class="comment-list">
     <li class="wow fadeInUp">

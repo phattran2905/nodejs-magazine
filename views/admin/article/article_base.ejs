@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <%- include('../base/head.ejs') %>
+  <%- include('../base/head') %>
   <!-- DataTables -->
   <link href="/admin/static/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet"
     type="text/css" />
@@ -15,6 +15,8 @@
 
   <!-- Sweet Alert-->
   <link href="/admin/static/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+  
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
 </head>
 
 <body data-sidebar="dark">
@@ -46,21 +48,26 @@
           <div class="row">
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between">
-                
-                    <% if (content === 'authors') { %> 
-                      <h4 class="mb-0 font-size-18"></h4>
-                      <% } else { %>
-                        <h4 class="mb-0 font-size-18">
-                          <a href="/admin/authors" class="btn btn-dark">
-                            <i class="mdi mdi-keyboard-backspace"></i>
-                          </a>
-                        </h4>
-                        <% } %> 
-                    <h4 class="mb-0 font-size-18"><%= header %></h4>
+                <% if (content === 'article_list') { %> 
+                  <h4 class="mb-0 font-size-18"></h4>
+                  <% } else { %>
+                    <h4 class="mb-0 font-size-18">
+                      <a href="/admin/articles" class="btn btn-dark">
+                        <i class="mdi mdi-keyboard-backspace"></i>
+                      </a>
+                    </h4>
+                    <% } %> 
+                <h4 class="mb-0 font-size-18"><%= header %></h4>
+
                 <div class="page-title-right">
                   <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Account</a></li>
-                    <li class="breadcrumb-item active"><%= content %></li>
+                    <% if (content === 'article_list') { %> 
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Article</a></li>
+                    <li class="breadcrumb-item active">List</li>
+                    <% } else { %> 
+                      <li class="breadcrumb-item"><a href="/admin/articles">Article</a></li>
+                      <li class="breadcrumb-item active"><%= header %></li>
+                      <% } %> 
                   </ol>
                 </div>
 
@@ -76,15 +83,14 @@
                   <!-- Flash messages -->
                   <%- include('../base/flash_messages.ejs') %>
                   <!-- End Flash messages -->
-                  
-                  <%# content %>
-                  <% if (content === 'authors') { %>
-                    <%- include('./author_list.ejs') %>
-                    <% } else if (content === 'add') {%>
-                    <%- include('./author_add.ejs') %>
-                    <% } else if (content === 'update') {%>
-                    <%- include('./author_update.ejs') %>
-                  <% } %>
+                  <%# content %> 
+                  <% if (content === 'article_list') { %> 
+                    <%- include('./article_list.ejs') %> 
+                  <% } else if (content === 'article_add') { %> 
+                    <%- include('./article_add.ejs') %> 
+                  <% } else if (content === 'article_preview') { %> 
+                    <%- include('./article_preview.ejs') %> 
+                  <% } %> 
                   <%# end content %>
                 </div>
               </div>
@@ -110,7 +116,7 @@
   <!-- script -->
   <%- include('../base/js') %>
 
-   <!-- Required datatable js -->
+  <!-- Required datatable js -->
   <script src="/admin/static/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="/admin/static/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
   <!-- Buttons examples -->
@@ -132,6 +138,30 @@
   <!-- Sweet alert init js-->
   <script src="/admin/static/assets/js/pages/sweet-alerts.init.js"></script>
 
+  <script defer>
+    
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let selected_status = url.searchParams.get('by_status');
+    console.log(document.getElementById('by_status')
+    .value);
+    switch (selected_status){
+      case 'pending':
+        console.log('pending');
+        document.getElementById('by_status').value = 'pending';
+        break;
+      case 'published':
+        document.getElementById('by_status').value = 'published';
+        break;
+      case 'disapproved':
+        document.getElementById('by_status').value = 'disapproved';
+        break;
+      case 'all':
+      default:
+        document.getElementById('by_status').value = 'all';
+        break;
+    }
+  </script>
 </body>
 
 </html>

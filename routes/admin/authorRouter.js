@@ -12,6 +12,7 @@ module.exports = function(adminRouter) {
         res.render(
             'admin/author/author_base',
             {
+                header: 'List of authors',
                 content: 'authors',
                 authors: authors,
                 information: authUtils.getAdminProfile(req)
@@ -25,6 +26,7 @@ module.exports = function(adminRouter) {
         res.render(
             'admin/author/author_base',
             {
+                header: 'Add new author',
                 content: 'add',
                 information: authUtils.getAdminProfile(req)
             });
@@ -43,6 +45,7 @@ module.exports = function(adminRouter) {
                     {
                     errors: errors, 
                     validInput: validInput,
+                    header: 'Add new author',
                     content: 'add',
                     information: authUtils.getAdminProfile(req)
                 });
@@ -84,6 +87,7 @@ module.exports = function(adminRouter) {
                         "admin/author/author_base", 
                         { 
                             author: author,
+                            header: 'Update new author',
                             content: 'update',
                             information: authUtils.getAdminProfile(req)
                         });
@@ -118,6 +122,7 @@ module.exports = function(adminRouter) {
                                 {
                                     errors: errors, 
                                     validInput: validInput,
+                                    header: 'Update new author',
                                     content: 'update',
                                     author: author,
                                     information: authUtils.getAdminProfile(req)
