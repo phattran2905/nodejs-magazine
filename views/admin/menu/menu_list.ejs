@@ -1,0 +1,87 @@
+<h6 class="header-title"></h6>
+<p class="card-title-desc">
+  <a href="/admin/menu/add" class="btn btn-success waves-effect waves-light mr-2">
+    <i class="mdi mdi-plus-box-multiple-outline"></i> ADD NEW
+  </a>
+</p>
+<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap "
+  style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Display order</th>
+      <th>Created at</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <% if (menus) { %>
+    <% menus.forEach((menu) => { %>
+    <tr>
+      <td id="<%= menu.name %>"><%= menu.name %></td>
+      <td><%= menu.display_order %></td>
+      <td><%= menu.createdAt.toLocaleDateString({year: 'numeric', month: '2-digits', day: '2-digits'}) %></td>
+      <td class="d-flex justify-content-around">
+        <% if(menu.status === 'Deactivated') { %>
+        <span id="deactivated_status_btn" class="btn btn-secondary text-light">
+          <%= menu.status %>
+        </span>
+        <% } else if (menu.status === 'Activated') { %>
+        <span id="activated_status_btn" class="btn bg-success text-light">
+            <%= menu.status %>
+        </span>
+        <% } %> 
+      </td>
+      <td class="text-center ">
+        <div class="btn-group dropdown dropright">
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="mdi mdi-chevron-down"></i>
+          </button>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <% if(menu.status === 'Deactivated') { %>
+            <form action="/admin/menu/activate" class="d-inline" method="POST">
+              <input type="hidden" name="id" value="<%= menu.id %>">
+              <button class="btn btn-success text-light sa-warning-activate" type="button" role="button"
+                data-toggle="tooltip" data-placement="top" title="Activate" data-original-title="Activate">
+                <i class="mdi mdi-lock-open-variant-outline"></i>
+              </button>
+            </form>
+
+            <% } else if (menu.status === 'Activated') { %>
+            <form action="/admin/menu/deactivate" class="d-inline" method="POST">
+              <input type="hidden" name="id" value="<%= menu.id %>">
+              <button class="btn btn-secondary text-light sa-warning-deactivate" type="button" role="button"
+                data-toggle="tooltip" data-placement="top" title="Deactivate" data-original-title="Deactivate">
+                <i class="mdi mdi-block-helper"></i>
+              </button>
+            </form>
+            <% } %>
+            <a class=" btn btn-warning text-light" href="/admin/menu/<%= menu.id %>/submenu" role="button"
+              data-toggle="tooltip" data-placement="top" title="Submenu" data-original-title="Submenu">
+              <i class="mdi mdi-menu-open"></i>
+            </a>
+            <a class=" btn btn-info text-light" href="/admin/menu/update/<%= menu.id %>" role="button"
+              data-toggle="tooltip" data-placement="top" title="Update" data-original-title="Update">
+              <i class="mdi mdi-pencil-outline"></i>
+            </a>
+
+            <form action="/admin/menu/delete" class="d-inline" method="POST">
+              <input type="hidden" name="id" value="<%= menu.id %>">
+              <button class=" btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip"
+                data-placement="top" title="Delete" data-original-title="Delete">
+                <i class="mdi mdi-delete-alert"></i>
+              </button>
+            </form>
+
+          </div>
+        </div>
+    </tr>
+    <% }) %>
+    <% } %>
+  </tbody>
+</table>

@@ -1,0 +1,63 @@
+<h4 class="header-title">Create Form</h4>
+<p class="card-title-desc">Submit the <code>Create</code> button to add a new menu.</p>
+<form action="/admin/menu/add" method="POST" class="needs-validation" novalidate>
+    <div class="form-group row">
+        <label for="name" class="col-md-2 col-form-label">Name</label>
+        <div class="col-md-10">
+            <% if (typeof errors !== 'undefined' && errors) { %>
+            <% for(let i = 0; i < errors.length; i++) { %>
+                <% if (errors[i].param === 'name') { %>
+            <input type="text" class="form-control is-invalid" value="<%= errors[i].value %>" name="name" id="name"
+                placeholder="Enter name for menu" required>
+            <div class="invalid-feedback">
+                <%= errors[i].msg %>
+            </div>
+                <% } %>
+            <% } %>
+            <% } %>
+
+            <% if (typeof validInput !== 'undefined' && typeof validInput.name !== 'undefined') { %>
+            <input type="text" class="form-control is-valid" name="name" id="name" value="<%= validInput.name %>"
+                placeholder="Enter name for menu" required>
+            <% } %>
+
+            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Enter name for menu"
+                required>
+            <% } %>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
+        <div class="col-md-2">
+            <% if (typeof errors !== 'undefined' && errors) { %>
+            <% for(let i = 0; i < errors.length; i++) { %>
+                <% if (errors[i].param === 'display_order') { %>
+            <input class="form-control is-invalid" value="<%= errors[i].display_order %>" data-toggle="touchspin"
+                type="text" name="display_order" id="display_order" required>
+            <div class="invalid-feedback">
+                <%= errors[i].msg %>
+            </div>
+                <% } %>
+            <% } %>
+            <% } %>
+
+            <% if (typeof validInput !== 'undefined' && typeof validInput.display_order !== 'undefined') { %>
+            <input class="form-control is-valid" value="<%= validInput.display_order %>" data-toggle="touchspin"
+                type="text" name="display_order" id="display_order" required>
+            <% } %>
+
+            <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
+            <input data-toggle="touchspin" value="0" type="text" name="display_order" id="display_order" required>
+            <% } %>
+        </div>
+    </div>
+
+      <div class="row mb-0 mt-5">
+        <div class="col-lg-12">
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">CREATE</button>
+            </div>
+        </div>
+    </div>
+</form>

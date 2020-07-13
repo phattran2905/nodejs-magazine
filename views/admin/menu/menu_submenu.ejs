@@ -1,0 +1,123 @@
+
+    <div class="form-group row">
+        <label for="name" class="col-md-2 col-form-label">Menu</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control bg-light" value="<%= menu.name %>" name="name" id="name"
+                placeholder="Enter name for menu" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
+        <div class="col-md-2">
+            <input class="form-control bg-light" value="<%= menu.display_order %>" 
+                type="text" name="display_order" id="display_order" readonly>
+        </div>
+    </div>
+    
+    <div class="mt-5 mb-5">
+        <p class="card-title-desc">Submit the <code>Form</code> below to add a new submenu.</p>
+        <table  class="col-sm-12 table table-striped table-bordered dt-responsive nowrap ">
+        
+        <thead class="thead-dark">
+            <tr>
+                <th colspan="4" class="text-center"><h3 class="text-light">Submenu</h3></th>
+            </tr>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Display order</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+
+
+        <tbody id="submenu_table_tbody">
+            <% if (menu.submenu.length > 0) { %>
+                <% for (let i =0; i < menu.submenu.length; i++) { %> 
+                <tr>
+                    <td><%= i+1 %> </td>
+                    <td><%= menu.submenu[i].name %> </td>
+                    <td><%= menu.submenu[i].display_order %> </td>
+                    <td class="text-center">
+                        <form action="/admin/menu/<%= menu._id %>/submenu/delete" class="ml-3 d-inline" method="POST">
+                            <input type="hidden" name="submenu_index" value="<%= i %>">
+                            <button class=" btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip"
+                              data-placement="top" title="Delete" data-original-title="Delete">
+                              <i class="mdi mdi-close-box-multiple"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <% } %> 
+            <% } else { %>  
+                <tr>
+                    <td colspan="4" class="text-center font-italic font-weight-bold"> No Submenu </td>
+                </tr>
+                <% } %> 
+        </tbody>
+        </table>
+        
+    </div>
+
+
+<form action="/admin/menu/<%= menu._id %>/submenu" method="POST" class="needs-validation mt-5" novalidate>
+    <div class="bg-secondary form-group border-top mt-5 p-3">
+        <h3 class="text-light">Add submenu Form</h3>
+    </div>
+    <div class="form-group row p-1">
+        <label for="name" class="col-md-3 col-form-label">Submenu name</label>
+        <div class="col-md-8">
+            <% if (typeof errors !== 'undefined' && errors) { %>
+            <% for(let i = 0; i < errors.length; i++) { %>
+                <% if (errors[i].param === 'submenu_name') { %>
+            <input type="text" class="form-control is-invalid" value="<%= errors[i].value %>" name="submenu_name" id="submenu_name"
+                placeholder="Enter name for submenu" required>
+            <div class="invalid-feedback">
+                <%= errors[i].msg %>
+            </div>
+                <% } %>
+            <% } %>
+            <% } %>
+
+            <% if (typeof validInput !== 'undefined' && typeof validInput.submenu_name !== 'undefined') { %>
+            <input type="text" class="form-control is-valid" name="submenu_name" id="submenu_name" value="<%= validInput.submenu_name %>"
+                placeholder="Enter name for submenu" required>
+            <% } %>
+
+            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+            <input type="text" class="form-control" name="submenu_name" id="submenu_name" placeholder="Enter name for submenu"
+                required>
+            <% } %>
+        </div>
+    </div>
+    <div class="form-group row p-1">
+        <label for="display_order" class="col-md-3 col-form-label">Submenu display Order</label>
+        <div class="col-md-5">
+            <% if (typeof errors !== 'undefined' && errors) { %>
+            <% for(let i = 0; i < errors.length; i++) { %>
+                <% if (errors[i].param === 'submenu_display_order') { %>
+            <input class="form-control is-invalid" value="<%= errors[i].value %>" data-toggle="touchspin"
+                type="text" name="submenu_display_order" id="submenu_display_order" required>
+            <div class="invalid-feedback">
+                <%= errors[i].msg %>
+            </div>
+                <% } %>
+            <% } %>
+            <% } %>
+
+            <% if (typeof validInput !== 'undefined' && typeof validInput.submenu_display_order !== 'undefined') { %>
+            <input class="form-control is-valid" value="<%= validInput.submenu_display_order %>" data-toggle="touchspin"
+                type="text" name="submenu_display_order" id="submenu_display_order" required>
+            <% } %>
+
+            <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
+            <input data-toggle="touchspin" value="0" type="text" name="submenu_display_order" id="submenu_display_order" required>
+            <% } %>
+        </div>
+    </div>
+    <div class="form-group row p-1">
+        <div class="col-md-3"></div>
+        <button id="add_submenu_btn" type="submit" class="col-md-5 btn btn-primary">Add</button>
+        
+    </div>
+</form>

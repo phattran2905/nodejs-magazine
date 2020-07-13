@@ -1,9 +1,5 @@
-const upload = require('../../config/upload-setup');
 const ArticleModel = require('../../models/ArticleModel');
 const authUtils = require('../../utils/authUtils');
-const commonUtils = require('../../utils/commonUtils');
-const articleUtils = require('../../utils/articleUtils');
-const {body, matchedData, validationResult} = require('express-validator');
 
 module.exports = function(adminRouter) {
     adminRouter.get(
