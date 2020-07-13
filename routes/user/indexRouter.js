@@ -4,11 +4,12 @@ const ArticleModel = require('../../models/ArticleModel');
 
 module.exports = function(userRouter) {
 
-    userRouter.get('/',
+    userRouter.get(
+      ['/', '/home', '/index'],
       async (req,res) => { 
         const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
         const article_list = await ArticleModel
-          .find({status: 'Activated'}, '_id title interaction status categoryId authorId updated createdAt')
+          .find({status: 'Published'}, '_id title interaction status categoryId authorId updated createdAt')
           .populate({
             path: 'authorId',
             select: '_id profile'
@@ -16,8 +17,9 @@ module.exports = function(userRouter) {
           .populate({
             path: 'categoryId',
             select: '_id name'
-          });
-          
+          })
+          .sort({createdAt: 'desc'});
+        console.log(article_list)
         return res.render('user/index', 
         {
           menu_list: menu_list,

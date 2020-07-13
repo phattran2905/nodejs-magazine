@@ -11,27 +11,25 @@
     <div class="blog_main_menu">
         <div class="blog_main_menu_innerdiv">
             <ul>
-                <li class="active"><a href="#">Home</a>
-                    <ul class="sub-menu">
-                        <li><a href="index.html">Home Page1</a></li>
-                            <li><a href="index2.html">Home Page2</a></li>
-                    </ul>
-                </li>
-                <li><a href="politics.html">Politics <span>new</span></a></li>
-                <li><a href="world.html">World</a></li>
-                <li><a href="technology.html">Tech</a></li>
-                <li><a href="sport.html">Sports <span>new</span></a></li>
-                <li><a href="lifestyle.html">lifestyle</a></li>
-                <li><a href="travel.html">Travel</a></li>
-                <li><a href="fashion.html">Fashion <span>new</span></a></li>
-                <li><a href="#">pages</a>
-                    <ul class="sub-menu">
-                        <li><a href="blog_single_fullwidth.html">Blog Single FullWidth</a></li>
-                        <li><a href="blog_single_with_sidebar.html">Blog Single With Sidebar</a></li>
-                        <li><a href="contactus.html">contact</a></li>
-                        <li><a href="error.html">Error</a></li>
-                    </ul>
-                </li>
+                <% if (typeof menu_list !== 'undefined') { %> 
+                    <% for(let i =0; i < menu_list.length; i++) { %> 
+                        <!-- <li class="active"> -->
+                        <li >
+                            <a href="/<%= menu_list[i].encoded_string %>"><%= menu_list[i].name %></a>
+                            <% if (menu_list[i].submenu.length > 0) { %> 
+                            <ul class="sub-menu">
+                                <% for(let j =0 ; j < menu_list[i].submenu.length; j++) { %> 
+                                <li>
+                                    <a href="/<%= menu_list[i].encoded_string + '/' + menu_list[i].submenu[j].encoded_string %>">
+                                        <%= menu_list[i].submenu[j].name  %> 
+                                    </a>
+                                </li>
+                                <% } %> 
+                            </ul>
+                            <% } %> 
+                        </li>
+                    <%  } %> 
+                <%  } %> 
             </ul>
         </div>
     </div>
