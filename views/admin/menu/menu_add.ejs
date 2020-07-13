@@ -28,12 +28,38 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="name" class="col-md-2 col-form-label">Encoded String</label>
+        <div class="col-md-10">
+            <% if (typeof errors !== 'undefined' && errors) { %>
+            <% for(let i = 0; i < errors.length; i++) { %>
+                <% if (errors[i].param === 'encoded_string') { %>
+            <input type="text" class="form-control is-invalid" value="<%= errors[i].value %>" name="encoded_string" id="encoded_string"
+                placeholder="Enter name for encoded string" required>
+            <div class="invalid-feedback">
+                <%= errors[i].msg %>
+            </div>
+                <% } %>
+            <% } %>
+            <% } %>
+
+            <% if (typeof validInput !== 'undefined' && typeof validInput.encoded_string !== 'undefined') { %>
+            <input type="text" class="form-control is-valid" name="encoded_string" id="encoded_string" value="<%= validInput.encoded_string %>"
+                placeholder="Enter name for encoded_string" required>
+            <% } %>
+
+            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+            <input type="text" class="form-control" name="encoded_string" id="encoded_string" placeholder="Enter name for encoded_string"
+                required>
+            <% } %>
+        </div>
+    </div>
+    <div class="form-group row">
         <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
         <div class="col-md-2">
             <% if (typeof errors !== 'undefined' && errors) { %>
             <% for(let i = 0; i < errors.length; i++) { %>
                 <% if (errors[i].param === 'display_order') { %>
-            <input class="form-control is-invalid" value="<%= errors[i].display_order %>" data-toggle="touchspin"
+            <input class="form-control is-invalid" value="<%= errors[i].value %>" data-toggle="touchspin"
                 type="text" name="display_order" id="display_order" required>
             <div class="invalid-feedback">
                 <%= errors[i].msg %>

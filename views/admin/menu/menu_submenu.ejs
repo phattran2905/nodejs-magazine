@@ -2,8 +2,13 @@
     <div class="form-group row">
         <label for="name" class="col-md-2 col-form-label">Menu</label>
         <div class="col-md-10">
-            <input type="text" class="form-control bg-light" value="<%= menu.name %>" name="name" id="name"
-                placeholder="Enter name for menu" readonly>
+            <input type="text" class="form-control bg-light" value="<%= menu.name %>" name="name" id="name" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="name" class="col-md-2 col-form-label">Menu encoded string</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control bg-light" value="<%= menu.encoded_string %>" name="encoded_string" id="encoded_string" readonly>
         </div>
     </div>
     <div class="form-group row">
@@ -20,11 +25,12 @@
         
         <thead class="thead-dark">
             <tr>
-                <th colspan="4" class="text-center"><h3 class="text-light">Submenu</h3></th>
+                <th colspan="5" class="text-center"><h3 class="text-light">Submenu</h3></th>
             </tr>
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Encoded String</th>
                 <th>Display order</th>
                 <th class="text-center">Action</th>
             </tr>
@@ -37,6 +43,7 @@
                 <tr>
                     <td><%= i+1 %> </td>
                     <td><%= menu.submenu[i].name %> </td>
+                    <td><%= menu.submenu[i].encoded_string %> </td>
                     <td><%= menu.submenu[i].display_order %> </td>
                     <td class="text-center">
                         <form action="/admin/menu/<%= menu._id %>/submenu/delete" class="ml-3 d-inline" method="POST">
@@ -86,6 +93,32 @@
 
             <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
             <input type="text" class="form-control" name="submenu_name" id="submenu_name" placeholder="Enter name for submenu"
+                required>
+            <% } %>
+        </div>
+    </div>
+    <div class="form-group row p-1">
+        <label for="name" class="col-md-3 col-form-label">Submenu encoded string</label>
+        <div class="col-md-8">
+            <% if (typeof errors !== 'undefined' && errors) { %>
+            <% for(let i = 0; i < errors.length; i++) { %>
+                <% if (errors[i].param === 'submenu_encoded_string') { %>
+            <input type="text" class="form-control is-invalid" value="<%= errors[i].value %>" name="submenu_encoded_string" id="submenu_encoded_string"
+                placeholder="Enter name for submenu encoded string" required>
+            <div class="invalid-feedback">
+                <%= errors[i].msg %>
+            </div>
+                <% } %>
+            <% } %>
+            <% } %>
+
+            <% if (typeof validInput !== 'undefined' && typeof validInput.submenu_encoded_string !== 'undefined') { %>
+            <input type="text" class="form-control is-valid" name="submenu_encoded_string" id="submenu_encoded_string" value="<%= validInput.submenu_encoded_string %>"
+                placeholder="Enter name for submenu encoded string" required>
+            <% } %>
+
+            <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+            <input type="text" class="form-control" name="submenu_encoded_string" id="submenu_encoded_string" placeholder="Enter name for submenu encoded string"
                 required>
             <% } %>
         </div>

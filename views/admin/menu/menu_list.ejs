@@ -9,6 +9,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Encoded String</th>
       <th>Display order</th>
       <th>Created at</th>
       <th>Status</th>
@@ -21,7 +22,8 @@
     <% if (menus) { %>
     <% menus.forEach((menu) => { %>
     <tr>
-      <td id="<%= menu.name %>"><%= menu.name %></td>
+      <td ><%= menu.name %></td>
+      <td ><%= menu.encoded_string %></td>
       <td><%= menu.display_order %></td>
       <td><%= menu.createdAt.toLocaleDateString({year: 'numeric', month: '2-digits', day: '2-digits'}) %></td>
       <td class="d-flex justify-content-around">

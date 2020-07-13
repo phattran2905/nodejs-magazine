@@ -58,6 +58,7 @@ module.exports = (adminRouter) => {
                 const addedMenu = await menuUtils.createNewMenu(
                     {
                         name: req.body.name, 
+                        encoded_string: req.body.encoded_string.toLowerCase(), 
                         display_order: req.body.display_order 
                     });
 
@@ -129,6 +130,7 @@ module.exports = (adminRouter) => {
 
                     menu.submenu.push({
                         name: req.body.submenu_name,
+                        encoded_string: req.body.submenu_encoded_string.toLowerCase(),
                         display_order: req.body.submenu_display_order
                     });
 
@@ -162,11 +164,11 @@ module.exports = (adminRouter) => {
                 console.log(menu)
                 if (menu) {
                     const submenu = menu.submenu;
-                    const reducedSubmenu = submenu.filter((element, index) => {
+                    const reducedSubmenu = submenu.filter((index) => {
                         return index != req.body.submenu_index
                     })
                     menu.submenu = reducedSubmenu;
-                    console.log(reducedSubmenu);
+                    
                     const updatedMenu = await menu.save();                    
                     if(updatedMenu) {
                         req.flash('success', 'Successfully! The new submenu was deleted.')
@@ -243,6 +245,7 @@ module.exports = (adminRouter) => {
                         {_id: req.params.menuId},
                         {
                             name: validInput.name,
+                            encoded_string: validInput.encoded_string.toLowerCase(),
                             display_order: validInput.display_order
                         }
                     );

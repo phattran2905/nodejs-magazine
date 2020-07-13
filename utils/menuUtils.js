@@ -39,6 +39,24 @@ module.exports = {
                 return Promise.resolve(true);
             }
         },
+        checkExistentEncodedString: async (encoded_string, {req} ={}) => {
+            if (!encoded_string) return (Promise.reject(false));
+            const idFromReq = (req.params.id != null)
+                ? req.params.id
+                : null;
+            try {
+                const menu = await MenuModel.findOne({encoded_string: encoded_string});
+                if(menu) {
+                    if (idFromReq && idFromReq == menu._id){
+                        return Promise.reject(false);
+                    }
+                    return Promise.resolve(true);
+                }
+                return Promise.reject(false);
+            } catch (error) {
+                return Promise.resolve(true);
+            }
+        },
         submenu: {
             checkExistentName: async(name, {req} = {}) => {
                 if (!name) {return Promise.reject(false);}
@@ -78,23 +96,41 @@ module.exports = {
                     return Promise.resolve(true);
                 }
             },
+            checkExistentEncodedString: async (encoded_string, {req} ={}) => {
+                if (!encoded_string) return (Promise.reject(false));
+                const menuId = req.params.menuId;
+                try {
+                    const menu = await MenuModel.findOne({_id: menuId});
+                    if(menu) {
+                        const submenu = menu.submenu;
+                        for(let i =0; i < submenu.length; i++) {
+                            if (submenu[i].encoded_string == encoded_string) {
+                                return Promise.resolve(true);
+                            }
+                        }
+                        return Promise.reject(false);
+                    }
+                    return Promise.reject(false);
+                } catch (error) {
+                    return Promise.resolve(true);
+                }
+            },
         }
     },
 
     createNewMenu: async (
-        {name, display_order} = {}
+        {name, encoded_string, display_order} = {}
     ) => {
-        if (!name || !display_order) {return null;}
+        if (!name || !encoded_string || !display_order) {return null;}
 
         try {
             const newMenu = await MenuModel.create({
                 name: name,
+                encoded_string: encoded_string,
                 display_order: display_order
             })
-            console.log(newMenu);
             return newMenu;
         } catch (error) {
-            console.log(error);
             return null;
         }
     },

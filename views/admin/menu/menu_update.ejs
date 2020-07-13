@@ -29,6 +29,32 @@
     </div>
   </div>
   <div class="form-group row">
+    <label for="username" class="col-md-2 col-form-label">Encoded String</label>
+    <div class="col-md-10">
+      <% if (typeof errors !== 'undefined') { %>
+      <% errors.forEach( (error) => { %>
+      <% if (error.param === 'encoded_string') { %>
+      <input type="text" class="form-control is-invalid" value="<%= error.value %>" name="encoded_string" id="encoded_string"
+        placeholder="Enter name for the encoded string" required>
+      <div class="invalid-feedback">
+        <%= error.msg %>
+      </div>
+      <% } %>
+      <% }) %>
+      <% } %>
+
+      <% if (typeof validInput !== 'undefined' && typeof validInput.encoded_string !== 'undefined') { %>
+      <input type="text" class="form-control is-valid" name="encoded_string" id="encoded_string" value="<%= validInput.encoded_string %>"
+        placeholder="Enter name for the encoded string" required>
+      <% } %>
+
+      <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %>
+      <input type="text" class="form-control" name="encoded_string" id="encoded_string" value="<%= menu.encoded_string %>"
+        placeholder="Enter name for the encoded string" required>
+      <% } %>
+    </div>
+  </div>
+  <div class="form-group row">
     <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
     <div class="col-md-2">
       <% if (typeof errors !== 'undefined') { %>

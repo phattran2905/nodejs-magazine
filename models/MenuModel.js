@@ -7,12 +7,16 @@ const MenuSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    encoded_string: {
+        type: String,
+        required: true
+    },
     display_order: {
         type: Number,
         required: true
     },
     submenu: [
-        { name: String, display_order: Number }
+        { name: String, encoded_string: String, display_order: Number }
     ],
     status: {
         type: String,
