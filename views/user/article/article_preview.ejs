@@ -18,8 +18,8 @@
 
     <div class="blog_author_data mb-3">
       <a href="#" class="mr-2" style="font-size: 1.2rem;">
-        <img src="/avatar/<%= article.authorAvatar %>" class="mr-2" alt="" width="40"
-          height="37"><%= article.authorName %>
+        <img src="/avatar/<%= article.authorId.profile.avatar_img.filename %>" class="mr-2" alt="" width="40"
+          height="37"><%= article.authorId.profile.fullname %>
         </a>
     </div>
     <ul class="blog_meta_tags  mb-3">
@@ -41,10 +41,10 @@
 
     <div class="row category mt-3 ">
       <div class="col p-2">
-          <p class="d-inline">
+          <p class="p-2 text-dark font-weight-bold font-italic d-inline">
               <u>Category </u>
           </p>
-          <button class="ml-3 btn btn-primary p-2">
+          <button class="ml-3 btn btn-secondary p-2">
               <%= article.categoryId.name %> 
           </button>
       </div>

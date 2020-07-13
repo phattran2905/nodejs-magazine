@@ -109,27 +109,6 @@ const articleUtils = {
     }
 },
 
-  getArticleById: async (article_id = null) => {
-    if (!article_id) {return null;}
-
-    try {
-      const article = await ArticleModel.findById(article_id); 
-      if (article) {
-        const categoryName = await CategoryModel.findById(article.categoryId);
-        const author = await AuthorModel.findById(article.authorId);
-        if (categoryName) {
-          article.categoryName = categoryName;
-          article.authorName = author.profile.fullname;
-          article.authorAvatar = author.profile.avatar_img.filename;
-        }
-        return article;
-      }
-      return null;
-    } catch (error) {
-      return null;
-    }
-
-  }
 }
 
 module.exports = articleUtils;

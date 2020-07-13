@@ -10,18 +10,14 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/articles',
         async (req, res) => {
-            const categories = await CategoryModel.find();
-            const articles = await ArticleModel.find(
-                {authorId: authUtils.getAuthorProfile(req).id}
-                );
+            const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+            const articles = await ArticleModel
+                .find({authorId: authUtils.getAuthorProfile(req).id}, returnFields)
+                .populate({
+                    path: 'categoryId',
+                    select: '_id name'
+                });
 
-            for(let i = 0; i < categories.length; i++) {
-                for (let j = 0; j < articles.length; j++) {
-                    if (articles[j].categoryId.toString() == categories[i]._id.toString()){
-                        articles[j].categoryName = categories[i].name;
-                    }
-                }
-            }
             res.render('user/article/article_base', {
                 content: 'article_list',
                 header: 'Article',
@@ -35,7 +31,16 @@ module.exports = function(userRouter) {
         '/articles/preview/:articleId',
         async (req,res) => {
             try {
-                const article = await articleUtils.getArticleById(req.params.articleId);
+                const article = await ArticleModel
+                    .findOne({_id: req.params.articleId})
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    })
+                    .populate({
+                        path: 'authorId',
+                        select: '_id profile'
+                    });
                 if (article) {
                     return res.render('user/article/article_base', {
                         content: 'article_preview',
@@ -61,7 +66,7 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/articles/add',
         async (req, res) => {
-            const categories = await CategoryModel.find();
+            const categories = await CategoryModel.find({status: 'Activated'});
             
             res.render('user/article/article_base', {
                 content: 'article_add',
@@ -80,21 +85,21 @@ module.exports = function(userRouter) {
           ]),
           validation.add,
         async (req, res) => {
-            const { hasError, errors, validInput } = validation.result(req);
-            
-            if(hasError) {
-                const categories = await CategoryModel.find();
-                return  res.render('user/article/article_base',{
-                    errors: errors, 
-                    validInput: validInput,
-                    content: 'article_add',
-                    header: 'Article',
-                    categories: categories,
-                    information: authUtils.getAuthorProfile(req)
-                });
-            };
             try {
+                    
+                const { hasError, errors, validInput } = validation.result(req);
                 
+                if(hasError) {
+                    const categories = await CategoryModel.find({status: 'Activated'});
+                    return  res.render('user/article/article_base',{
+                        errors: errors, 
+                        validInput: validInput,
+                        content: 'article_add',
+                        header: 'Article',
+                        categories: categories,
+                        information: authUtils.getAuthorProfile(req)
+                    });
+                };
                 const article = await articleUtils.createNewArticle(
                     {
                         authorId: req.body.authorId,
@@ -121,11 +126,17 @@ module.exports = function(userRouter) {
     );
 
     userRouter.get(
-        "/articles/update/:article_id",
+        "/articles/update/:articleId",
         async (req, res) => {
           try {
-            const categories = await CategoryModel.find();
-            const article = await articleUtils.getArticleById(req.params.article_id);
+            const categories = await CategoryModel.find({status: 'Activated'});
+            const article = await ArticleModel
+            .findOne({_id: req.params.articleId})
+            .populate({
+                path: 'categoryId',
+                select: '_id name'
+            });
+            
             if(article) {
               return res.render(
                   "user/article/article_base", 
@@ -153,7 +164,7 @@ module.exports = function(userRouter) {
       );
 
       userRouter.post(
-        "/articles/update/:article_id", 
+        "/articles/update/:articleId", 
         upload.fields([
             { name: 'thumbnail_img', maxCount: 1 },
             { name: 'files', maxCount: 3 }
@@ -161,8 +172,13 @@ module.exports = function(userRouter) {
         validation.add,
         async (req, res) => {
             try {
-                const categories = await CategoryModel.find();
-                const article = await articleUtils.getArticleById(req.params.article_id);
+                const categories = await CategoryModel.find({status: 'Activated'});
+                const article = await ArticleModel
+                    .findOne({_id: req.params.articleId})
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    });
                 
                 if (article){
                     const { hasError, errors, validInput } = validation.result(req);
@@ -220,7 +236,6 @@ module.exports = function(userRouter) {
                     {redirectLink: '/articles'}
                 );
             } catch (error) {
-                console.log(error)
                 return res.render(
                     "pages/404", 
                     {redirectLink: '/articles'}

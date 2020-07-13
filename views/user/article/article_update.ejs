@@ -80,7 +80,7 @@
         <option value="0" >Choose a category</option>
         <% for(let i = 0; i < categories.length ;i++) { %>
         <option value="<%= categories[i]._id %>" 
-            <% if (categories[i]._id.toString() === article.categoryId.toString()) { %>
+            <% if (categories[i]._id.toString() == article.categoryId._id.toString()) { %>
                 selected=""
             <% } %> 
             > <%# end option tag %>
