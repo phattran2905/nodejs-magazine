@@ -26,41 +26,17 @@ const categoryUtils = {
                     return Promise.resolve(true);
                 }
         },
-        checkDuplicatedOrder: async (
-            display_order = null, 
-            {req} = {}
-            ) => {
-                if(!display_order) {return Promise.reject(false)};
-                
-                const cateIdFromReq = (req.params.id) 
-                    ? req.params.id
-                    : null;
-
-                try {
-                    const category = await CategoryModel.findOne(
-                        {displayOrder: display_order});
-                    if (category){
-                        if (cateIdFromReq && cateIdFromReq === category.id){
-                            return Promise.reject(false);
-                        }
-                        return Promise.resolve(true);
-                    }
-                    return Promise.reject(false);
-                } catch (error) {
-                    return Promise.resolve(true);
-                }
-        },
+        
     },
     
     createNewCategory: async (
-       { name, display_order } = {}
+       { name } = {}
        ) => {
-           if(!name || !display_order) {return null;}
+           if(!name) {return null;}
 
            try {
                 const categoryObj = await CategoryModel.create({
-                    name: name, 
-                    displayOrder: display_order
+                    name: name
                 });
 
                 return categoryObj;

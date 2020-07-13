@@ -2,7 +2,6 @@ const CategoryModel = require('../../models/CategoryModel')
 const authUtils = require('../../utils/authUtils');
 const categoryUtils = require('../../utils/categoryUtils');
 const validation = require('../../validation/admin/validateCategory');
-const { update } = require('../../models/CategoryModel');
 
 module.exports = function(adminRouter) {
     adminRouter.get(
@@ -59,8 +58,7 @@ module.exports = function(adminRouter) {
             try {
                 const category = await categoryUtils.createNewCategory(
                     {
-                        name: validInput.name,
-                        display_order: validInput.display_order
+                        name: validInput.name
                     } );
 
                 if (category) {
@@ -112,26 +110,28 @@ module.exports = function(adminRouter) {
           "/categories/update/:id", 
          validation.update,
           async (req, res) => {
-            const { hasError, errors, validInput } = validation.result(req);
-                    
-            if(hasError) {
-                return  res.render(
-                      'admin/category/category_base',{
-                      errors: errors, 
-                      validInput: validInput,
-                      header: 'Update new category',
-                      content: 'update',
-                      category: category,
-                      information: authUtils.getAdminProfile(req)
-                  });
-              };
 
               try {
+                const category = await CategoryModel.findOne({_id: req.params.id});
+                if (category) {
+                    const { hasError, errors, validInput } = validation.result(req);
+                        
+                    if(hasError) {
+                        return  res.render(
+                            'admin/category/category_base',{
+                            errors: errors, 
+                            validInput: validInput,
+                            header: 'Update new category',
+                            content: 'update',
+                            category: category,
+                            information: authUtils.getAdminProfile(req)
+                        });
+                    };
+
                     const updatedCategory = await CategoryModel.findByIdAndUpdate(
                         req.params.id,
                         {
-                            name: req.body.name,
-                            displayOrder: req.body.display_order
+                            name: req.body.name
                         }, {new: true}); // Return the updated object
 
                     if (updatedCategory) {
@@ -141,6 +141,12 @@ module.exports = function(adminRouter) {
 
                     req.flash('fail', 'Failed. An error occurred during the process.');
                     return res.redirect("/admin/categories/update/" + category.id);
+                }
+                
+                return res.render(
+                    "pages/404", 
+                    {redirectLink: '/admin/categories'}
+                );
               } catch (error) {
                     return res.render(
                         "pages/404", 

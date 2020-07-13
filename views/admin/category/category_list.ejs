@@ -9,7 +9,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Display order</th>
       <th>Created at</th>
       <th>Status</th>
       <th>Action</th>
@@ -22,7 +21,6 @@
     <% categories.forEach((category) => { %>
     <tr>
       <td id="<%= category.name %>"><%= category.name %></td>
-      <td><%= category.displayOrder %></td>
       <td><%= category.createdAt.toDateString() %></td>
       <% if(category.status === 'Deactivated') { %>
       <td class="d-flex justify-content-around">

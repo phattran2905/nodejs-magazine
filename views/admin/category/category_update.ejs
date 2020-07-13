@@ -28,32 +28,6 @@
       <% } %>
     </div>
   </div>
-  <div class="form-group row">
-    <label for="display_order" class="col-md-2 col-form-label">Display Order</label>
-    <div class="col-md-2">
-      <% if (typeof errors !== 'undefined') { %>
-      <% errors.forEach( (error) => { %>
-      <% if (error.param === 'display_order') { %>
-      <input class="form-control is-invalid" value="<%= error.display_order %>" data-toggle="touchspin" type="text"
-        name="display_order" id="display_order" required>
-      <div class="invalid-feedback">
-        <%= error.msg %>
-      </div>
-      <% } %>
-      <% }) %>
-      <% } %>
-
-      <% if (typeof validInput !== 'undefined' && typeof validInput.display_order !== 'undefined') { %>
-      <input class="form-control is-valid" value="<%= validInput.display_order %>" data-toggle="touchspin" type="text"
-        name="display_order" id="display_order" required>
-      <% } %>
-
-      <% if (typeof validInput === 'undefined' && typeof errors === 'undefined') { %>
-      <input data-toggle="touchspin" value="<%= category.displayOrder %>" type="text" name="display_order"
-        id="display_order" required>
-      <% } %>
-    </div>
-  </div>
 
   <div class="form-group row">
     <label for="status" class="col-md-2 col-form-label">Status</label>

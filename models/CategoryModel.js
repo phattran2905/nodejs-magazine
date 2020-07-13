@@ -5,10 +5,6 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    displayOrder: {
-        type: Number,
-        default: 10000
-    },
     status: {
         type: String,
         default: "Deactivated"
