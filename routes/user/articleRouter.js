@@ -298,6 +298,10 @@ module.exports = function(userRouter) {
             const article = await ArticleModel.findByIdAndDelete(req.body.id);
             
             if (article) {
+                // Remove old thumbnail
+                const fs = require('fs');
+                const path = require('path');
+                fs.unlinkSync(path.join(process.cwd(),article.thumbnail_img.path));
                 req.flash("success", "Successfully. The article was removed.");
             } else {
                 req.flash("fail", "Failed. An error occurred during the process");
