@@ -1,16 +1,17 @@
-// const express = require('express');
-// const authRouter = express.Router();
 const passport = require("passport");
 const AuthorModel = require('../../models/AuthorModel');
 const authorUtils = require('../../utils/authorUtils');
+const articleUtils = require('../../utils/articleUtils');
 const commonUtils = require('../../utils/commonUtils');
 const mailUtils = require('../../utils/mailUtils');
 const validateAuth = require('../../validation/user/validateAuth');
 
 
-module.exports = function (userRouter) {
-    userRouter.get('/login', (req,res) => {
-        res.render("user/auth/login");
+module.exports =  function (userRouter) {
+    userRouter.get('/login', async (req,res) => {
+        const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
+        const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
+        res.render("user/auth/login", {latestArticles: latestArticles });
     })
     
     userRouter.post('/login',

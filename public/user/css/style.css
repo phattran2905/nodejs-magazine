@@ -632,6 +632,8 @@ button:focus {
 	display:flex;
 }
 .blog_post_slider_wrapper .blog_post_slider_img img {
+    /* width: 440px; */
+    /* height: 225px; */
     -webkit-transition: -webkit-transform 0.5s;
     -moz-transition: -moz-transform 0.5s;
     -ms-transition: -moz-transform 0.5s;

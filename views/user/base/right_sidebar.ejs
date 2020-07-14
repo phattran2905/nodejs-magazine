@@ -50,6 +50,7 @@
             </li>
         </ul>
     </div>
+
     <div class="widget widget_recent_post wow fadeInUp">
         <div class="blog_main_heading_div">
             <div class="blog_heading_div">
@@ -57,172 +58,23 @@
             </div>
         </div>
         <ul>
+            <% for (let i =0; i < hotArticles.length; i++) { %> 
             <li>
                 <div class="blog_recent_post">
                     <div class="blog_recent_post_img">
-                        <img src="https://via.placeholder.com/50x50" class="img-fluid" alt="">
+                        <img src="/thumbnail/<%= hotArticles[i].thumbnail_img.filename %> " class="img-fluid" alt="">
                     </div>
                     <div class="blog_recent_post_content">
-                        <h4><a href="blog_single_with_sidebar.html">Does US Tax Overhaul Violate Global Trade.</a></h4>
-                        <p>Sep 21,2018 <a href="#">- Sports</a></p>
+                        <h4><a href="blog_single_with_sidebar.html"><%- hotArticles[i].title %> </a></h4>
+                        <p><%= hotArticles[i].createdAt.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: '2-digit'}) %>  <a href="#">- <%= hotArticles[i].categoryId.name %> </a></p>
                     </div>
                 </div>
             </li>
-            <li>
-                <div class="blog_recent_post">
-                    <div class="blog_recent_post_img">
-                        <img src="https://via.placeholder.com/50x50" class="img-fluid" alt="">
-                    </div>
-                    <div class="blog_recent_post_content">
-                        <h4><a href="blog_single_with_sidebar.html">What should you take in your bag before going.</a></h4>
-                        <p>Sep 21,2018 <a href="#">- Sports</a></p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="blog_recent_post">
-                    <div class="blog_recent_post_img">
-                        <img src="https://via.placeholder.com/50x50" class="img-fluid" alt="">
-                    </div>
-                    <div class="blog_recent_post_content">
-                        <h4><a href="blog_single_with_sidebar.html">Take in your bag before going to hiking</a></h4>
-                        <p>Sep 21,2018 <a href="#">- Sports</a></p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="blog_recent_post">
-                    <div class="blog_recent_post_img">
-                        <img src="https://via.placeholder.com/50x50" class="img-fluid" alt="">
-                    </div>
-                    <div class="blog_recent_post_content">
-                        <h4><a href="blog_single_with_sidebar.html">Your bag before going to parti hiking</a></h4>
-                        <p>Sep 21,2018 <a href="#">- Sports</a></p>
-                    </div>
-                </div>
-            </li>
+            <% } %> 
         </ul>
     </div>
-    <div class="widget widget_recent_news wow fadeInUp">
-        <div class="blog_main_heading_div">
-            <div class="blog_heading_div">
-                <h3 class="blog_bg_lightblue">Recent News</h3>
-            </div>
-        </div>
-        <ul>
-            <li>
-                <div class="blog_news">
-                    <div class="blog_news_title">
-                        <h4><a href="blog_single_with_sidebar.html">LA Marathon is long distance running from the stadium.</a></h4>
-                        <p>Sep 21,2018 <a href="#">- Sports</a></p>
-                    </div>
-                    <div class="blog_news_action">
-                        <span><i class="fa fa-ellipsis-v"></i></span>
-                    </div>
-                    <ul class="more_option">
-                        <li>
-                            <a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 350 350"><path fill="rgb(112, 112, 112)" d="M175,171.173c38.914,0,70.463-38.318,70.463-85.586C245.463,38.318,235.105,0,175,0s-70.465,38.318-70.465,85.587 C104.535,132.855,136.084,171.173,175,171.173z"/> <path fill="rgb(112, 112, 112)" d="M41.909,301.853C41.897,298.971,41.885,301.041,41.909,301.853L41.909,301.853z"/> <path fill="rgb(112, 112, 112)" d="M308.085,304.104C308.123,303.315,308.098,298.63,308.085,304.104L308.085,304.104z"/> <path fill="rgb(112, 112, 112)" d="M307.935,298.397c-1.305-82.342-12.059-105.805-94.352-120.657c0,0-11.584,14.761-38.584,14.761 s-38.586-14.761-38.586-14.761c-81.395,14.69-92.803,37.805-94.303,117.982c-0.123,6.547-0.18,6.891-0.202,6.131 c0.005,1.424,0.011,4.058,0.011,8.651c0,0,19.592,39.496,133.08,39.496c113.486,0,133.08-39.496,133.08-39.496 c0-2.951,0.002-5.003,0.005-6.399C308.062,304.575,308.018,303.664,307.935,298.397z"/>
-                        </svg>Profile</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px"><path fill-rule="evenodd" fill="rgb(112, 112, 112)" d="M13.487,4.224 L12.869,4.844 L9.156,1.131 L9.775,0.512 C10.458,-0.171 11.567,-0.171 12.250,0.512 L13.487,1.750 C14.170,2.433 14.170,3.541 13.487,4.224 ZM4.825,11.649 C4.654,11.820 4.654,12.097 4.825,12.267 C4.996,12.439 5.273,12.439 5.444,12.267 L12.250,5.462 L11.631,4.843 L4.825,11.649 ZM1.731,8.555 C1.560,8.726 1.560,9.003 1.731,9.174 C1.902,9.345 2.179,9.345 2.350,9.174 L9.156,2.368 L8.538,1.750 L1.731,8.555 ZM9.774,2.987 L2.968,9.793 C2.626,10.134 2.627,10.688 2.968,11.030 C3.310,11.372 3.864,11.373 4.206,11.029 L11.012,4.224 L9.774,2.987 ZM4.205,12.884 C3.995,12.675 3.894,12.409 3.857,12.136 C3.768,12.150 3.678,12.162 3.587,12.162 C3.119,12.162 2.680,11.980 2.350,11.649 C2.019,11.317 1.837,10.879 1.837,10.411 C1.837,10.326 1.850,10.243 1.862,10.160 C1.579,10.122 1.317,9.998 1.112,9.793 C1.093,9.773 1.086,9.746 1.068,9.725 L-0.000,14.000 L4.263,12.932 C4.244,12.915 4.223,12.902 4.205,12.884 Z"></path></svg>Edit</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 511.626 511.627"> <path fill="rgb(112, 112, 112)" d="M506.206,179.012L360.025,32.834c-3.617-3.617-7.898-5.426-12.847-5.426s-9.233,1.809-12.847,5.426 c-3.617,3.619-5.428,7.902-5.428,12.85v73.089h-63.953c-135.716,0-218.984,38.354-249.823,115.06C5.042,259.335,0,291.03,0,328.907 c0,31.594,12.087,74.514,36.259,128.762c0.57,1.335,1.566,3.614,2.996,6.849c1.429,3.233,2.712,6.088,3.854,8.565 c1.146,2.471,2.384,4.565,3.715,6.276c2.282,3.237,4.948,4.859,7.994,4.859c2.855,0,5.092-0.951,6.711-2.854 c1.615-1.902,2.424-4.284,2.424-7.132c0-1.718-0.238-4.236-0.715-7.569c-0.476-3.333-0.715-5.564-0.715-6.708 c-0.953-12.938-1.429-24.653-1.429-35.114c0-19.223,1.668-36.449,4.996-51.675c3.333-15.229,7.948-28.407,13.85-39.543 c5.901-11.14,13.512-20.745,22.841-28.835c9.325-8.09,19.364-14.702,30.118-19.842c10.756-5.141,23.413-9.186,37.974-12.135 c14.56-2.95,29.215-4.997,43.968-6.14s31.455-1.711,50.109-1.711h63.953v73.091c0,4.948,1.807,9.232,5.421,12.847 c3.62,3.613,7.901,5.424,12.847,5.424c4.948,0,9.232-1.811,12.854-5.424l146.178-146.183c3.617-3.617,5.424-7.898,5.424-12.847 C511.626,186.92,509.82,182.636,506.206,179.012z"/>
-                            </svg>Share</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="blog_news">
-                    <div class="blog_news_title">
-                        <h4><a href="blog_single_with_sidebar.html">LA Marathon is long distance running from the stadium.</a></h4>
-                        <p>Sep 21,2018 <a href="#">- Sports</a></p>
-                    </div>
-                    <div class="blog_news_action">
-                        <span><i class="fa fa-ellipsis-v"></i></span>
-                    </div>
-                    <ul class="more_option">
-                        <li>
-                            <a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 350 350"><path fill="rgb(112, 112, 112)" d="M175,171.173c38.914,0,70.463-38.318,70.463-85.586C245.463,38.318,235.105,0,175,0s-70.465,38.318-70.465,85.587 C104.535,132.855,136.084,171.173,175,171.173z"/> <path fill="rgb(112, 112, 112)" d="M41.909,301.853C41.897,298.971,41.885,301.041,41.909,301.853L41.909,301.853z"/> <path fill="rgb(112, 112, 112)" d="M308.085,304.104C308.123,303.315,308.098,298.63,308.085,304.104L308.085,304.104z"/> <path fill="rgb(112, 112, 112)" d="M307.935,298.397c-1.305-82.342-12.059-105.805-94.352-120.657c0,0-11.584,14.761-38.584,14.761 s-38.586-14.761-38.586-14.761c-81.395,14.69-92.803,37.805-94.303,117.982c-0.123,6.547-0.18,6.891-0.202,6.131 c0.005,1.424,0.011,4.058,0.011,8.651c0,0,19.592,39.496,133.08,39.496c113.486,0,133.08-39.496,133.08-39.496 c0-2.951,0.002-5.003,0.005-6.399C308.062,304.575,308.018,303.664,307.935,298.397z"/>
-                        </svg>Profile</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px"><path fill-rule="evenodd" fill="rgb(112, 112, 112)" d="M13.487,4.224 L12.869,4.844 L9.156,1.131 L9.775,0.512 C10.458,-0.171 11.567,-0.171 12.250,0.512 L13.487,1.750 C14.170,2.433 14.170,3.541 13.487,4.224 ZM4.825,11.649 C4.654,11.820 4.654,12.097 4.825,12.267 C4.996,12.439 5.273,12.439 5.444,12.267 L12.250,5.462 L11.631,4.843 L4.825,11.649 ZM1.731,8.555 C1.560,8.726 1.560,9.003 1.731,9.174 C1.902,9.345 2.179,9.345 2.350,9.174 L9.156,2.368 L8.538,1.750 L1.731,8.555 ZM9.774,2.987 L2.968,9.793 C2.626,10.134 2.627,10.688 2.968,11.030 C3.310,11.372 3.864,11.373 4.206,11.029 L11.012,4.224 L9.774,2.987 ZM4.205,12.884 C3.995,12.675 3.894,12.409 3.857,12.136 C3.768,12.150 3.678,12.162 3.587,12.162 C3.119,12.162 2.680,11.980 2.350,11.649 C2.019,11.317 1.837,10.879 1.837,10.411 C1.837,10.326 1.850,10.243 1.862,10.160 C1.579,10.122 1.317,9.998 1.112,9.793 C1.093,9.773 1.086,9.746 1.068,9.725 L-0.000,14.000 L4.263,12.932 C4.244,12.915 4.223,12.902 4.205,12.884 Z"></path></svg>Edit</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 511.626 511.627"> <path fill="rgb(112, 112, 112)" d="M506.206,179.012L360.025,32.834c-3.617-3.617-7.898-5.426-12.847-5.426s-9.233,1.809-12.847,5.426 c-3.617,3.619-5.428,7.902-5.428,12.85v73.089h-63.953c-135.716,0-218.984,38.354-249.823,115.06C5.042,259.335,0,291.03,0,328.907 c0,31.594,12.087,74.514,36.259,128.762c0.57,1.335,1.566,3.614,2.996,6.849c1.429,3.233,2.712,6.088,3.854,8.565 c1.146,2.471,2.384,4.565,3.715,6.276c2.282,3.237,4.948,4.859,7.994,4.859c2.855,0,5.092-0.951,6.711-2.854 c1.615-1.902,2.424-4.284,2.424-7.132c0-1.718-0.238-4.236-0.715-7.569c-0.476-3.333-0.715-5.564-0.715-6.708 c-0.953-12.938-1.429-24.653-1.429-35.114c0-19.223,1.668-36.449,4.996-51.675c3.333-15.229,7.948-28.407,13.85-39.543 c5.901-11.14,13.512-20.745,22.841-28.835c9.325-8.09,19.364-14.702,30.118-19.842c10.756-5.141,23.413-9.186,37.974-12.135 c14.56-2.95,29.215-4.997,43.968-6.14s31.455-1.711,50.109-1.711h63.953v73.091c0,4.948,1.807,9.232,5.421,12.847 c3.62,3.613,7.901,5.424,12.847,5.424c4.948,0,9.232-1.811,12.854-5.424l146.178-146.183c3.617-3.617,5.424-7.898,5.424-12.847 C511.626,186.92,509.82,182.636,506.206,179.012z"/>
-                            </svg>Share</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="widget widget_instagram_news wow fadeInUp">
-        <div class="blog_main_heading_div">
-            <div class="blog_heading_div">
-                <h3 class="blog_bg_pink">Instagram</h3>
-            </div>
-        </div>
-        <ul>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-            <li>
-                <a href="#"><img src="https://via.placeholder.com/75x75" class=
-                "img-fluid" alt=""></a>
-                <div class="blog_overlay"></div>
-                <div class="blog_overlay_btndiv"><a href="images/placehold.jpg" class="fa fa-search blog_popup"></a></div>
-            </li>
-        </ul>
-    </div>
+
+
     <div class="widget widget_categories wow fadeInUp">
         <div class="blog_main_heading_div">
             <div class="blog_heading_div">
@@ -230,14 +82,21 @@
             </div>
         </div>
         <ul>
-            <li><a href="#">Beauty <span>(02)</span></a></li>
-            <li><a href="#">Fashion <span>(45)</span></a></li>
+            <% for(let i = 0; i < categoryWithPostCounted.length; i++) { %>
+                <li>
+                    <a href="#">
+                        <%= categoryWithPostCounted[i].categoryName %><span>(<%= categoryWithPostCounted[i].numOfArticles %>)</span>
+                    </a>
+                </li>
+            <% } %> 
+            <!-- <li><a href="#">Fashion <span>(45)</span></a></li>
             <li><a href="#">Lifestyle <span>(124)</span></a></li>
             <li><a href="#">Makeup  <span>(75)</span></a></li>
             <li><a href="#">Others   <span>(1,242)</span></a></li>
-            <li><a href="#">Travel  <span>(186)</span></a></li>
+            <li><a href="#">Travel  <span>(186)</span></a></li> -->
         </ul>
     </div>
+
     <div class="widget widget_special_post wow fadeInUp">
         <div class="blog_main_heading_div">
             <div class="blog_heading_div">
@@ -275,36 +134,7 @@
             </li>
         </ul>
     </div>
-    <div class="widget widget_archive wow fadeInUp">
-        <div class="blog_main_heading_div">
-            <div class="blog_heading_div">
-                <h3 class="blog_bg_darkblue">Archives</h3>
-            </div>
-        </div>
-        <ul>
-            <li>
-                <a href="#">August 2017 <span>(02)</span></a>
-            </li>
-            <li>
-                <a href="#">September 2017 <span>(45)</span></a>
-            </li>
-            <li>
-                <a href="#">October 2017 <span>(125)</span></a>
-            </li>
-            <li>
-                <a href="#">November 2017 <span>(75)</span></a>
-            </li>
-            <li>
-                <a href="#">December 2017 <span>(10)</span></a>
-            </li>
-            <li>
-                <a href="#">January  2018 <span>(186)</span></a>
-            </li>
-            <li>
-                <a href="#">February  2018 <span>(02)</span></a>
-            </li>
-        </ul>
-    </div>
+
     <div class="widget widget_newsletter wow fadeInUp">
         <div class="blog_main_heading_div">
             <div class="blog_heading_div">

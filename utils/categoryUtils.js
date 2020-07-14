@@ -1,4 +1,5 @@
 const CategoryModel = require('../models/CategoryModel');
+const ArticleModel = require('../models/ArticleModel');
 
 
 const categoryUtils = {
@@ -43,7 +44,23 @@ const categoryUtils = {
             } catch (error) {
                 return null;
             }
-        },
+    },
+
+    getNumOfArticleByCategory: async () => {
+        let resultArr = Array();
+        const categoryArr = await CategoryModel.find({status: 'Activated'}, '_id name');
+        for (let i =0; i < categoryArr.length; i++) {
+            resultArr.push({
+                categoryId: categoryArr[i]._id,
+                categoryName: categoryArr[i].name,
+                numOfArticles: await ArticleModel
+                    .find({$and: [{status: 'Published'},{categoryId:  categoryArr[i]._id}]}, '_id')
+                    .count()
+            })
+        }
+        
+        return resultArr;
+    }
 };
 
 module.exports = categoryUtils;

@@ -1,6 +1,9 @@
 const authUtils = require('../../utils/authUtils');
+const articleUtils = require('../../utils/articleUtils');
+const categoryUtils = require('../../utils/categoryUtils');
 const MenuModel = require('../../models/MenuModel');
 const ArticleModel = require('../../models/ArticleModel');
+const CategoryModel = require('../../models/CategoryModel');
 
 module.exports = function(userRouter) {
 
@@ -8,22 +11,33 @@ module.exports = function(userRouter) {
       ['/', '/home', '/index'],
       async (req,res) => { 
         const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
-        const article_list = await ArticleModel
-          .find({status: 'Published'}, '_id title interaction status categoryId authorId updated createdAt')
-          .populate({
-            path: 'authorId',
-            select: '_id profile'
-          })
-          .populate({
-            path: 'categoryId',
-            select: '_id name'
-          })
-          .sort({createdAt: 'desc'});
-        console.log(article_list)
+        const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+        const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+        const hotArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+        const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
+        let articlesByHotCategory = Array();
+
+        const hotCategories = await CategoryModel
+          .find({status: 'Activated'}, '_id name')
+          .sort({createdAt: 'asc'})
+          .limit(4);
+
+        for(let i =0; i < hotCategories.length; i++){
+          articlesByHotCategory.push(
+            {
+              category: hotCategories[i],
+              articles: await articleUtils.getArticleByCategory(hotCategories[i]._id, 5, articleSelectedFields)
+            }
+          )
+        };
+        console.log(hotArticles);
         return res.render('user/index', 
         {
           menu_list: menu_list,
-          article_list: article_list,
+          latestArticles: latestArticles,
+          hotArticles: hotArticles,
+          articlesByHotCategory: articlesByHotCategory,
+          categoryWithPostCounted: categoryWithPostCounted,
           information: authUtils.getAuthorProfile(req)
         });
     });

@@ -107,7 +107,59 @@ const articleUtils = {
     } catch (error) {
         return null;
     }
-},
+  },
+  getLatestArticles: async (article_return_fields = null, limit = 0) => {
+    if(limit <= 0 || !article_return_fields) {return null;}
+    const recent_article_list = await ArticleModel
+          .find({status: 'Published'}, article_return_fields)
+          .populate({
+            path: 'authorId',
+            select: '_id profile'
+          })
+          .populate({
+            path: 'categoryId',
+            select: '_id name'
+          })
+          .sort({createdAt: 'desc'})
+          .limit(limit);
+
+    return recent_article_list;
+  },
+  getHotArticles: async (selectedFields = null, limit = 0) => {
+    if(limit <= 0 || !selectedFields) {return null;}
+    const hot_article_list = await ArticleModel
+          .find({status: 'Published'}, selectedFields)
+          .populate({
+            path: 'authorId',
+            select: '_id profile'
+          })
+          .populate({
+            path: 'categoryId',
+            select: '_id name'
+          })
+          .sort({'interaction.views': 'desc'})
+          .limit(limit);
+
+    return hot_article_list;
+  },
+  getArticleByCategory: async (categoryId = null , numOfArticles = null, selectedFields = null) => {
+    if (!categoryId || numOfArticles <= 0 || !selectedFields) {return null;}
+
+    const listOfArticles = await ArticleModel
+      .find({status: 'Published'}, selectedFields)
+      .populate({
+        path: 'categoryId',
+        select: '_id name'
+      })
+      .populate({
+        path: 'authorId',
+        select: '_id profile'
+      })
+      .sort({createdAt: 'desc'})
+      .limit(numOfArticles);
+
+      return listOfArticles;
+  },
 
 }
 

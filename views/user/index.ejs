@@ -40,10 +40,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-9 col-md-12 col-sm-12 col-12">
+					<%# category 1 %> 
 					<div class="blog_world_news worldnews_tab blog_topheading_slider_nav">
 						<div class="blog_main_heading_div wow fadeInUp"> 
 							<div class="blog_heading_div">
-								<h3 class="blog_bg_orange">World News</h3>
+								<h3 class="blog_bg_orange"><%= articlesByHotCategory[0].category.name %> </h3>
 							</div>
 							<nav class="blog_tab_nav blog_color_orange">
 								<div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -64,6 +65,7 @@
 								<div class="blog_world_news_slider">
 									<div class="swiper-container">
 										<div class="swiper-wrapper">
+											<% for(let i = 0; i < articlesByHotCategory[0].articles.length; i++ ) {%> 
 											<div class="swiper-slide">
 												<div class="blog_col_8 large_post">
 													<div class="blog_post_slider_wrapper blog_marginbottom20"> 
@@ -109,6 +111,7 @@
 													</div>
 												</div>
 											</div>
+											<% } %> 
 											<div class="swiper-slide">
 												<div class="blog_col_4">
 													<div class="blog_post_slider_wrapper blog_marginbottom20"> 
