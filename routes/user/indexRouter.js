@@ -10,7 +10,8 @@ module.exports = function(userRouter) {
     userRouter.get(
       ['/', '/home', '/index'],
       async (req,res) => { 
-        const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+        try {
+          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
         const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
         const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
         const hotArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
@@ -30,7 +31,7 @@ module.exports = function(userRouter) {
             }
           )
         };
-        console.log(hotArticles);
+        
         return res.render('user/index', 
         {
           menu_list: menu_list,
@@ -40,6 +41,54 @@ module.exports = function(userRouter) {
           categoryWithPostCounted: categoryWithPostCounted,
           information: authUtils.getAuthorProfile(req)
         });
-    });
+        } catch (error) {
+          return res.render(
+            "pages/user-404", 
+            {redirectLink: '/'}
+          );
+        }
+        
+      }
+    );
 
+    userRouter.get(
+      '/article',
+      async (req, res) => {
+        try {
+          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          if (req.query.id) {
+              const article = await ArticleModel
+              .findOne({$and: [{status: 'Published'},{_id: req.query.id}]})
+              .populate({
+                path: 'categoryId',
+                select: '_id name'
+              })
+              .populate({
+                path: 'authorId',
+                select: '_id profile'
+              }).exec();
+            
+            if (article) {
+              return res.render('user/article',
+              {
+                article: article,
+                menu_list: menu_list,
+              });
+            }
+            console.log(req.query.id)
+            console.log(await ArticleModel.findById(req.query.id))
+          }
+
+          return res.render(
+            "pages/user-404", 
+            {redirectLink: '/'}
+          );
+        } catch (error) {
+          return res.render(
+            "pages/user-404", 
+            {redirectLink: '/'}
+          );
+        }
+      }
+      );
 };
