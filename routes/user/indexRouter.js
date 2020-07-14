@@ -66,8 +66,8 @@ module.exports = function(userRouter) {
               .populate({
                 path: 'authorId',
                 select: '_id profile'
-              }).exec();
-            
+              });
+              
             if (article) {
               return res.render('user/article',
               {
@@ -75,8 +75,6 @@ module.exports = function(userRouter) {
                 menu_list: menu_list,
               });
             }
-            console.log(req.query.id)
-            console.log(await ArticleModel.findById(req.query.id))
           }
 
           return res.render(
@@ -84,6 +82,7 @@ module.exports = function(userRouter) {
             {redirectLink: '/'}
           );
         } catch (error) {
+          console.log(error);
           return res.render(
             "pages/user-404", 
             {redirectLink: '/'}
