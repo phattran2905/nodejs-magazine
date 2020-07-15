@@ -45,7 +45,7 @@ module.exports = function(userRouter) {
           });
         } catch (error) {
           return res.render(
-            "pages/user-404", 
+            "error/user-404", 
             {redirectLink: '/'}
           );
         }
@@ -58,6 +58,9 @@ module.exports = function(userRouter) {
       async (req, res) => {
         try {
           const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+
           if (req.query.id) {
               const article = await ArticleModel
               .findOne({$and: [{status: 'Published'},{_id: req.query.id}]})
@@ -73,20 +76,24 @@ module.exports = function(userRouter) {
             if (article) {
               return res.render('user/article',
               {
+                latestArticles: latestArticles,
+                popularArticles: popularArticles,
                 article: article,
                 menu_list: menu_list,
               });
             }
           }
 
-          return res.render(
-            "pages/user-404", 
-            {redirectLink: '/'}
+          return res.render("error/user-404", 
+            {
+              redirectLink: '/'
+            }
           );
         } catch (error) {
-          return res.render(
-            "pages/user-404", 
-            {redirectLink: '/'}
+          return res.render("error/user-404", 
+            {
+              redirectLink: '/'
+            }
           );
         }
       }
@@ -111,7 +118,7 @@ module.exports = function(userRouter) {
             });
         } catch (error) {
           return res.render(
-            "pages/user-404", 
+            "error/user-404", 
             {redirectLink: '/'}
           );
         }
@@ -137,7 +144,7 @@ module.exports = function(userRouter) {
             });
         } catch (error) {
           return res.render(
-            "pages/user-404", 
+            "error/user-404", 
             {redirectLink: '/'}
           );
         }
@@ -163,7 +170,7 @@ module.exports = function(userRouter) {
             });
         } catch (error) {
           return res.render(
-            "pages/user-404", 
+            "error/user-404", 
             {redirectLink: '/'}
           );
         }

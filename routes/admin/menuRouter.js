@@ -19,7 +19,7 @@ module.exports = (adminRouter) => {
             } catch (error) {
                 console.log(error)
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -70,7 +70,7 @@ module.exports = (adminRouter) => {
                 return res.redirect('/admin/menu');
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -93,12 +93,12 @@ module.exports = (adminRouter) => {
                     });
                 }
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -144,12 +144,12 @@ module.exports = (adminRouter) => {
 
                 }
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -179,13 +179,13 @@ module.exports = (adminRouter) => {
 
                 }
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
                 console.log(error)
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -207,12 +207,12 @@ module.exports = (adminRouter) => {
                     });
                 }
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -257,12 +257,12 @@ module.exports = (adminRouter) => {
                     return res.redirect('/admin/menu');
                 }
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -285,7 +285,7 @@ module.exports = (adminRouter) => {
                 return res.redirect('/admin/menu');
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -308,7 +308,7 @@ module.exports = (adminRouter) => {
                 return res.redirect('/admin/menu');
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }
@@ -328,7 +328,7 @@ module.exports = (adminRouter) => {
                 return res.redirect('/admin/menu');
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/menu'}
                 );
             }

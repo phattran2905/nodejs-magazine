@@ -66,7 +66,7 @@ module.exports = function(adminRouter){
                 return res.redirect("/admin/administrators/add");
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/administrators'}
                   );
             }
@@ -90,12 +90,12 @@ module.exports = function(adminRouter){
           }
 
           return res.render(
-              "pages/404", 
+              "error/admin-404", 
               {redirectLink: '/admin/administrators'}
             );
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/administrators'}
               );
         }
@@ -141,12 +141,12 @@ module.exports = function(adminRouter){
                 }
                 
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/administrators'}
                 );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/administrators'}
                 );
             }
@@ -169,7 +169,7 @@ module.exports = function(adminRouter){
             return res.redirect("/admin/administrators");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/administrators'}
             );
         }
@@ -193,7 +193,7 @@ module.exports = function(adminRouter){
             return res.redirect("/admin/administrators");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/administrators'}
             );
         }
@@ -215,7 +215,7 @@ module.exports = function(adminRouter){
             return res.redirect("/admin/administrators");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/administrators'}
             );
         }
@@ -235,7 +235,7 @@ module.exports = function(adminRouter){
             return res.redirect("/admin/administrators");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/administrators'}
             );
         }

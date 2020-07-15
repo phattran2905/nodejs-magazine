@@ -69,7 +69,7 @@ module.exports = function(adminRouter) {
                 return res.redirect("/admin/authors/add");
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/authors'}
                   );
             }
@@ -94,12 +94,12 @@ module.exports = function(adminRouter) {
                 }
 
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/authors'}
                   );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/authors'}
                   );
             }
@@ -148,12 +148,12 @@ module.exports = function(adminRouter) {
                     }
 
                     return res.render(
-                        "pages/404", 
+                        "error/admin-404", 
                         {redirectLink: '/admin/authors'}
                       );
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/authors'}
                   );
             }
@@ -175,7 +175,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/authors");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/authors'}
               );
         }
@@ -196,7 +196,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/authors");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/authors'}
               );
         }
@@ -218,7 +218,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/authors");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/authors'}
               );
         }
@@ -238,7 +238,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/authors");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/authors'}
               );
         }

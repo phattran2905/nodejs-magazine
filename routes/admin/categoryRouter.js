@@ -19,7 +19,7 @@ module.exports = function(adminRouter) {
                 });
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/categories'}
             );
         }
@@ -70,7 +70,7 @@ module.exports = function(adminRouter) {
                 return res.redirect("/admin/categories/add");
             } catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/categories'}
                 );
             }
@@ -94,12 +94,12 @@ module.exports = function(adminRouter) {
                     });
             }
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/categories'}
             );
           } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/categories'}
             );
           }
@@ -144,12 +144,12 @@ module.exports = function(adminRouter) {
                 }
                 
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/categories'}
                 );
               } catch (error) {
                     return res.render(
-                        "pages/404", 
+                        "error/admin-404", 
                         {redirectLink: '/admin/categories'}
                     );
               }
@@ -171,7 +171,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/categories");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/categories'}
             );
         }
@@ -193,7 +193,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/categories");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/categories'}
             );
         }
@@ -213,7 +213,7 @@ module.exports = function(adminRouter) {
             return res.redirect("/admin/categories");
         } catch (error) {
             return res.render(
-                "pages/404", 
+                "error/admin-404", 
                 {redirectLink: '/admin/categories'}
             );
         }

@@ -61,7 +61,7 @@ module.exports = function(adminRouter) {
                 }
             }catch (error) {
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: '/admin/articles?by_status=all'}
                   );
             }
@@ -91,7 +91,7 @@ module.exports = function(adminRouter) {
             } catch (error) {
                 req.flash("fail", "Failed. An error occurred during the process.");
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: `/admin/articles?status=${status}`}
                   );
             }
@@ -119,7 +119,7 @@ module.exports = function(adminRouter) {
             } catch (error) {
                 req.flash("fail", "Failed. An error occurred during the process.");
                 return res.render(
-                    "pages/404", 
+                    "error/admin-404", 
                     {redirectLink: `/admin/articles?status=${status}`}
                   );
             }

@@ -49,15 +49,9 @@ module.exports = function(userRouter) {
                         information: authUtils.getAuthorProfile(req)
                     });
                 }
-                return res.render(
-                    "pages/404", 
-                    {redirectLink: '/articles'}
-                  );
+                return res.render("error/user-404");
             } catch (error) {
-                return res.render(
-                    "pages/404", 
-                    {redirectLink: '/articles'}
-                  );
+                return res.render("error/user-404");
             }
 
         }
@@ -150,15 +144,9 @@ module.exports = function(userRouter) {
                     });
             }
   
-            return res.render(
-                "pages/404", 
-                {redirectLink: '/articles'}
-              );
+            return res.render("error/user-404");
           } catch (error) {
-              return res.render(
-                  "pages/404", 
-                  {redirectLink: '/articles'}
-                );
+            return res.render("error/user-404");
           }
         }
       );
@@ -231,15 +219,9 @@ module.exports = function(userRouter) {
                     return res.redirect("/articles");
                 }
                 
-                return res.render(
-                    "pages/404", 
-                    {redirectLink: '/articles'}
-                );
+                return res.render("error/user-404");
             } catch (error) {
-                return res.render(
-                    "pages/404", 
-                    {redirectLink: '/articles'}
-                );
+                return res.render("error/user-404");
             }
     });
 
@@ -259,10 +241,7 @@ module.exports = function(userRouter) {
 
             return res.redirect("/articles");
         } catch (error) {
-            return res.render(
-                "pages/404", 
-                {redirectLink: '/articles'}
-            );
+            return res.render("error/user-404");
         }}
     );
 
@@ -284,15 +263,12 @@ module.exports = function(userRouter) {
 
             return res.redirect("/articles");
         } catch (error) {
-            return res.render(
-                "pages/404", 
-                {redirectLink: '/articles'}
-            );
+            return res.render("error/user-404");
         }}
     );
 
     userRouter.post(
-        "/articles/delete/", 
+        "/articles/delete/",
         async (req, res) => {
         try {
             const article = await ArticleModel.findByIdAndDelete(req.body.id);
@@ -308,10 +284,7 @@ module.exports = function(userRouter) {
             }
             return res.redirect("/articles");
         } catch (error) {
-            return res.render(
-                "pages/404", 
-                {redirectLink: '/articles'}
-            );
+            return res.render("error/user-404");
         }}
     );
 };
