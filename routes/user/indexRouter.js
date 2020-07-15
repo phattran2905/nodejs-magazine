@@ -12,35 +12,37 @@ module.exports = function(userRouter) {
       async (req,res) => { 
         try {
           const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
-        const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
-        const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
-        const hotArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
-        const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
-        let articlesByHotCategory = Array();
+          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const hotArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5); // Most likes
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5); // Most views
+          const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
+          let articlesByHotCategory = Array();
 
-        const hotCategories = await CategoryModel
-          .find({status: 'Activated'}, '_id name')
-          .sort({createdAt: 'asc'})
-          .limit(4);
+          const hotCategories = await CategoryModel
+            .find({status: 'Activated'}, '_id name')
+            .sort({createdAt: 'asc'})
+            .limit(4);
 
-        for(let i =0; i < hotCategories.length; i++){
-          articlesByHotCategory.push(
-            {
-              category: hotCategories[i],
-              articles: await articleUtils.getArticleByCategory(hotCategories[i]._id, 5, articleSelectedFields)
-            }
-          )
-        };
-        
-        return res.render('user/index', 
-        {
-          menu_list: menu_list,
-          latestArticles: latestArticles,
-          hotArticles: hotArticles,
-          articlesByHotCategory: articlesByHotCategory,
-          categoryWithPostCounted: categoryWithPostCounted,
-          information: authUtils.getAuthorProfile(req)
-        });
+          for(let i =0; i < hotCategories.length; i++){
+            articlesByHotCategory.push(
+              {
+                category: hotCategories[i],
+                articles: await articleUtils.getArticleByCategory(hotCategories[i]._id, 5, articleSelectedFields)
+              }
+            )
+          };
+          
+          return res.render('user/index', 
+          {
+            menu_list: menu_list,
+            latestArticles: latestArticles,
+            hotArticles: hotArticles,
+            popularArticles: popularArticles,
+            articlesByHotCategory: articlesByHotCategory,
+            categoryWithPostCounted: categoryWithPostCounted,
+            information: authUtils.getAuthorProfile(req)
+          });
         } catch (error) {
           return res.render(
             "pages/user-404", 
@@ -82,12 +84,90 @@ module.exports = function(userRouter) {
             {redirectLink: '/'}
           );
         } catch (error) {
-          console.log(error);
           return res.render(
             "pages/user-404", 
             {redirectLink: '/'}
           );
         }
       }
-      );
+    );
+
+    userRouter.get(
+      '/about',
+      async (req, res) => {
+
+        try {
+          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+
+          return res.render('user/about', 
+            {
+              menu_list: menu_list,
+              latestArticles: latestArticles,
+              popularArticles: popularArticles,
+              information: authUtils.getAuthorProfile(req)
+            });
+        } catch (error) {
+          return res.render(
+            "pages/user-404", 
+            {redirectLink: '/'}
+          );
+        }
+      }
+    );
+
+    userRouter.get(
+      '/contact',
+      async (req, res) => {
+
+        try {
+          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+
+          return res.render('user/contact', 
+            {
+              menu_list: menu_list,
+              latestArticles: latestArticles,
+              popularArticles: popularArticles,
+              information: authUtils.getAuthorProfile(req)
+            });
+        } catch (error) {
+          return res.render(
+            "pages/user-404", 
+            {redirectLink: '/'}
+          );
+        }
+      }
+    );
+
+    userRouter.get(
+      ['/terms_of_services', '/privacy_policy'],
+      async (req, res) => {
+
+        try {
+          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+
+          return res.render('user/terms_of_services', 
+            {
+              menu_list: menu_list,
+              latestArticles: latestArticles,
+              popularArticles: popularArticles,
+              information: authUtils.getAuthorProfile(req)
+            });
+        } catch (error) {
+          return res.render(
+            "pages/user-404", 
+            {redirectLink: '/'}
+          );
+        }
+      }
+    );
+
 };

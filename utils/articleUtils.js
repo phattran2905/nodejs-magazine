@@ -137,6 +137,23 @@ const articleUtils = {
             path: 'categoryId',
             select: '_id name'
           })
+          .sort({'interaction.likes': 'desc'})
+          .limit(limit);
+
+    return hot_article_list;
+  },
+  getPopularArticles: async (selectedFields = null, limit = 0) => {
+    if(limit <= 0 || !selectedFields) {return null;}
+    const hot_article_list = await ArticleModel
+          .find({status: 'Published'}, selectedFields)
+          .populate({
+            path: 'authorId',
+            select: '_id profile'
+          })
+          .populate({
+            path: 'categoryId',
+            select: '_id name'
+          })
           .sort({'interaction.views': 'desc'})
           .limit(limit);
 

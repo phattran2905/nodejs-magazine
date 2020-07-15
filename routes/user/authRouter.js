@@ -11,7 +11,11 @@ module.exports =  function (userRouter) {
     userRouter.get('/login', async (req,res) => {
         const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
         const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
-        res.render("user/auth/login", {latestArticles: latestArticles });
+        const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5);
+        res.render("user/auth/login", {
+            latestArticles: latestArticles,
+            popularArticles: popularArticles,
+        });
     })
     
     userRouter.post('/login',
