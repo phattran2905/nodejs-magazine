@@ -1,14 +1,20 @@
 const authUtils = require('../../utils/authUtils')
 const MenuModel = require('../../models/MenuModel');
+const SubmenuModel = require('../../models/SubmenuModel');
 const validation = require('../../validation/admin/validateMenu');
 const menuUtils = require('../../utils/menuUtils');
+const CategoryModel = require('../../models/CategoryModel');
 
 module.exports = (adminRouter) => {
     adminRouter.get(
         '/menu',
         async (req, res) => {
             try {
-                const menus = await MenuModel.find();
+                const menus = await MenuModel.find()
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    });
                 return res.render('admin/menu/menu_base',
                 {
                     header: 'List of menus',
@@ -17,7 +23,6 @@ module.exports = (adminRouter) => {
                     information: authUtils.getAdminProfile(req)
                 });
             } catch (error) {
-                console.log(error)
                 return res.render(
                     "error/admin-404", 
                     {redirectLink: '/admin/menu'}
@@ -28,13 +33,23 @@ module.exports = (adminRouter) => {
 
     adminRouter.get(
         '/menu/add',
-        (req, res) => {
-            return res.render('admin/menu/menu_base',
+        async (req, res) => {
+            try {
+                const categories = await CategoryModel.find({status: 'Activated'});
+                    
+                return res.render('admin/menu/menu_base',
                 {
                     header: 'Add new menu',
                     content: 'add',
+                    categories: categories,
                     information: authUtils.getAdminProfile(req)
                 });
+            } catch (error) {
+                return res.render(
+                    "error/admin-404", 
+                    {redirectLink: '/admin/menu'}
+                );
+            }
         }
     );
 
@@ -58,6 +73,7 @@ module.exports = (adminRouter) => {
                 const addedMenu = await menuUtils.createNewMenu(
                     {
                         name: req.body.name, 
+                        categoryId: req.body.categoryId, 
                         encoded_string: req.body.encoded_string.toLowerCase(), 
                         display_order: req.body.display_order 
                     });
@@ -82,13 +98,26 @@ module.exports = (adminRouter) => {
         '/menu/:menuId/submenu',
         async (req, res) => {
             try {
-                const menu = await MenuModel.findById(req.params.menuId);
+                const menu = await MenuModel
+                    .findById(req.params.menuId)
+                    .populate({
+                        path: 'submenu',
+                        sort: { display_order: 'asc'},
+                        populate: {path: 'categoryId', select: '_id name'}
+                    })
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    });
+                const categories = await CategoryModel.find({status: 'Activated'});
+
                 if (menu) {
                     return res.render('admin/menu/menu_base',
                     {
                         header: 'Submenu',
                         content: 'submenu',
                         menu: menu,
+                        categories: categories,
                         information: authUtils.getAdminProfile(req)
                     });
                 }
@@ -112,6 +141,7 @@ module.exports = (adminRouter) => {
 
             try {
                 const menu = await MenuModel.findById(req.params.menuId);
+                const categories = await CategoryModel.find({status: 'Activated'});
                 if (menu) {
                         
                     const { hasError, validInput, errors } = validation.result(req);
@@ -122,23 +152,27 @@ module.exports = (adminRouter) => {
                             header: 'Submenu',
                             content: 'submenu',
                             menu: menu,
+                            categories: categories,
                             validInput: validInput,
                             errors: errors,
                             information: authUtils.getAdminProfile(req)
                         });
                     }
-
-                    menu.submenu.push({
-                        name: req.body.submenu_name,
-                        encoded_string: req.body.submenu_encoded_string.toLowerCase(),
-                        display_order: req.body.submenu_display_order
-                    });
-
-                    const updatedMenu = await menu.save();                    
-                    if(updatedMenu) {
-                        req.flash('success', 'Successfully! The new menu was updated.')
-                    } else {
-                        req.flash('fail', 'Failed! An error occurred during the process.')
+                    const submenu = await SubmenuModel.create(
+                        {
+                            name: req.body.submenu_name,
+                            menuId: req.params.menuId,
+                            categoryId: req.body.categoryId,
+                            encoded_string: req.body.submenu_encoded_string.toLowerCase(),
+                            display_order: req.body.submenu_display_order
+                        }
+                    );
+                    if (submenu) {
+                        menu.submenu.push(submenu._id); 
+                        await menu.save();
+                        req.flash('success', 'Successfully! The new menu was updated.');
+                    }else {
+                        req.flash('fail', 'Failed! An error occurred during the process.');
                     }
                     return res.redirect(`/admin/menu/${menu._id.toString()}/submenu/`); 
 
@@ -161,15 +195,15 @@ module.exports = (adminRouter) => {
         async (req, res) => {
             try {
                 const menu = await MenuModel.findOne({_id: req.params.menuId});
-                console.log(menu)
+                
                 if (menu) {
                     const submenu = menu.submenu;
-                    const reducedSubmenu = submenu.filter((index) => {
-                        return index != req.body.submenu_index
+                    const reducedSubmenu = submenu.filter((element) => {
+                        return element != req.body.submenu_index
                     })
                     menu.submenu = reducedSubmenu;
                     
-                    const updatedMenu = await menu.save();                    
+                    const updatedMenu = await menu.save();              
                     if(updatedMenu) {
                         req.flash('success', 'Successfully! The new submenu was deleted.')
                     } else {
@@ -183,7 +217,6 @@ module.exports = (adminRouter) => {
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
-                console.log(error)
                 return res.render(
                     "error/admin-404", 
                     {redirectLink: '/admin/menu'}
@@ -197,12 +230,14 @@ module.exports = (adminRouter) => {
         async (req, res) => {
             try {
                 const menu = await MenuModel.findById(req.params.id);
+                const categories = await CategoryModel.find({status: 'Activated'});
                 if (menu) {
                     return res.render('admin/menu/menu_base',
                     {
                         header: 'Update menu',
                         content: 'update',
                         menu: menu,
+                        categories: categories,
                         information: authUtils.getAdminProfile(req)
                     });
                 }
@@ -223,28 +258,31 @@ module.exports = (adminRouter) => {
         '/menu/update/:id',
         validation.add,
         async (req, res) => {
-            const { hasError, validInput, errors } = validation.result(req);
-
-            if(hasError) {
-                const menu = await MenuModel.findById(req.params.id);
-                return res.render('admin/menu/menu_base',
-                {
-                    header: 'Update menu',
-                    content: 'update',
-                    menu: menu,
-                    validInput: validInput,
-                    errors: errors,
-                    information: authUtils.getAdminProfile(req)
-                });
-            }
+            const categories = await CategoryModel.find({status: 'Activated'});
+            const menu = await MenuModel.findById(req.params.id);
 
             try {
-                const menu = await MenuModel.findById(req.params.id);
+                const { hasError, validInput, errors } = validation.result(req);
+
+                if(hasError) {
+                    return res.render('admin/menu/menu_base',
+                    {
+                        header: 'Update menu',
+                        content: 'update',
+                        menu: menu,
+                        categories: categories,
+                        validInput: validInput,
+                        errors: errors,
+                        information: authUtils.getAdminProfile(req)
+                    });
+                }
+
                 if (menu) {
                     const updatedMenu = await MenuModel.updateOne(
                         {_id: req.params.menuId},
                         {
                             name: validInput.name,
+                            categoryId: validInput.categoryId,
                             encoded_string: validInput.encoded_string.toLowerCase(),
                             display_order: validInput.display_order
                         }

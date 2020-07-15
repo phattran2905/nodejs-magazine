@@ -1,25 +1,24 @@
 const mongoose = require('mongoose');
 
-const MenuSchema = new mongoose.Schema({
+const SubmenuSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        unique: true,
+        required: true
     },
     encoded_string: {
         type: String,
-        required: true
+        unique: true
     },
     display_order: {
         type: Number,
+        unique: true,
         required: true
     },
-    submenu: [
-        { 
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Submenu'
-        }
-    ],
+    menuId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Menu'
+    },
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
@@ -32,6 +31,6 @@ const MenuSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
-})
+});
 
-module.exports = mongoose.model('Menu', MenuSchema)
+module.exports = mongoose.model('Submenu', SubmenuSchema);

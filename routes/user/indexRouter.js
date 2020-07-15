@@ -58,9 +58,10 @@ module.exports = function(userRouter) {
       async (req, res) => {
         try {
           const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
-
+          
           if (req.query.id) {
               const article = await ArticleModel
               .findOne({$and: [{status: 'Published'},{_id: req.query.id}]})
@@ -84,17 +85,50 @@ module.exports = function(userRouter) {
             }
           }
 
-          return res.render("error/user-404", 
-            {
-              redirectLink: '/'
-            }
-          );
+          return res.render("error/user-404");
         } catch (error) {
-          return res.render("error/user-404", 
-            {
-              redirectLink: '/'
+          console.log(error);
+          return res.render("error/user-404");
+        }
+      }
+    );
+
+    userRouter.get(
+      '/category',
+      async (req, res) => {
+        try {
+          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+          
+          if (req.query.id) {
+              const articlesByCategory = await ArticleModel
+              .find({$and: [{status: 'Published'},{categoryId: req.query.id}]})
+              .populate({
+                path: 'categoryId',
+                select: '_id name'
+              })
+              .populate({
+                path: 'authorId',
+                select: '_id profile'
+              });
+              
+            if (articlesByCategory) {
+              return res.render('user/article',
+              {
+                latestArticles: latestArticles,
+                popularArticles: popularArticles,
+                articlesByCategory: articlesByCategory,
+                menu_list: menu_list,
+              });
             }
-          );
+          }
+
+          return res.render("error/user-404");
+        } catch (error) {
+          console.log(error);
+          return res.render("error/user-404");
         }
       }
     );
@@ -117,10 +151,7 @@ module.exports = function(userRouter) {
               information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
-          return res.render(
-            "error/user-404", 
-            {redirectLink: '/'}
-          );
+          return res.render("error/user-404");
         }
       }
     );
@@ -143,10 +174,7 @@ module.exports = function(userRouter) {
               information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
-          return res.render(
-            "error/user-404", 
-            {redirectLink: '/'}
-          );
+          return res.render("error/user-404");
         }
       }
     );
@@ -169,10 +197,7 @@ module.exports = function(userRouter) {
               information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
-          return res.render(
-            "error/user-404", 
-            {redirectLink: '/'}
-          );
+          return res.render("error/user-404",);
         }
       }
     );

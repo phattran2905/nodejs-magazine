@@ -119,18 +119,21 @@ module.exports = {
     },
 
     createNewMenu: async (
-        {name, encoded_string, display_order} = {}
+        {name, categoryId, encoded_string, display_order} = {}
     ) => {
-        if (!name || !encoded_string || !display_order) {return null;}
+        if (!name || !encoded_string || !categoryId || !display_order) {return null;}
 
         try {
             const newMenu = await MenuModel.create({
                 name: name,
+                categoryId: categoryId,
                 encoded_string: encoded_string,
                 display_order: display_order
             })
+            console.log(newMenu);
             return newMenu;
         } catch (error) {
+            console.log(error);
             return null;
         }
     },

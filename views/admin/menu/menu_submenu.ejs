@@ -25,11 +25,12 @@
         
         <thead class="thead-dark">
             <tr>
-                <th colspan="5" class="text-center"><h3 class="text-light">Submenu</h3></th>
+                <th colspan="6" class="text-center"><h3 class="text-light">Submenu</h3></th>
             </tr>
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Category</th>
                 <th>Encoded String</th>
                 <th>Display order</th>
                 <th class="text-center">Action</th>
@@ -43,11 +44,12 @@
                 <tr>
                     <td><%= i+1 %> </td>
                     <td><%= menu.submenu[i].name %> </td>
+                    <td><%= menu.submenu[i].categoryId.name %> </td>
                     <td><%= menu.submenu[i].encoded_string %> </td>
                     <td><%= menu.submenu[i].display_order %> </td>
                     <td class="text-center">
                         <form action="/admin/menu/<%= menu._id %>/submenu/delete" class="ml-3 d-inline" method="POST">
-                            <input type="hidden" name="submenu_index" value="<%= i %>">
+                            <input type="hidden" name="submenu_index" value="<%= menu.submenu[i]._id %>">
                             <button class=" btn btn-danger text-light sa-warning-delete" type="button" role="button" data-toggle="tooltip"
                               data-placement="top" title="Delete" data-original-title="Delete">
                               <i class="mdi mdi-close-box-multiple"></i>
@@ -123,6 +125,22 @@
             <% } %>
         </div>
     </div>
+
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label ">Link to category</label>
+        <div class="col-md-5">
+          <select class="custom-select" name="categoryId" id="categoryId">
+            <option value="0" selected="">Choose a category</option>
+            <% for(let i = 0; i < categories.length ;i++) { %>
+            <option value="<%= categories[i]._id %>">
+              <%= categories[i].name %>
+            </option>
+            <% } %> 
+          </select>
+        </div>
+      </div>
+
     <div class="form-group row p-1">
         <label for="display_order" class="col-md-3 col-form-label">Submenu display Order</label>
         <div class="col-md-5">

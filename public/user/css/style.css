@@ -3675,7 +3675,7 @@ body.right_toggle_open .blog_right_toggle_sidebar .blog_togglediv {
 .blog_breadcrumb_wrapper {
     display: flex;
     width: 100%;
-    background-image: url(https://via.placeholder.com/1920x700);
+    background-image: url('../images/bg-grey.jpg');
     padding: 30px 0;
     position: relative;
     background-size: cover;

@@ -9,6 +9,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Category</th>
       <th>Encoded String</th>
       <th>Display order</th>
       <th>Created at</th>
@@ -23,6 +24,7 @@
     <% menus.forEach((menu) => { %>
     <tr>
       <td ><%= menu.name %></td>
+      <td ><%# menu.categoryId.name %></td>
       <td ><%= menu.encoded_string %></td>
       <td><%= menu.display_order %></td>
       <td><%= menu.createdAt.toLocaleDateString({year: 'numeric', month: '2-digits', day: '2-digits'}) %></td>
