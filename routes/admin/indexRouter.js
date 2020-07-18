@@ -1,17 +1,9 @@
 const authUtils = require("../../utils/authUtils");
 const AdminModel = require("../../models/AdministratorModel");
 
-module.exports = function(adminRouter) {
-    
-  adminRouter.get("/",
-  async (req, res) => {
-    const information = authUtils.getAdminProfile(req);
+const router = require('express').Router();
+const { indexController } = require('../../controllers/admin/index.controller');
 
-    return res.render("admin/index", 
-    {
-      information: information
-    });
-  }
-  );
+router.get("/", indexController );
 
-};
+module.exports = router;
