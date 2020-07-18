@@ -10,20 +10,28 @@ module.exports = function(userRouter) {
     userRouter.get(
         '/articles',
         async (req, res) => {
-            const returnFields = '_id title interaction status categoryId authorId updated createdAt';
-            const articles = await ArticleModel
-                .find({authorId: authUtils.getAuthorProfile(req).id}, returnFields)
-                .populate({
-                    path: 'categoryId',
-                    select: '_id name'
+            try {
+                const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+                const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
+                const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
+                const articles = await ArticleModel
+                    .find({authorId: authUtils.getAuthorProfile(req).id}, returnFields)
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    });
+    
+                res.render('user/article/article_base', {
+                    content: 'article_list',
+                    header: 'Article',
+                    articles: articles,
+                    latestArticles: latestArticles,
+                    popularArticles: popularArticles,
+                    information: authUtils.getAuthorProfile(req)
                 });
-
-            res.render('user/article/article_base', {
-                content: 'article_list',
-                header: 'Article',
-                articles: articles,
-                information: authUtils.getAuthorProfile(req)
-            });
+            } catch (error) {
+                return res.render("error/user-404");
+            }
         }
     );
 

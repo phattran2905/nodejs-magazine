@@ -130,11 +130,23 @@ module.exports = {
                 encoded_string: encoded_string,
                 display_order: display_order
             })
-            console.log(newMenu);
             return newMenu;
         } catch (error) {
-            console.log(error);
             return null;
         }
     },
+    getMenuList: async () => {
+        try {
+                
+            const menuList = await MenuModel.find({status: 'Activated'})
+            .populate({
+                path: 'submenu'
+            })
+            .sort({display_order: 'asc'});
+
+            return menuList;
+        } catch (error) {
+            return null;
+        }
+    }
 }

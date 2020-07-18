@@ -4,6 +4,7 @@ const categoryUtils = require('../../utils/categoryUtils');
 const MenuModel = require('../../models/MenuModel');
 const ArticleModel = require('../../models/ArticleModel');
 const CategoryModel = require('../../models/CategoryModel');
+const menuUtils = require('../../utils/menuUtils');
 
 module.exports = function(userRouter) {
 
@@ -11,7 +12,6 @@ module.exports = function(userRouter) {
       ['/', '/home', '/index'],
       async (req,res) => { 
         try {
-          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
           const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const hotArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5); // Most likes
@@ -35,7 +35,7 @@ module.exports = function(userRouter) {
           
           return res.render('user/index', 
           {
-            menu_list: menu_list,
+            menu_list: await menuUtils.getMenuList(),
             latestArticles: latestArticles,
             hotArticles: hotArticles,
             popularArticles: popularArticles,
@@ -57,37 +57,30 @@ module.exports = function(userRouter) {
       '/article',
       async (req, res) => {
         try {
-          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
-          const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
-          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
-          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
-          
           if (req.query.id) {
-              const article = await ArticleModel
-              .findOne({$and: [{status: 'Published'},{_id: req.query.id}]})
-              .populate({
-                path: 'categoryId',
-                select: '_id name'
-              })
-              .populate({
-                path: 'authorId',
-                select: '_id profile'
-              });
-              
+            const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+            const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
+            const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+            const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+          
+            const article = await articleUtils.getArticleById(req.query.id);
             if (article) {
-              return res.render('user/article',
-              {
-                latestArticles: latestArticles,
-                popularArticles: popularArticles,
-                article: article,
-                menu_list: menu_list,
-              });
+              const updatedArticle = await ArticleModel.findOneAndUpdate({_id: req.query.id}, {'interaction.views': article.interaction.views + 1});
+           
+              if (updatedArticle) {
+                return res.render('user/article',
+                {
+                  latestArticles: latestArticles,
+                  popularArticles: popularArticles,
+                  article: await articleUtils.getArticleById(req.query.id, articleSelectedFields),
+                  menu_list: menu_list,
+                });
+              }
             }
           }
 
           return res.render("error/user-404");
         } catch (error) {
-          console.log(error);
           return res.render("error/user-404");
         }
       }
@@ -97,7 +90,7 @@ module.exports = function(userRouter) {
       '/category',
       async (req, res) => {
         try {
-          const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+          const menu_list = await menuUtils.getMenuList();
           const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
@@ -127,7 +120,6 @@ module.exports = function(userRouter) {
 
           return res.render("error/user-404");
         } catch (error) {
-          console.log(error);
           return res.render("error/user-404");
         }
       }

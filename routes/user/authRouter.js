@@ -1,5 +1,6 @@
 const passport = require("passport");
 const AuthorModel = require('../../models/AuthorModel');
+const MenuModel = require('../../models/MenuModel');
 const authorUtils = require('../../utils/authorUtils');
 const articleUtils = require('../../utils/articleUtils');
 const commonUtils = require('../../utils/commonUtils');
@@ -9,10 +10,12 @@ const validateAuth = require('../../validation/user/validateAuth');
 
 module.exports =  function (userRouter) {
     userRouter.get('/login', async (req,res) => {
+        const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
         const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
         const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
         const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5);
         res.render("user/auth/login", {
+            menu_list: menu_list,
             latestArticles: latestArticles,
             popularArticles: popularArticles,
         });
@@ -52,8 +55,22 @@ module.exports =  function (userRouter) {
         return res.redirect('/');
     })
 
-    userRouter.get('/signup', (req,res) => {
-        res.render("user/auth/signup");
+    userRouter.get('/signup', 
+        async (req,res) => {
+            try {
+                const menu_list = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+                const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
+                const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
+                const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5);
+                res.render("user/auth/signup", 
+                {
+                    menu_list: menu_list,
+                    latestArticles: latestArticles,
+                    popularArticles: popularArticles,
+                });
+            } catch (error) {
+                return res.render("error/user-404");
+            }
     })
     
     userRouter.post(

@@ -34,21 +34,10 @@ const ArticleSchema = new mongoose.Schema({
             type: Number,
             default: 0,
         },
-        likes: {
-            type: Number,
-            default: 0,
-        },
         comments: [{
-            comment_id: {
-                type: String,
-                default: uid(12)
-            },
-            nickname: {
-                type: String,
-                default: 'Anonymous'
-            },
-            text: String
-        }, ]
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }]
     },
     status: {
         type: String,

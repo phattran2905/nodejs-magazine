@@ -19,6 +19,7 @@ mongoose.connection.on("error", () => {
     console.error.bind(console, "connection error:");
 });
 
+mongoose.set('useFindAndModify', false);
 const path = require("path");
 app.set("view engine", "ejs");
 app.set('views',path.join(__dirname, "views"));

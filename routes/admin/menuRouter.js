@@ -142,6 +142,7 @@ module.exports = (adminRouter) => {
             try {
                 const menu = await MenuModel.findById(req.params.menuId);
                 const categories = await CategoryModel.find({status: 'Activated'});
+
                 if (menu) {
                         
                     const { hasError, validInput, errors } = validation.result(req);
@@ -182,6 +183,7 @@ module.exports = (adminRouter) => {
                     {redirectLink: '/admin/menu'}
                 );
             } catch (error) {
+                console.log(error)
                 return res.render(
                     "error/admin-404", 
                     {redirectLink: '/admin/menu'}

@@ -41,7 +41,8 @@ const articleUtils = {
     /* Each article must be in 1 of 3 status:
     // [Case 1]: 'Pending' -> is waiting for admin to approve
     // [Case 2]: 'Published' -> is published.
-    // [Case 3]: 'Draft' -> is NOT published
+    // [Case 3]: 'Disapproved' -> is disapproved by administrator.
+    // [Case 4]: 'Draft' -> is NOT published
     // 
     */
     const status = (publishCheck === 'Publish') ?
@@ -108,10 +109,10 @@ const articleUtils = {
         return null;
     }
   },
-  getLatestArticles: async (article_return_fields = null, limit = 0) => {
-    if(limit <= 0 || !article_return_fields) {return null;}
+  getLatestArticles: async (selectedFields = '', limit = 0) => {
+    if(limit <= 0 ) {return null;}
     const recent_article_list = await ArticleModel
-          .find({status: 'Published'}, article_return_fields)
+          .find({status: 'Published'}, selectedFields)
           .populate({
             path: 'authorId',
             select: '_id profile'
@@ -125,8 +126,8 @@ const articleUtils = {
 
     return recent_article_list;
   },
-  getHotArticles: async (selectedFields = null, limit = 0) => {
-    if(limit <= 0 || !selectedFields) {return null;}
+  getHotArticles: async (selectedFields = '', limit = 0) => {
+    if(limit <= 0) {return null;}
     const hot_article_list = await ArticleModel
           .find({status: 'Published'}, selectedFields)
           .populate({
@@ -137,13 +138,13 @@ const articleUtils = {
             path: 'categoryId',
             select: '_id name'
           })
-          .sort({'interaction.likes': 'desc'})
+          .sort({'interaction.comments': 'desc'})
           .limit(limit);
 
     return hot_article_list;
   },
-  getPopularArticles: async (selectedFields = null, limit = 0) => {
-    if(limit <= 0 || !selectedFields) {return null;}
+  getPopularArticles: async (selectedFields = '', limit = 0) => {
+    if(limit <= 0 ) {return null;}
     const hot_article_list = await ArticleModel
           .find({status: 'Published'}, selectedFields)
           .populate({
@@ -158,6 +159,31 @@ const articleUtils = {
           .limit(limit);
 
     return hot_article_list;
+  },
+  getArticleById: async (articleId = null, selectedFields = '') => {
+    if (!articleId ) {return null;}
+    try {
+      const article = await ArticleModel
+        .findOne({$and: [{status: 'Published'}, {_id: articleId} ]}, selectedFields)
+        .populate({
+          path: 'categoryId',
+          select: '_id name'
+        })
+        .populate({
+          path: 'authorId',
+          select: '_id profile'
+        })
+        .populate({
+          path: 'interaction.comments',
+          limit: 5,
+          sort: {likes: 'desc'}
+        });
+
+        return article;
+    } catch (error) {
+      return null;
+    }
+
   },
   getArticleByCategory: async (categoryId = null , numOfArticles = null, selectedFields = null) => {
     if (!categoryId || numOfArticles <= 0 || !selectedFields) {return null;}
