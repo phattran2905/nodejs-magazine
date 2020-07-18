@@ -2,11 +2,11 @@ const indexRouter = require('./indexRouter');
 const authRouter = require('./authRouter');
 const administratorRouter = require('./administratorRouter');
 const authorRouter = require('./authorRouter');
+const articleRouter = require('./articleRouter');
 const profileRouter = require('./profileRouter');
 // const accountRouter = require('./account');
 const menuRouter = require('./menuRouter');
 const categoryRouter = require('./categoryRouter');
-const articleRouter = require('./articleRouter');
 
 // authRouter(adminRouter);
 // // adminRouter.use(authUtils.checkAuthenticatedAdmin);
@@ -20,5 +20,5 @@ const articleRouter = require('./articleRouter');
 // administratorRouter(adminRouter);
 
 module.exports = [
-    indexRouter, authRouter, administratorRouter, authorRouter
+    indexRouter, authRouter, administratorRouter, authorRouter, articleRouter
 ]
