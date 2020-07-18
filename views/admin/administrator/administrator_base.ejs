@@ -48,7 +48,7 @@
             <div class="col-12">
               <div class="page-title-box d-flex align-items-center justify-content-between">
                 
-                  <% if (content === 'administrators') { %> 
+                  <% if (content === 'administrator_list') { %> 
                     <h4 class="mb-0 font-size-18"></h4>
                     <% } else { %>
                       <h4 class="mb-0 font-size-18">
@@ -80,7 +80,7 @@
                   <!-- End Flash messages -->
 
                   <%# content %>
-                  <% if (content === 'administrators') { %>
+                  <% if (content === 'administrator_list') { %>
                   <%- include('../administrator/administrator_list.ejs') %>
                   <% } else if (content === 'add') {%>
                   <%- include('../administrator/administrator_add.ejs') %>
