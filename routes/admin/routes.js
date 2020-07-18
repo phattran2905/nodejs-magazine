@@ -20,5 +20,5 @@ const categoryRouter = require('./categoryRouter');
 // administratorRouter(adminRouter);
 
 module.exports = [
-    indexRouter, authRouter, administratorRouter, authorRouter, articleRouter
+    indexRouter, authRouter, administratorRouter, authorRouter, articleRouter, profileRouter
 ]
