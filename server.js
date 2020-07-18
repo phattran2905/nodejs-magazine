@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser')
 const flash = require('express-flash');
+const path = require("path");
 const passportSetup = require('./config/passport-setup');
 
 // Connect to database
@@ -20,7 +21,6 @@ mongoose.connection.on("error", () => {
 });
 
 mongoose.set('useFindAndModify', false);
-const path = require("path");
 app.set("view engine", "ejs");
 app.set('views',path.join(__dirname, "views"));
 //  middleware
@@ -48,8 +48,8 @@ app.use(passport.authenticate('remember-me'));
 // Routes for Users
 app.use( require('./routes/user/userRouter') );
 
-// Routes for Administrators
-app.use('/admin', require('./routes/admin/adminRouter') );
+// Routes for Administration
+app.use('/admin', require('./routes/admin/routes') );
 
 // SET PORT
 app.listen(process.env.PORT || 5000, () => {

@@ -6,8 +6,8 @@ const validateAuthor = {
         body('name').isAlpha().withMessage("Only letters are allowed.").trim()
             .bail()
             .not().custom(categoryUtils.validate.checkExistedName).withMessage('Name existed.'),
-        body('encoded_string').isAlpha().withMessage("Only letters are allowed.").trim()
-            .not().custom(categoryUtils.validate.checkExistentEncodedString).withMessage('Name existed.'),
+        // body('encoded_string').isAlpha().withMessage("Only letters are allowed.").trim()
+        //     .not().custom(categoryUtils.validate.checkExistentEncodedString).withMessage('Name existed.'),
     ],
     update: [
         body('name')
@@ -15,8 +15,8 @@ const validateAuthor = {
             .trim()
             .bail()
             .not().custom(categoryUtils.validate.checkExistedName).withMessage('Name existed.'),
-        body('encoded_string').isAlpha().withMessage("Only letters are allowed.").trim()
-            .not().custom(categoryUtils.validate.checkExistentEncodedString).withMessage('Name existed.'),
+        // body('encoded_string').isAlpha().withMessage("Only letters are allowed.").trim()
+        //     .not().custom(categoryUtils.validate.checkExistentEncodedString).withMessage('Name existed.'),
       ],
     result: (req) => {
         const errors = validationResult(req);
