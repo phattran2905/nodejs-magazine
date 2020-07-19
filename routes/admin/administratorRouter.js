@@ -5,7 +5,7 @@ const {
 } = require('../../controllers/admin/administrator.controller');
 const { checkAuthenticatedAdmin } = require("../../utils/authUtils");
 
-router.use(checkAuthenticatedAdmin);
+// router.use(checkAuthenticatedAdmin);
 
 router.get("/administrators", showAdminList);
 

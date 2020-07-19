@@ -4,7 +4,8 @@ const {
     showMenuList, showAddMenuForm, addMenu, showUpdateMenuForm, updateMenu,
     activateMenu, deactivateMenu, deleteMenu, showAddSubmenuForm, addSubmenu, deleteSubmenu
 } = require('../../controllers/admin/menu.controller');
-router.use(checkAuthenticatedAdmin);
+
+// router.use(checkAuthenticatedAdmin);
 
 router.get('/menu', showMenuList);
 

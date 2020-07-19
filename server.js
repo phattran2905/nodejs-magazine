@@ -46,7 +46,7 @@ app.use(passport.session());
 app.use(passport.authenticate('remember-me'));
 
 // Routes for Users
-app.use( require('./routes/user/userRouter') );
+app.use( require('./routes/user/routes') );
 
 // Routes for Administration
 app.use('/admin', require('./routes/admin/routes') );
