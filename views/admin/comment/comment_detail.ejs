@@ -1,0 +1,58 @@
+<!-- Comments -->
+<div class="blog_comment_div mt-4 p-3">
+    <h3 class="wow fadeInUp">Comment</h3>
+    <ol class="comment-list">
+        <li class="wow fadeInUp">
+            <div class="blog_comment">
+                <div class="blog_comment_img">
+                    <img src="https://via.placeholder.com/70x70" class="img-fluid" alt="">
+                </div>
+                <div class="blog_comment_data">
+                    <h3><%= comment.postedBy %> 
+                        <span>- <%= comment.createdAt.toLocaleDateString('en-Us',{year: 'numeric', month: 'long', day: '2-digit'}) %></span>
+                    </h3>
+                    <p><%- comment.text %></p>
+                </div>
+            </div>
+            <div class="blog_comment_meta">
+                <ul>
+                    <li>
+                        <form action="/comment/like/<%= comment._id %>" method="POST">
+                            <input type="hidden" name="articleId" value="<%= comment.articleId %>">
+                            <button class="btn" type="submit" style="font-size: 1.1rem;">
+                                <i class="fa fa-thumbs-up mr-2"></i> <%= comment.likes %> 
+                            </button>
+                        </form>
+                    </li> 
+                    <li>
+                        <form action="/comment/dislike/<%= comment._id %>" method="POST">
+                            <input type="hidden" name="articleId" value="<%= comment.articleId %>">
+                            <button class="btn" type="submit" style="font-size: 1.1rem;">
+                                <i class="fa fa-thumbs-down mr-2"></i> <%= comment.dislikes %> 
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                <div class="comment-action">
+                    <% if(comment.status === 'Banned') { %>
+                      <form action="/admin/comments/approve/" class="d-inline" method="POST">
+                        <input type="hidden" name="id" value="<%= comment.id %>">
+                        <button class="btn btn-success text-light sa-warning-activate" type="button" role="button"
+                          data-toggle="tooltip" data-placement="top" title="Approve" data-original-title="Approve">
+                          <i class="mdi mdi-lock-open-variant-outline"></i>
+                        </button>
+                      </form>
+                      <% } else if (comment.status === 'Public') { %>
+                        <form action="/admin/comments/ban" class="d-inline" method="POST">
+                            <input type="hidden" name="id" value="<%= comment.id %>">
+                            <button  class="btn btn-danger text-light sa-warning-deactivate" type="button" role="button"
+                              data-toggle="tooltip" data-placement="top" title="Ban" data-original-title="Ban">
+                              <i class="mdi mdi-block-helper"></i>
+                            </button>
+                          </form>
+                        <% } %>
+                </div>
+            </div>
+        </li>
+    </ol>
+  </div>

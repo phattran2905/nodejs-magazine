@@ -15,7 +15,7 @@ module.exports = {
                     }]
                 });
                 if (article) {
-                    const comment = await commentUtils.createNewArticle({
+                    const comment = await commentUtils.comment({
                         articleId: req.params.articleId,
                         text: req.body.text,
                         postedBy: req.body.name,

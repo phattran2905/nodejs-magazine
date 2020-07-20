@@ -49,6 +49,9 @@ module.exports = {
                     _id: req.params.id
                 })
                 .populate({
+                    path: 'interaction.comments',
+                })
+                .populate({
                     path: 'categoryId',
                     select: '_id name'
                 })

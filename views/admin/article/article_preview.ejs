@@ -46,8 +46,9 @@
 
   </div>
 <!-- </div> -->
+
 <!-- Comments -->
-<div class="blog_comment_div mt-4 border-top p-3">
+<!-- <div class="blog_comment_div mt-4 border-top p-3">
   <h3 class="wow fadeInUp">Comments <span>(4)</span></h3>
   <ol class="comment-list">
     <li class="wow fadeInUp">
@@ -337,7 +338,67 @@
       </div>
     </li>
   </ol>
-</div>
+</div> -->
 
+<div class="blog_comment_div">
+  <h3 class="wow fadeInUp">Comments <span>(<%= article.interaction.comments.length %>)</span></h3>
+  <ol class="comment-list">
+      <% for(let x = 0; x < article.interaction.comments.length; x++) { %> 
+      <li class="wow fadeInUp">
+          <div class="blog_comment">
+              <div class="blog_comment_img">
+                  <img src="https://via.placeholder.com/70x70" class="img-fluid" alt="">
+              </div>
+              <div class="blog_comment_data">
+                  <h3><%= article.interaction.comments[x].postedBy %> 
+                      <span>- <%= article.interaction.comments[x].createdAt.toLocaleDateString('en-Us',{year: 'numeric', month: 'long', day: '2-digit'}) %></span>
+                  </h3>
+                  <p><%- article.interaction.comments[x].text %></p>
+              </div>
+          </div>
+          <div class="blog_comment_meta">
+              <ul>
+                  <li>
+                      <form action="/comment/like/<%= article.interaction.comments[x]._id %>" method="POST">
+                          <input type="hidden" name="articleId" value="<%= article._id %>">
+                          <button class="btn" type="submit" style="font-size: 1.1rem;">
+                              <i class="fa fa-thumbs-up mr-2"></i> <%= article.interaction.comments[x].likes %> 
+                          </button>
+                      </form>
+                  </li> 
+                  <li>
+                      <form action="/comment/dislike/<%= article.interaction.comments[x]._id %>" method="POST">
+                          <input type="hidden" name="articleId" value="<%= article._id %>">
+                          <button class="btn" type="submit" style="font-size: 1.1rem;">
+                              <i class="fa fa-thumbs-down mr-2"></i> <%= article.interaction.comments[x].dislikes %> 
+                          </button>
+                      </form>
+                  </li>
+              </ul>
+              
+              <div class="comment-action">
+                <% if(article.interaction.comments[x].status === 'Banned') { %>
+                  <form action="/admin/comments/approve/" class="d-inline" method="POST">
+                    <input type="hidden" name="id" value="<%= article.interaction.comments[x]._id %>">
+                    <button class="btn btn-success text-light sa-warning-activate" type="button" role="button"
+                      data-toggle="tooltip" data-placement="top" title="Approve" data-original-title="Approve">
+                      <i class="mdi mdi-lock-open-variant-outline"></i>
+                    </button>
+                  </form>
+                  <% } else if (article.interaction.comments[x].status === 'Public') { %>
+                    <form action="/admin/comments/ban" class="d-inline" method="POST">
+                        <input type="hidden" name="id" value="<%= article.interaction.comments[x]._id %>">
+                        <button  class="btn btn-danger text-light sa-warning-deactivate" type="button" role="button"
+                          data-toggle="tooltip" data-placement="top" title="Ban" data-original-title="Ban">
+                          <i class="mdi mdi-block-helper"></i>
+                        </button>
+                      </form>
+                    <% } %>
+            </div>
+          </div>
+      </li>
+      <% } %> 
+  </ol>
+</div>
 
 <!-- </div> -->

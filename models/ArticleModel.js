@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const uid = require('uid');
 const ArticleSchema = new mongoose.Schema({
     title: {
         type: String,

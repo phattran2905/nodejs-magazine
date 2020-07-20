@@ -5,6 +5,10 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    articleId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Article'
+    },
     likes: {
         type: Number,
         default: 0

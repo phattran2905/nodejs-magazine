@@ -26,7 +26,7 @@ const commentUtils = {
           }
     }
   },
-  createNewArticle: async ({
+  comment: async ({
     articleId,
     text,
     postedBy,
@@ -36,6 +36,7 @@ const commentUtils = {
 
     try {
       const addedComment = await CommentModel.create({
+        articleId: articleId,
         text: text,
         postedBy: postedBy,
         email: email
