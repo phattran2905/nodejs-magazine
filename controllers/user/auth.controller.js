@@ -7,21 +7,17 @@ const articleUtils = require('../../utils/articleUtils');
 const commonUtils = require('../../utils/commonUtils');
 const mailUtils = require('../../utils/mailUtils');
 const validateAuth = require('../../validation/user/validateAuth');
+const menuUtils = require("../../utils/menuUtils");
 
 module.exports = {
     showLoginForm:  [
-        authUtils.checkNotAuthenticatedAuthor,
+        // authUtils.checkNotAuthenticatedAuthor,
         async (req, res) => {
-            const menu_list = await MenuModel.find({
-                status: 'Activated'
-            }).sort({
-                display_order: 'asc'
-            });
             const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
             const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
             const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5);
-            res.render("user/auth/login", {
-                menu_list: menu_list,
+            return res.render("user/auth/login", {
+                menu_list: await menuUtils.getMenuList(),
                 latestArticles: latestArticles,
                 popularArticles: popularArticles,
             });
@@ -29,43 +25,43 @@ module.exports = {
     ],
 
     login: [
-        authUtils.checkNotAuthenticatedAuthor,
+        // authUtils.checkNotAuthenticatedAuthor,
         passport.authenticate('auth-user', {
             failureRedirect: "/login",
             failureFlash: true
         }),
         async (req, res, next) => {
-                if (!req.body.remember_me) {
-                    return next();
-                }
+            if (!req.body.remember_me) {
+                return next();
+            }
 
-                try {
-                    const newToken = require('nanoid').nanoid(64);
-                    const author = await AuthorModel.findOneAndUpdate({
-                        _id: req.user._id
-                    }, {
-                        remember_token: newToken
+            try {
+                const newToken = require('nanoid').nanoid(64);
+                const author = await AuthorModel.findOneAndUpdate({
+                    _id: req.user._id
+                }, {
+                    remember_token: newToken
+                });
+                if (author) {
+                    res.cookie('remember_me', author.remember_token, {
+                        path: '/',
+                        httpOnly: true,
+                        maxAge: 604800000
                     });
-                    if (author) {
-                        res.cookie('remember_me', author.remember_token, {
-                            path: '/',
-                            httpOnly: true,
-                            maxAge: 604800000
-                        });
-                    }
-                    return next();
-                } catch (error) {
-                    return error;
                 }
+                return next();
+            } catch (error) {
+                return error;
+            }
         },
         (req, res) => {
             req.session.user = req.user;
-            return res.redirect('/');
+            return res.redirect('/home');
         }
     ],
 
     logout:  [
-        authUtils.checkAuthenticatedAuthor,
+        // authUtils.checkAuthenticatedAuthor,
         (req, res) => {
             res.clearCookie('remember_me');
             req.logout();
@@ -75,19 +71,14 @@ module.exports = {
     ],
 
     showSignUpForm: [
-        authUtils.checkNotAuthenticatedAuthor,
+        // authUtils.checkNotAuthenticatedAuthor,
         async (req, res) => {
             try {
-                const menu_list = await MenuModel.find({
-                    status: 'Activated'
-                }).sort({
-                    display_order: 'asc'
-                });
                 const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
                 const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
                 const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5);
                 res.render("user/auth/signup", {
-                    menu_list: menu_list,
+                    menu_list: await menuUtils.getMenuList(),
                     latestArticles: latestArticles,
                     popularArticles: popularArticles,
                 });

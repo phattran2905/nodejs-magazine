@@ -15,12 +15,12 @@
                     <% for(let i =0; i < menu_list.length; i++) { %> 
                         <!-- <li class="active"> -->
                         <li >
-                            <a href="/<%= menu_list[i].encoded_string %>"><%= menu_list[i].name %></a>
+                            <a href="/category?id=<%= menu_list[i].categoryId %>"><%= menu_list[i].name %></a>
                             <% if (menu_list[i].submenu.length > 0) { %> 
                             <ul class="sub-menu">
                                 <% for(let j =0 ; j < menu_list[i].submenu.length; j++) { %> 
                                 <li>
-                                    <a href="/<%= menu_list[i].encoded_string + '/' + menu_list[i].submenu[j].encoded_string %>">
+                                    <a href="/category?id=<%= menu_list[i].submenu.categoryId %>">
                                         <%= menu_list[i].submenu[j].name  %> 
                                     </a>
                                 </li>

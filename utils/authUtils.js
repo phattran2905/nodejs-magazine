@@ -29,7 +29,7 @@ const authUtils = {
         if (req.isUnauthenticated() || typeof req.session.user === 'undefined'){
             return next();
         }
-        return res.redirect("/");
+        return res.redirect("/home");
     },
     reloadLoggedAdmin: async (req, id ) => {
         try {

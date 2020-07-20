@@ -28,7 +28,7 @@ module.exports = {
         for (let i = 0; i < hotCategories.length; i++) {
           articlesByHotCategory.push({
             category: hotCategories[i],
-            articles: await articleUtils.getArticleByCategory(hotCategories[i]._id, 5, articleSelectedFields)
+            articles: await articleUtils.getArticleByCategoryId(hotCategories[i]._id, 5, articleSelectedFields)
           })
         };
         return res.render('user/index', {
@@ -41,6 +41,7 @@ module.exports = {
           information: authUtils.getAuthorProfile(req)
         });
       } catch (error) {
+        console.log(error);
         return res.render(
           "error/user-404", {
             redirectLink: '/'
@@ -52,11 +53,6 @@ module.exports = {
     showArticle: async (req, res) => {
       try {
         if (req.query.id) {
-          const menu_list = await MenuModel.find({
-            status: 'Activated'
-          }).sort({
-            display_order: 'asc'
-          });
           const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
@@ -74,7 +70,8 @@ module.exports = {
                 latestArticles: latestArticles,
                 popularArticles: popularArticles,
                 article: await articleUtils.getArticleById(req.query.id, articleSelectedFields),
-                menu_list: menu_list,
+                menu_list: await menuUtils.getMenuList(),
+                information: authUtils.getAuthorProfile(req)
               });
             }
           }
@@ -86,20 +83,39 @@ module.exports = {
       }
     },
   
-    showAboutPage: async (req, res) => {
+    showArticlesByCategoryId: async (req, res) => {
+      if (req.query.id) {
+        try {
+          const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+
+          const articlesByCategory = await articleUtils.getArticleByCategoryId(req.query.id, numOfArticles = 5, articleSelectedFields);
+
+          if (articlesByCategory) {
+            return res.render('user/articles_by_category.ejs', {
+              latestArticles: latestArticles,
+              popularArticles: popularArticles,
+              articlesByCategory: articlesByCategory,
+              menu_list: await menuUtils.getMenuList(),
+              information: authUtils.getAuthorProfile(req)
+            });
+          }
+        } catch (error) {
+          return res.render("error/user-404");
+        }
+      }
+      return res.render("error/user-404");
+    },
   
+    showAboutPage: async (req, res) => {
       try {
-        const menu_list = await MenuModel.find({
-          status: 'Activated'
-        }).sort({
-          display_order: 'asc'
-        });
         const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
         const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
         const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
   
         return res.render('user/about', {
-          menu_list: menu_list,
+          menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,
           popularArticles: popularArticles,
           information: authUtils.getAuthorProfile(req)
@@ -110,19 +126,13 @@ module.exports = {
     },
   
     showContactPage: async (req, res) => {
-  
       try {
-        const menu_list = await MenuModel.find({
-          status: 'Activated'
-        }).sort({
-          display_order: 'asc'
-        });
         const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
         const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
         const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
   
         return res.render('user/contact', {
-          menu_list: menu_list,
+          menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,
           popularArticles: popularArticles,
           information: authUtils.getAuthorProfile(req)
@@ -133,19 +143,13 @@ module.exports = {
     },
 
     showTermsAndPolicy: async (req, res) => {
-  
       try {
-        const menu_list = await MenuModel.find({
-          status: 'Activated'
-        }).sort({
-          display_order: 'asc'
-        });
         const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
         const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
         const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
   
         return res.render('user/terms_of_services', {
-          menu_list: menu_list,
+          menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,
           popularArticles: popularArticles,
           information: authUtils.getAuthorProfile(req)

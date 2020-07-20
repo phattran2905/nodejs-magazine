@@ -183,13 +183,14 @@ const articleUtils = {
     } catch (error) {
       return null;
     }
-
   },
-  getArticleByCategory: async (categoryId = null , numOfArticles = null, selectedFields = null) => {
-    if (!categoryId || numOfArticles <= 0 || !selectedFields) {return null;}
 
-    const listOfArticles = await ArticleModel
-      .find({status: 'Published'}, selectedFields)
+  getArticleByCategoryId: async (categoryId = null , numOfArticles = null, selectedFields = null) => {
+    if (!categoryId || numOfArticles <= 0 || !selectedFields) {return null;}
+    
+    try {
+      const listOfArticles = await ArticleModel
+      .find({$and: [{status: 'Published'}, {categoryId: categoryId}]}, selectedFields)
       .populate({
         path: 'categoryId',
         select: '_id name'
@@ -202,7 +203,10 @@ const articleUtils = {
       .limit(numOfArticles);
 
       return listOfArticles;
-  },
+    } catch (error) {
+      return null;
+    }
+  }
 
 }
 

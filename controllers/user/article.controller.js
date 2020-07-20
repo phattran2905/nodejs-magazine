@@ -1,4 +1,5 @@
 const authUtils = require('../../utils/authUtils');
+const menuUtils = require('../../utils/menuUtils');
 const CategoryModel = require('../../models/CategoryModel');
 const ArticleModel = require('../../models/ArticleModel');
 const articleUtils = require('../../utils/articleUtils');
@@ -26,6 +27,7 @@ module.exports = {
                 articles: articles,
                 latestArticles: latestArticles,
                 popularArticles: popularArticles,
+                menu_list: await menuUtils.getMenuList(),
                 information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
@@ -35,6 +37,9 @@ module.exports = {
 
     previewArticle: async (req, res) => {
         try {
+            const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+            const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
+            const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
             const article = await ArticleModel
                 .findOne({
                     _id: req.params.articleId
@@ -52,6 +57,8 @@ module.exports = {
                     content: 'article_preview',
                     header: 'Article',
                     article: article,
+                    latestArticles: latestArticles,
+                    popularArticles: popularArticles,
                     information: authUtils.getAuthorProfile(req)
                 });
             }
@@ -63,16 +70,25 @@ module.exports = {
     },
 
     showAddArticleForm: async (req, res) => {
-        const categories = await CategoryModel.find({
-            status: 'Activated'
-        });
+        try {
+            const categories = await CategoryModel.find({
+                status: 'Activated'
+            });
+            const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+            const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
+            const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
 
-        res.render('user/article/article_base', {
-            content: 'article_add',
-            header: 'Article',
-            categories: categories,
-            information: authUtils.getAuthorProfile(req)
-        });
+            res.render('user/article/article_base', {
+                content: 'article_add',
+                header: 'Article',
+                categories: categories,
+                latestArticles: latestArticles,
+                popularArticles: popularArticles,
+                information: authUtils.getAuthorProfile(req)
+            });
+        } catch (error) {
+            
+        }
     },
 
     addArticle: [
@@ -88,7 +104,9 @@ module.exports = {
         validation.add,
         async (req, res) => {
             try {
-
+                const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+                const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
+                const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
                 const {
                     hasError,
                     errors,
@@ -105,6 +123,8 @@ module.exports = {
                         content: 'article_add',
                         header: 'Article',
                         categories: categories,
+                        latestArticles: latestArticles,
+                        popularArticles: popularArticles,
                         information: authUtils.getAuthorProfile(req)
                     });
                 };
@@ -145,6 +165,9 @@ module.exports = {
                     path: 'categoryId',
                     select: '_id name'
                 });
+            const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+            const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
+            const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
 
             if (article) {
                 return res.render(
@@ -154,6 +177,8 @@ module.exports = {
                         header: 'Article',
                         article: article,
                         categories: categories,
+                        latestArticles: latestArticles,
+                        popularArticles: popularArticles,
                         information: authUtils.getAuthorProfile(req)
                     });
             }
@@ -188,6 +213,9 @@ module.exports = {
                         path: 'categoryId',
                         select: '_id name'
                     });
+                const returnFields = '_id title interaction status categoryId authorId updated createdAt';
+                const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
+                const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
 
                 if (article) {
                     const {
@@ -204,6 +232,8 @@ module.exports = {
                                 content: 'article_update',
                                 header: 'Article',
                                 article: article,
+                                latestArticles: latestArticles,
+                                popularArticles: popularArticles,
                                 categories: categories,
                                 information: authUtils.getAuthorProfile(req)
                             });

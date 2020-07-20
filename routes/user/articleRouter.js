@@ -6,22 +6,22 @@ const {
 } = require('../../controllers/user/article.controller');
 
 
-router.get('/articles', showArticleList);
+router.get('/articles', checkAuthenticatedAuthor, showArticleList);
 
-router.get('/articles/preview/:articleId', previewArticle);
+router.get('/articles/preview/:articleId', checkAuthenticatedAuthor, previewArticle);
 
-router.get('/articles/add', showAddArticleForm);
+router.get('/articles/add', checkAuthenticatedAuthor, showAddArticleForm);
 
-router.post('/articles/add', addArticle);
+router.post('/articles/add', checkAuthenticatedAuthor, addArticle);
 
-router.get("/articles/update/:articleId", showUpdateArticleForm);
+router.get("/articles/update/:articleId", checkAuthenticatedAuthor, showUpdateArticleForm);
 
-router.post("/articles/update/:articleId", updateArticle);
+router.post("/articles/update/:articleId", checkAuthenticatedAuthor, updateArticle);
 
-router.post("/articles/publish", publishArticle);
+router.post("/articles/publish", checkAuthenticatedAuthor, publishArticle);
 
-router.post("/articles/unpublish", unpublishArticle);
+router.post("/articles/unpublish", checkAuthenticatedAuthor, unpublishArticle);
 
-router.post("/articles/delete/", deleteArticle);
+router.post("/articles/delete/", checkAuthenticatedAuthor, deleteArticle);
 
 module.exports = router;
