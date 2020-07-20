@@ -20,7 +20,6 @@ module.exports = {
                 information: authUtils.getAdminProfile(req)
             });
         } catch (error) {
-            console.log(error)
             return res.render(
                 "error/admin-404", {
                     redirectLink: '/admin/menu'
@@ -53,22 +52,28 @@ module.exports = {
     addMenu: [
         validation.add,
         async (req, res) => {
-            const {
-                hasError,
-                validInput,
-                errors
-            } = validation.result(req);
-            if (hasError) {
-                return res.render('admin/menu/menu_base', {
-                    header: 'Add new menu',
-                    content: 'add',
-                    validInput: validInput,
-                    errors: errors,
-                    information: authUtils.getAdminProfile(req)
-                });
-            }
 
             try {
+                const categories = await CategoryModel.find({
+                    status: 'Activated'
+                });
+                const {
+                    hasError,
+                    validInput,
+                    errors
+                } = validation.result(req);
+
+                if (hasError) {
+                    return res.render('admin/menu/menu_base', {
+                        header: 'Add new menu',
+                        content: 'add',
+                        validInput: validInput,
+                        categories: categories,
+                        errors: errors,
+                        information: authUtils.getAdminProfile(req)
+                    });
+                }
+
                 const addedMenu = await menuUtils.createNewMenu({
                     name: req.body.name,
                     categoryId: req.body.categoryId,
@@ -125,12 +130,12 @@ module.exports = {
     updateMenu: [
         validation.add,
         async (req, res) => {
-            const categories = await CategoryModel.find({
-                status: 'Activated'
-            });
-            const menu = await MenuModel.findById(req.params.id);
-
+            
             try {
+                const categories = await CategoryModel.find({
+                    status: 'Activated'
+                });
+                const menu = await MenuModel.findById(req.params.id);
                 const {
                     hasError,
                     validInput,
@@ -150,14 +155,15 @@ module.exports = {
                 }
 
                 if (menu) {
-                    const updatedMenu = await MenuModel.updateOne({
-                        _id: req.params.menuId
+                    const updatedMenu = await MenuModel.findOneAndUpdate({
+                        _id: req.params.id
                     }, {
                         name: validInput.name,
-                        categoryId: validInput.categoryId,
+                        categoryId: req.body.categoryId,
                         encoded_string: validInput.encoded_string.toLowerCase(),
                         display_order: validInput.display_order
                     });
+                    console.log(updatedMenu)
                     if (updatedMenu) {
                         req.flash('success', 'Successfully! The new menu was updated.')
                     } else {
@@ -171,6 +177,7 @@ module.exports = {
                     }
                 );
             } catch (error) {
+                console.log(error)
                 return res.render(
                     "error/admin-404", {
                         redirectLink: '/admin/menu'
@@ -237,11 +244,16 @@ module.exports = {
             const menu = await MenuModel.findOneAndDelete({
                 _id: req.body.id
             });
-            if (menu) {
-                req.flash('success', 'Successfully! The menu was deleted.')
-            } else {
-                req.flash('fail', 'Failed! An error occurred during the process.')
+            if (menu) { 
+                const submenu = await SubmenuModel.findByIdAndRemove({
+                menuId: menu._id
+                });
+                if (submenu) { 
+                    req.flash('success', 'Successfully! The menu was deleted.')
+                }
             }
+
+            req.flash('fail', 'Failed! An error occurred during the process.')
             return res.redirect('/admin/menu');
         } catch (error) {
             return res.render(
@@ -257,28 +269,24 @@ module.exports = {
             const menu = await MenuModel
                 .findById(req.params.menuId)
                 .populate({
-                    path: 'submenu',
-                    sort: {
-                        display_order: 'asc'
-                    },
-                    populate: {
-                        path: 'categoryId',
-                        select: '_id name'
-                    }
-                })
-                .populate({
                     path: 'categoryId',
                     select: '_id name'
                 });
             const categories = await CategoryModel.find({
                 status: 'Activated'
             });
-
+            const submenu = await SubmenuModel.find({menuId: req.params.menuId})
+            .populate({
+                path: 'categoryId',
+                select: '_id name'
+            })
+            .sort({display_order: 'asc'});
             if (menu) {
                 return res.render('admin/menu/menu_base', {
                     header: 'Submenu',
                     content: 'submenu',
                     menu: menu,
+                    submenu: submenu,
                     categories: categories,
                     information: authUtils.getAdminProfile(req)
                 });
@@ -302,12 +310,24 @@ module.exports = {
         async (req, res) => {
 
             try {
-                const menu = await MenuModel.findById(req.params.menuId);
-                const categories = await CategoryModel.find({
-                    status: 'Activated'
+                const menu = await MenuModel.findById(req.params.menuId)
+                .populate({
+                    path: 'categoryId',
+                    select: '_id name'
                 });
 
                 if (menu) {
+                        
+                    const categories = await CategoryModel.find({
+                        status: 'Activated'
+                    });
+
+                    const submenu = await SubmenuModel.find({menuId: req.params.menuId})
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    })
+                    .sort({display_order: 'asc'});
 
                     const {
                         hasError,
@@ -320,22 +340,21 @@ module.exports = {
                             header: 'Submenu',
                             content: 'submenu',
                             menu: menu,
+                            submenu: submenu,
                             categories: categories,
                             validInput: validInput,
                             errors: errors,
                             information: authUtils.getAdminProfile(req)
                         });
                     }
-                    const submenu = await SubmenuModel.create({
+                    const newSubmenu = await SubmenuModel.create({
                         name: req.body.submenu_name,
                         menuId: req.params.menuId,
                         categoryId: req.body.categoryId,
                         encoded_string: req.body.submenu_encoded_string.toLowerCase(),
                         display_order: req.body.submenu_display_order
                     });
-                    if (submenu) {
-                        menu.submenu.push(submenu._id);
-                        await menu.save();
+                    if (newSubmenu) {
                         req.flash('success', 'Successfully! The new menu was updated.');
                     } else {
                         req.flash('fail', 'Failed! An error occurred during the process.');
@@ -358,6 +377,59 @@ module.exports = {
             }
         }
     ],
+    
+    activateSubmenu: async (req, res) => {
+        try {
+            const submenu = await SubmenuModel.findOneAndUpdate({
+                $and: [{
+                    _id: req.body.id
+                }, {
+                    status: 'Deactivated'
+                }]
+            }, {
+                status: 'Activated'
+            });
+            if (submenu) {
+                req.flash('success', 'Successfully! The Submenu was activated.')
+            } else {
+                req.flash('fail', 'Failed! An error occurred during the process.')
+            }
+            return res.redirect(`/admin/menu/${submenu.menuId}/submenu`);
+        } catch (error) {
+            return res.render(
+                "error/admin-404", {
+                    redirectLink: '/admin/menu'
+                }
+            );
+        }
+    },
+
+    deactivateSubmenu: async (req, res) => {
+        try {
+            const submenu = await SubmenuModel.findOneAndUpdate({
+                $and: [{
+                    _id: req.body.id
+                }, {
+                    status: 'Activated'
+                }]
+            }, {
+                status: 'Deactivated'
+            });
+            if (submenu) {
+                req.flash('success', 'Successfully! The Submenu was deactivated.')
+            } else {
+                req.flash('fail', 'Failed! An error occurred during the process.')
+            }
+            return res.redirect(`/admin/menu/${submenu.menuId}/submenu`);
+        } catch (error) {
+            return res.render(
+                "error/admin-404", {
+                    redirectLink: '/admin/menu'
+                }
+            );
+        }
+    },
+
 
     deleteSubmenu: async (req, res) => {
         try {

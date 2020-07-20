@@ -1,4 +1,5 @@
 const MenuModel = require('../models/MenuModel');
+const SubmenuModel = require('../models/SubmenuModel');
 
 module.exports = {
     validate: {
@@ -62,15 +63,12 @@ module.exports = {
                 if (!name) {return Promise.reject(false);}
                 const menuId = req.params.menuId;
                 try {
-                    const menu = await MenuModel.findOne({_id: menuId});
+                    const menu = await SubmenuModel.findOne({name: name});
                     if (menu) {
-                        const submenu = menu.submenu;
-                        for(let i =0; i < submenu.length; i++) {
-                            if (submenu[i].name == name) {
-                                return Promise.resolve(true);
-                            }
+                        if (menu.menuId != menuId) {
+                            return Promise.reject(false);
                         }
-                        return Promise.reject(false);
+                        return Promise.resolve(true);
                     }
                     return Promise.reject(false);
                 } catch (error) {
@@ -81,15 +79,12 @@ module.exports = {
                 if (!display_order) return (Promise.reject(false));
                 const menuId = req.params.menuId;
                 try {
-                    const menu = await MenuModel.findOne({_id: menuId});
+                    const menu = await SubmenuModel.findOne({display_order: display_order});
                     if(menu) {
-                        const submenu = menu.submenu;
-                        for(let i =0; i < submenu.length; i++) {
-                            if (submenu[i].display_order == display_order) {
-                                return Promise.resolve(true);
-                            }
+                        if (menu.menuId != menuId) {
+                            return Promise.reject(false);
                         }
-                        return Promise.reject(false);
+                        return Promise.resolve(true);
                     }
                     return Promise.reject(false);
                 } catch (error) {
@@ -100,15 +95,12 @@ module.exports = {
                 if (!encoded_string) return (Promise.reject(false));
                 const menuId = req.params.menuId;
                 try {
-                    const menu = await MenuModel.findOne({_id: menuId});
+                    const menu = await MenuModel.findOne({encoded_string: encoded_string});
                     if(menu) {
-                        const submenu = menu.submenu;
-                        for(let i =0; i < submenu.length; i++) {
-                            if (submenu[i].encoded_string == encoded_string) {
-                                return Promise.resolve(true);
-                            }
+                        if (menu.menuId != menuId) {
+                            return Promise.reject(false);
                         }
-                        return Promise.reject(false);
+                        return Promise.resolve(true);
                     }
                     return Promise.reject(false);
                 } catch (error) {
@@ -137,13 +129,13 @@ module.exports = {
     },
     getMenuList: async () => {
         try {
+            const menuList = await MenuModel.find({status: 'Activated'}).sort({display_order: 'asc'});
+            for(let i = 0; i < menuList.length; i++) {
+                menuList[i].submenu  = await SubmenuModel
+                    .find({$and: [{menuId: menuList[i]._id},{status: 'Activated'}] })
+                    .sort({display_order: 'asc'});
                 
-            const menuList = await MenuModel.find({status: 'Activated'})
-            .populate({
-                path: 'submenu'
-            })
-            .sort({display_order: 'asc'});
-
+            }
             return menuList;
         } catch (error) {
             return null;

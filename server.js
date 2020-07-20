@@ -49,7 +49,7 @@ app.use(passport.authenticate('remember-me'));
 app.use((req,res,next) => {
     const authenticatedRoutes = ['logout', 'articles', 'profile'];
     const authUtils = require('./utils/authUtils');
-    console.log(req.originalUrl.split('/'));
+    
     if(authenticatedRoutes.find(element => element == req.originalUrl.split('/')[1])){
         return authUtils.checkAuthenticatedAuthor(req,res,next);
     }else if (req.originalUrl == '/') {

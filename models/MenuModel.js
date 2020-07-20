@@ -14,12 +14,12 @@ const MenuSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    submenu: [
-        { 
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Submenu'
-        }
-    ],
+    // submenu: [
+    //     { 
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'Submenu'
+    //     }
+    // ],
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'

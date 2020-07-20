@@ -31,7 +31,6 @@ module.exports = {
             articles: await articleUtils.getArticleByCategory(hotCategories[i]._id, 5, articleSelectedFields)
           })
         };
-  
         return res.render('user/index', {
           menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,

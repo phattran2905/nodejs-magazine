@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const {checkAuthenticatedAdmin} = require('../../utils/authUtils');
 const {
-    showMenuList, showAddMenuForm, addMenu, showUpdateMenuForm, updateMenu,
-    activateMenu, deactivateMenu, deleteMenu, showAddSubmenuForm, addSubmenu, deleteSubmenu
+    showMenuList, showAddMenuForm, addMenu, showUpdateMenuForm, updateMenu, activateMenu, deactivateMenu, 
+    deleteMenu, showAddSubmenuForm, addSubmenu, activateSubmenu, deactivateSubmenu ,deleteSubmenu
 } = require('../../controllers/admin/menu.controller');
 
 
@@ -25,6 +25,10 @@ router.post('/menu/delete', deleteMenu);
 router.get('/menu/:menuId/submenu', showAddSubmenuForm);
 
 router.post('/menu/:menuId/submenu/', addSubmenu);
+
+router.post('/menu/:menuId/submenu/activate', activateSubmenu);
+
+router.post('/menu/:menuId/submenu/deactivate', deactivateSubmenu);
 
 router.post('/menu/:menuId/submenu/delete', deleteSubmenu);
 

@@ -27,7 +27,7 @@ module.exports = {
             .trim()
             .isAlphanumeric().bail()
             .isLength({min: 3}).withMessage('Encoded string must be at least 3 characters.')
-            .bail().not().custom(menuUtils.validate.checkExistentEncodedString).withMessage('This encoded string already existed.'),
+            .bail().not().custom(menuUtils.validate.submenu.checkExistentEncodedString).withMessage('This encoded string already existed.'),
         body('submenu_display_order') 
             .isNumeric().withMessage('Invalid order.').bail()
             .not().custom(menuUtils.validate.submenu.checkExistentDisplayOrder).withMessage('This display order was already taken.')
