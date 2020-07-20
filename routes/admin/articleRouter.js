@@ -4,7 +4,6 @@ const {
 } = require('../../controllers/admin/article.controller');
 const { checkAuthenticatedAdmin } = require('../../utils/authUtils');
 
-// router.use(checkAuthenticatedAdmin);
 
 router.get('/articles', showArticleList);
 

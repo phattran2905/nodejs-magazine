@@ -4,13 +4,13 @@ const passport = require("passport");
 const { showLoginForm, login, logout } = new require('../../controllers/admin/auth.controller');
 
 router.get("/login",
-  authUtils.checkNotAuthenticatedAdmin,
+  // authUtils.checkNotAuthenticatedAdmin,
   showLoginForm
 );
 
 router.post(
   "/login",
-  authUtils.checkNotAuthenticatedAdmin,
+  // authUtils.checkNotAuthenticatedAdmin,
   passport.authenticate("auth-admin", 
   {
     failureRedirect: "/admin/login",

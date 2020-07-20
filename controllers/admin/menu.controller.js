@@ -2,6 +2,7 @@ const MenuModel = require('../../models/MenuModel');
 const SubmenuModel = require('../../models/SubmenuModel');
 const validation = require('../../validation/admin/validateMenu');
 const menuUtils = require('../../utils/menuUtils');
+const authUtils = require('../../utils/authUtils');
 const CategoryModel = require('../../models/CategoryModel');
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
                 information: authUtils.getAdminProfile(req)
             });
         } catch (error) {
+            console.log(error)
             return res.render(
                 "error/admin-404", {
                     redirectLink: '/admin/menu'

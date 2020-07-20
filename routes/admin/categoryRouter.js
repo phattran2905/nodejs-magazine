@@ -5,7 +5,6 @@ const {
     activateCategory, deactivateCategory, deleteCategory
 } = require('../../controllers/admin/category.controller');
 
-// router.use(checkAuthenticatedAdmin);
 
 router.get('/categories', showCategoryList);
 

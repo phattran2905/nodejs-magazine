@@ -49,7 +49,15 @@ app.use(passport.authenticate('remember-me'));
 app.use( require('./routes/user/routes') );
 
 // Routes for Administration
-app.use('/admin', require('./routes/admin/routes') );
+app.use('/admin', (req,res, next) => {
+    const authUtils = require('./utils/authUtils');
+    if(req.url === '/login') {
+        return authUtils.checkNotAuthenticatedAdmin(req,res,next);
+    }else {
+        return authUtils.checkAuthenticatedAdmin(req,res,next);
+    }
+},
+require('./routes/admin/routes') );
 
 // SET PORT
 app.listen(process.env.PORT || 5000, () => {
