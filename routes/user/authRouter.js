@@ -5,7 +5,6 @@ const {
     sendVerification, showSendResetPwdEmailForm, sendResetPwdEmail, showResetPwdForm, resetPwd
 } = require('../../controllers/user/auth.controller');
 
-// router.use(checkNotAuthenticatedAuthor);
 
 router.get('/login', showLoginForm)
 

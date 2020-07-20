@@ -4,7 +4,6 @@ const {
     showProfile, updateProfile, uploadAvatar, showChangePwdForm, changePwd
 } = require('../../controllers/user/profile.controller');
 
-// router.use(checkAuthenticatedAuthor);
 
 router.get('/profile', showProfile);
 

@@ -46,7 +46,19 @@ app.use(passport.session());
 app.use(passport.authenticate('remember-me'));
 
 // Routes for Users
-app.use( require('./routes/user/routes') );
+app.use((req,res,next) => {
+    const authenticatedRoutes = ['logout', 'articles', 'profile'];
+    const authUtils = require('./utils/authUtils');
+    console.log(req.originalUrl.split('/'));
+    if(authenticatedRoutes.find(element => element == req.originalUrl.split('/')[1])){
+        return authUtils.checkAuthenticatedAuthor(req,res,next);
+    }else if (req.originalUrl == '/') {
+        return next();
+    }else {
+        return authUtils.checkNotAuthenticatedAuthor(req,res,next);
+    }
+}
+, require('./routes/user/routes') );
 
 // Routes for Administration
 app.use('/admin', (req,res, next) => {

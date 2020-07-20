@@ -5,7 +5,6 @@ const {
     updateArticle, publishArticle, unpublishArticle, deleteArticle
 } = require('../../controllers/user/article.controller');
 
-// router.use(checkAuthenticatedAuthor);
 
 router.get('/articles', showArticleList);
 
