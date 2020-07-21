@@ -206,6 +206,30 @@ const articleUtils = {
     } catch (error) {
       return null;
     }
+  },
+
+  getArticleByTitle: async (title = null , numOfArticles = null, selectedFields = null) => {
+    if (!title || numOfArticles <= 0 || !selectedFields) {return null;}
+    
+    try {
+      const listOfArticles = await ArticleModel
+      // .find({$and: [{status: 'Published'}, {$text: {$search: title}}]}, selectedFields)
+      .find({$text: {$search: encodeURI(title)}}, selectedFields)
+      .populate({
+        path: 'categoryId',
+        select: '_id name'
+      })
+      .populate({
+        path: 'authorId',
+        select: '_id profile'
+      })
+      .sort({createdAt: 'desc'})
+      .limit(numOfArticles);
+      return listOfArticles;
+    } catch (error) {
+      console.log(error)
+      return null;
+    }
   }
 
 }

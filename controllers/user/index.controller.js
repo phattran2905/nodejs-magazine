@@ -108,6 +108,31 @@ module.exports = {
       return res.render("error/user-404");
     },
   
+    searchArticlesByTitle: async (req, res) => {
+      if (req.query.title) {
+        try {
+          const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
+          const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
+          const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
+
+          const articlesByTitle = await articleUtils.getArticleByTitle(req.query.title, numOfArticles = 5, articleSelectedFields);
+
+          if (articlesByTitle) {
+            return res.render('user/search.ejs', {
+              latestArticles: latestArticles,
+              popularArticles: popularArticles,
+              articlesByTitle: articlesByTitle,
+              menu_list: await menuUtils.getMenuList(),
+              information: authUtils.getAuthorProfile(req)
+            });
+          }
+        } catch (error) {
+          return res.render("error/user-404");
+        }
+      }
+      return res.render("error/user-404");
+    },
+
     showAboutPage: async (req, res) => {
       try {
         const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
