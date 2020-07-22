@@ -17,13 +17,9 @@ const CommentSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    postedBy: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true
+    audienceId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Audience'
     },
     status: {
         type: String,

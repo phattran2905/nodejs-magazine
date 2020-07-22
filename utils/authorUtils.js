@@ -2,6 +2,7 @@ const AuthorModel = require('../models/AuthorModel');
 const commonUtils = require('./commonUtils');
 const mailUtils = require('./mailUtils');
 const bcrypt = require('bcrypt');
+const ArticleModel = require('../models/ArticleModel');
 
 const validate = {
     // Express-validator requires returning a Promise
@@ -162,12 +163,35 @@ const validate = {
 }
 
 const AuthorUtils = {
-    getAuthorByVerifyToken: async (verifyToken) => {
-        if (!verifyToken) return null;
+    getAuthorById: async (authorId = null) => {
+        if (!authorId) {return null;}
         
         try{
-            const author = await AuthorModel.findOne({'verifyToken.token': verifyToken}).exec();
-            if (author) return author;
+            const author = await AuthorModel.findOne({_id: authorId});
+            if (author) {
+                const articlesByAuthor = await ArticleModel
+                    .find({$and: [{status: 'Published'}, {authorId: authorId}]})
+                    .populate({
+                        path: 'categoryId',
+                        select: '_id name'
+                    })
+                    .sort({'interaction.views': 'desc'});
+                let numOfViews = 0;
+                for(let i=0; i < articlesByAuthor.length; i++){
+                    numOfViews+= articlesByAuthor[i].interaction.views;
+                }
+
+                return {
+                    info: author,
+                    articles: articlesByAuthor,
+                    statistics: {
+                        numOfArticles: articlesByAuthor.length,
+                        numOfViews: numOfViews,
+                        numOfFollowers: author.followers.length,
+                    }
+                }
+            }
+
             return null;
         }catch(error){
             return null;

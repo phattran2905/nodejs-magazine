@@ -103,21 +103,53 @@ form.profile_information_form {
 }
 #datatable_length label{
     width: 80%;
-  }
-  #datatable_length label select {
-    width: 25%;
-    margin: 5px;
-  }
-  #datatable_filter label{
+}
+#datatable_length label select {
+width: 25%;
+margin: 5px;
+}
+#datatable_filter label{
+width: 100%;
+}
+#datatable_filter label input{
+width: 75%;
+float: right;
+}
+#datatable_paginate {
+float: right;
+}
+#dropdownMenuButton::after {
+    display: none;
+}
+.pagination ul {
+    list-style: none;
     width: 100%;
-  }
-  #datatable_filter label input{
-    width: 75%;
-    float: right;
-  }
-  #datatable_paginate {
-    float: right;
-  }
-  #dropdownMenuButton::after {
-      display: none;
-  }
+}
+.pagination ul li{
+    display: inline-block;
+    border: 1px solid #27333a;
+    border-radius: 10px;
+    margin: 0 5px;
+}
+.pagination ul li:hover,
+.pagination ul li:hover a i 
+ {
+    background-color: #10182F;
+    color: #FFFFFF;
+    transition: ease;
+    cursor: pointer;
+}
+.pagination ul li a{
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    padding: 15px 20px;
+    color: #545D7A;
+}
+.pagination ul li.active{
+    background-color: #10182F;
+}
+.pagination ul li.active a{
+    color: #FFFFFF;
+    cursor: text;
+}

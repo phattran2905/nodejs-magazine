@@ -25,16 +25,9 @@ const AuthorSchema = mongoose.Schema({
             size: Number
         }
     },
-    popularity: {
-        views: {
-            type: Number,
-            default: 0
-        },
-        likes: {
-            type: Number,
-            default: 0
-        }
-    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId
+    }],
     verifyToken: {
         token: String,
         expiredOn: {

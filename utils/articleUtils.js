@@ -175,6 +175,7 @@ const articleUtils = {
         })
         .populate({
           path: 'interaction.comments',
+          populate: {path: 'audienceId', select: '_id name email'},
           limit: 5,
           sort: {likes: 'desc'}
         });

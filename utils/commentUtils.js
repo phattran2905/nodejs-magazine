@@ -1,5 +1,7 @@
 const ArticleModel = require('../models/ArticleModel');
 const CommentModel = require('../models/CommentModel');
+const AudienceModel = require('../models/AudienceModel');
+const commonUtils = require('./commonUtils');
 
 const commentUtils = {
   validate: {
@@ -35,61 +37,37 @@ const commentUtils = {
     if (!articleId || !text || !postedBy || !email) {return null;}
 
     try {
-      const addedComment = await CommentModel.create({
-        articleId: articleId,
-        text: text,
-        postedBy: postedBy,
-        email: email
-      });
-      
-      if (addedComment) {
-          let article = await ArticleModel.findOne({_id: articleId});
-          article.interaction.comments.push(addedComment._id);
-          const updatedArticle = await article.save();
-          if(updatedArticle) {return addedComment};
+      let audience = null;
+      let addedComment = null;
+      if (!await commonUtils.isExistentAudienceEmail(email)){
+        audience = await AudienceModel.create({
+          name: postedBy,
+          email: email,
+        });
+      } else {
+        audience = await AudienceModel.findOne({email: email});
       }
+
+      if (audience) {
+        addedComment = await CommentModel.create({
+          articleId: articleId,
+          text: text,
+          audienceId: audience._id
+        });
+        
+        if (addedComment) {
+            let article = await ArticleModel.findOne({_id: articleId});
+            article.interaction.comments.push(addedComment._id);
+            const updatedArticle = await article.save();
+            if(updatedArticle) {return addedComment};
+        }
+      }
+      
       return null;
     } catch (error) {
         console.log(error);
       return null;
     }
-  },
-  
-  updateArticle: async (
-    {
-        articleId,
-        text,
-        postedBy,
-        email
-    } = {} ) => {
-    //   if (!articleId || !categoryId || !title || !summary || !thumbnail_img || !body)
-    //   {return null;}
-      
-    // try {
-    //   const article = await ArticleModel.findOne({_id: articleId});
-    //   if (!article) {return null;}
-
-    //   const updateResponse = await ArticleModel.updateOne(
-    //     {_id: articleId}, 
-    //     {
-    //       title: title,
-    //       summary: summary,
-    //       thumbnail_img: {
-    //         path: thumbnail_img.path,
-    //         contentType: thumbnail_img.mimetype,
-    //         filename: thumbnail_img.filename,
-    //         size: thumbnail_img.size
-    //       },
-    //       categoryId: categoryId,
-    //       body: body,
-    //       updated: Date.now(),
-    //       status: 'Draft'
-    //     });
-        
-    //   return updateResponse;
-    // } catch (error) {
-    //     return null;
-    // }
   },
   
 }

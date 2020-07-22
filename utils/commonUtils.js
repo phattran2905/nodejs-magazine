@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-// const adminUtils = require('./administrator');
+const AuthorModel = require('../models/AuthorModel');
+const AudienceModel = require('../models/AudienceModel');
 
 const commonUtils = {
     generateToken: async function (str, validIn = 7){
@@ -48,6 +49,40 @@ const commonUtils = {
             .catch(reject => result = reject);
         
         return result;
+    },
+    isExistentAudienceEmail: async function(email = null){
+        if (!email) {return false};
+
+        try {
+            const audience = await AudienceModel.findOne({email: email});
+            if (audience){
+                return true;
+            }
+            return false;
+        } catch (error) {
+            return false;
+        }
+    },
+    isAlreadyFollower: async function(authorId= null, email = null){
+        if (!email || !authorId) {return false};
+
+        try {
+            const author = await AuthorModel.findOne({_id: authorId});
+            if (author){
+                const audience = await AudienceModel.findOne({email: email});
+                if(audience) {
+                    for(let i = 0; i < author.followers.length; i++) {
+                        if (author.followers[i]._id.toString() == audience._id.toString()){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            return false;
+        } catch (error) {
+            return false;
+        }
     }
 };
 

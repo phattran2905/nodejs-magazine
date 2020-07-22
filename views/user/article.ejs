@@ -38,14 +38,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-					<div class="blog_post_style2 blog_single_div">
+					<div class="blog_post_style2 blog_single_div ">
 						<div class="blog_post_style2_img wow fadeInUp">
 							<img src="/thumbnail/<%= article.thumbnail_img.filename %>" class="img-fluid" alt="" style="width: 100%; ">
 						</div>
-						<div class="blog_post_style2_content wow fadeInUp">
+						<div class="blog_post_style2_content wow fadeInUp p-5">
 							<h3><%- article.title %></h3>
 							<div class="blog_author_data">
-                                <a href="#"><img src="/avatar/<%= article.authorId.profile.avatar_img.filename %>" 
+                                <a href="/author?id=<%= article.authorId._id %>"><img src="/avatar/<%= article.authorId.profile.avatar_img.filename %>" 
                                     class="img-fluid" alt="" width="34" height="34"> <%= article.authorId.profile.fullname %>
                                 </a>
                             </div> 

@@ -51,7 +51,7 @@ Purchase:
 						<h3>lifestyle</h3>
 						<ol class="breadcrumb">
 							<li>You are here:</li>
-							<li><a href="index.html">Home</a></li>
+							<li><a href="/">Home</a></li>
 							<li>lifestyle</li>
 						</ol>
 					</div>
@@ -75,7 +75,7 @@ Purchase:
 								<div class="blog_post_style2_content">
 									<h3><a href="/article?id=<%= articlesByCategory[i]._id %>"><%- articlesByCategory[i].title %></a></h3>
 									<div class="blog_author_data">
-										<a href="#">
+										<a href="/author?id=<%= article.authorId._id %>">
 											<img src="/avatar/<%= articlesByCategory[i].authorId.profile.avatar_img.filename %>" 
 											class="img-fluid" alt="" width="34" height="34"> <%= articlesByCategory[i].authorId.profile.fullname %></a>
 										</div> 

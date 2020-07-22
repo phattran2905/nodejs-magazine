@@ -704,6 +704,9 @@ button:focus {
     text-decoration: none;
     text-transform: capitalize;
 }
+.blog_author_data a:hover {
+    color: #248efa;
+}
 .blog_author_data a img {
     border-radius: 100%;
     margin-right: 5px;
@@ -4780,6 +4783,9 @@ body.right_toggle_open .blog_right_toggle_sidebar .blog_togglediv {
 }
 .blog_post_slider_content{
 	width:60%;
+}
+.blog_post_slider_content h2 a:hover {
+    color: #248efa;
 }
 .blog_header_style2 .blog_top_header_wrapper{
     padding: 0px 30px;

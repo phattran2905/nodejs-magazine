@@ -5,10 +5,10 @@
         <li class="wow fadeInUp">
             <div class="blog_comment">
                 <div class="blog_comment_img">
-                    <img src="https://via.placeholder.com/70x70" class="img-fluid" alt="">
+                    <img src="/static/images/anonymous-user.png" class="img-fluid" alt="">
                 </div>
                 <div class="blog_comment_data">
-                    <h3><%= article.interaction.comments[x].postedBy %> 
+                    <h3><%= article.interaction.comments[x].audienceId.name %> 
                         <span>- <%= article.interaction.comments[x].createdAt.toLocaleDateString('en-Us',{year: 'numeric', month: 'long', day: '2-digit'}) %></span>
                     </h3>
                     <p><%- article.interaction.comments[x].text %></p>
