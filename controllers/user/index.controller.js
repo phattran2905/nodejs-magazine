@@ -139,6 +139,7 @@ module.exports = {
     },
 
     showAuthorPage: async (req, res) => {
+      console.log(req.query);
         if (req.query.id) {
           try {
             const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
@@ -146,15 +147,28 @@ module.exports = {
             const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
             
             const author = await authorUtils.getAuthorById(req.query.id);
-            
+
             if (author) {
+              const currentPage = (req.query.page && req.query.page > 0) 
+                  ? req.query.page 
+                  : null;
+
+              const pagination = commonUtils.makePagination({
+                items: author.articles,
+                itemPerPage: 6,
+                currentPage: currentPage
+              });
+
+              if (currentPage && pagination) {
                 return res.render('user/author', {
                   latestArticles: latestArticles,
                   popularArticles: popularArticles,
                   author: author,
                   menu_list: await menuUtils.getMenuList(),
-                  information: authUtils.getAuthorProfile(req)
+                  information: authUtils.getAuthorProfile(req),
+                  pagination: pagination
                 });
+              }
             }
             
           } catch (error) {
@@ -168,10 +182,6 @@ module.exports = {
     followAuthor: async (req, res) => {
         if (req.query.id) {
           try {
-            const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
-            const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
-            const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
-            
             const author = await authorUtils.getAuthorById(req.query.id);
             
             if (author) {
@@ -192,17 +202,10 @@ module.exports = {
               }
               
               req.flash('success', 'Successfully! A notify email will send whenever a new article goes public.');
-              return res.render('user/author', {
-                latestArticles: latestArticles,
-                popularArticles: popularArticles,
-                author: await authorUtils.getAuthorById(req.query.id),
-                menu_list: await menuUtils.getMenuList(),
-                information: authUtils.getAuthorProfile(req)
-              });
+              return res.redirect(`/author?id=${author.info._id}`);
             }
             
           } catch (error) {
-            console.log(error)
             return res.render("error/user-404");
           }
         }

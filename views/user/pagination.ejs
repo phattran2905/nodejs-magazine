@@ -1,0 +1,40 @@
+<div class="pagination p-2 mt-2">
+    <ul class="text-center">
+        <% if (pagination.currentPage == 1) { %>
+        <li class="inactive">
+            <p><i class="fa fa-arrow-left"></i></p>
+        </li>
+        <% } else { %>
+        <li>
+            <a id='pagination-prev-btn' type="button" onclick="prevPage()">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+        </li>
+        <% } %> 
+        <!-- pages -->
+        <% for(let i = 0; i < pagination.numOfPages; i++) { %> 
+            <% if (pagination.currentPage == i+1) { %>
+            <li class="active">
+                <a type="button" readonly><%= i+1 %></a>
+            <% } else { %> 
+            <li>
+                <a href="?id=<%= objectId %>&page=<%= i+1 %>"><%= i+1 %></a>
+            <% } %> 
+            </li>
+        <% } %>
+        
+        <!-- end pages -->
+        <% if (pagination.currentPage == pagination.numOfPages) { %>
+        <li class="inactive">
+            <p><i class="fa fa-arrow-right"></i></p>
+        </li>
+        <% } else { %>
+        <li>
+            <a id='pagination-next-btn' type="button" onclick="nextPage()">
+                <i class="fa fa-arrow-right"></i>
+            </a>
+        </li>
+        <% } %> 
+        
+    </ul>
+</div>

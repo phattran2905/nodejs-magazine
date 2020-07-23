@@ -11,3 +11,19 @@
 <script src="/static/js/custom.js"></script>
 <!--Main js file Style-->
 <!-- <script src="/admin/static/assets/js/app.js"></script> -->
+<script defer>
+    function nextPage(){
+        const currentPage = window.location.href.split('&page=')[1];
+        const nextPage = parseInt(currentPage) + 1;
+        const newUrl = window.location.href.replace(`page=${currentPage}`, `page=${nextPage}`);
+        return window.location.href = newUrl;
+    }
+
+    function prevPage(){
+        const currentPage = window.location.href.split('&page=')[1];
+        const prevPage = parseInt(currentPage) - 1;
+        const newUrl = window.location.href.replace(`page=${currentPage}`, `page=${prevPage}`);
+        return window.location.href = newUrl;
+    }
+
+</script>
