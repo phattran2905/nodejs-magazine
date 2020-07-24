@@ -6,11 +6,12 @@ const validation = require('../../validation/admin/validateAuthor');
 module.exports = {
     showAuthorList: 
     async (req, res) => {
+
         res.render(
             'admin/author/author_base', {
                 header: 'List of authors',
                 content: 'authors',
-                authors: await AuthorModel.find(),
+                authors: await authorUtils.getAuthorsWithNumOfArticles(),
                 information: authUtils.getAdminProfile(req)
             });
     },

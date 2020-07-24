@@ -30,6 +30,7 @@ const validate = {
             return Promise.resolve(true);
         }
     },
+
     checkExistentUsername: async (
         username, 
         {req} = {}) => {
@@ -53,6 +54,7 @@ const validate = {
             return Promise.resolve(true);
         }
     },
+
     checkNotExistentUsername: async (username, {req} = {}) => {
         if(!username) return Promise.reject(false);
 
@@ -69,6 +71,7 @@ const validate = {
             return Promise.reject(false);
         }
     },
+
     checkExistentVerifyToken: async (normalizedToken = null) => {
         if (!normalizedToken) return Promise.reject(false);
         
@@ -84,6 +87,7 @@ const validate = {
         }
         
     },
+
     checkUnexpiredVerifyToken: async (normalizedToken = null) => {
         if (!normalizedToken) return Promise.reject(false);
 
@@ -101,6 +105,7 @@ const validate = {
             return Promise.reject(false);
         }
     },
+
     checkValidVerifyToken: async (normalizedToken = null) => {
         if (!normalizedToken) return Promise.reject(false);
 
@@ -112,6 +117,7 @@ const validate = {
         }
         return Promise.reject(false);
     },
+
     checkPendingVerifyTokenByEmail: async (email = null) => {
         if (!email) return Promise.reject(false);
         
@@ -121,6 +127,7 @@ const validate = {
         }
         return Promise.reject(false);
     },
+
     checkActivatedStatusByEmail: async (email = null, {req} = {}) => {
         if (!email) return Promise.reject(false);
 
@@ -146,6 +153,7 @@ const validate = {
             return Promise.reject(false);
         }
     },
+
     checkPresentPwd: async (pwd = null, {req} = {}) => {
         if(!pwd || typeof req.session.user === 'undefined') {return Promise.reject(false)};
         
@@ -163,6 +171,18 @@ const validate = {
 }
 
 const AuthorUtils = {
+    getAuthorsWithNumOfArticles: async () => {
+        const authors = await AuthorModel.find();
+        for(let i = 0; i < authors.length; i++) {
+            const articles = await ArticleModel.find({authorId: authors[i]._id});
+            console.log(articles.length);
+            authors[i].numOfArticles = articles.length;
+        }
+        
+        console.log(authors);
+        return authors;
+    },
+
     getAuthorById: async (authorId = null) => {
         if (!authorId) {return null;}
         
@@ -197,6 +217,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     update_avatar: async(author_id = null, {path, contentType, filename, size} = {}) => {
         if (!author_id || !path || !contentType || !filename || !size) 
             {return null;}
@@ -223,6 +244,7 @@ const AuthorUtils = {
         }
         return null;
     },
+
     createNewAuthor: async (
         {username , email, pwd} = {} 
         ) => {
@@ -252,6 +274,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     updateAuthorProfile: async function({fullname, username, gender, dob, phone}) {
         if (!fullname || !username || !gender || !dob || !phone) return null;
 
@@ -272,6 +295,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     changePwd: async function({id, new_password}) {
         if (!id || !new_password) return null;
 
@@ -287,6 +311,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     verifyAccountByToken: async (normalizedToken = null) => {
         if(!normalizedToken) return null;
 
@@ -320,6 +345,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     sendVerification: async (email = null) => {
         if (!email) return null;
 
@@ -353,6 +379,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     sendResetPwd: async (email = null) => {
         if (!email) return null;
 
@@ -383,6 +410,7 @@ const AuthorUtils = {
             return null;
         }
     },
+
     reset_pwd: async (normalizedToken=null, password=null) =>{
         if (!normalizedToken || !password) return null;
 

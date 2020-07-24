@@ -10,8 +10,8 @@
       <th>Username</th>
       <th>Email</th>
       <th>Created at</th>
-      <th>Likes</th>
-      <th>Views</th>
+      <th>Followers</th>
+      <th>Number of articles</th>
       <th>Status</th>
       <th>Action</th>
     </tr>
@@ -24,8 +24,8 @@
       <td class="admin-username" id="<%= author.username %>"><%= author.username %></td>
       <td><%= author.email %></td>
       <td><%= author.createdAt.toDateString() %></td>
-      <td class="text-right"><%= author.popularity.likes %> </td>
-      <td class="text-right"><%= author.popularity.views %> </td>
+      <td class="text-right"><%= author.followers.length %> </td>
+      <td class="text-right"><%= author.numOfArticles %> </td>
       <% if(author.status === 'Deactivated') { %>
       <td class="d-flex justify-content-around">
         <span id="deactivated_status_btn" class="btn btn-secondary text-light">
