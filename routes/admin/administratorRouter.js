@@ -3,8 +3,6 @@ const {
     showAdminList, showAddAdminForm, addAdmin, showUpdateAdminForm, updateAdmin,
     activateAdmin, deactivateAdmin, resetPassword, deleteAdmin
 } = require('../../controllers/admin/administrator.controller');
-const { checkAuthenticatedAdmin } = require("../../utils/authUtils");
-
 
 router.get("/administrators", showAdminList);
 
