@@ -78,7 +78,7 @@ module.exports = {
     },
 
     publish: async (req, res) => {
-        const status = (req.query.status == null || req.query.status === 'All') ?
+        const status = (req.query.status == null) ?
             'All' :
             req.query.status;
         try {
@@ -100,19 +100,19 @@ module.exports = {
             } else {
                 req.flash("fail", "Failed. An error occurred during the process.");
             }
-            return res.redirect(`/admin/articles?status=${status}`);
+            return res.redirect(`/admin/articles?by_status=pending`);
         } catch (error) {
             req.flash("fail", "Failed. An error occurred during the process.");
             return res.render(
                 "error/admin-404", {
-                    redirectLink: `/admin/articles?status=${status}`
+                    redirectLink: `/admin/articles?by_status=${status}`
                 }
             );
         }
     },
 
     disapprove: async (req, res) => {
-        const status = (req.query.status == null || req.query.status === 'All') ?
+        const status = (req.query.status == null) ?
             'All' :
             req.query.status;
         try {
@@ -134,12 +134,12 @@ module.exports = {
             } else {
                 req.flash("fail", "Failed. An error occurred during the process.");
             }
-            return res.redirect(`/admin/articles?status=${status}`);
+            return res.redirect(`/admin/articles?by_status=disapproved`);
         } catch (error) {
             req.flash("fail", "Failed. An error occurred during the process.");
             return res.render(
                 "error/admin-404", {
-                    redirectLink: `/admin/articles?status=${status}`
+                    redirectLink: `/admin/articles?by_status=disapproved`
                 }
             );
         }
