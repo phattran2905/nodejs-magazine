@@ -248,14 +248,14 @@ module.exports = {
                             size: article.thumbnail_img.size
                         };
                     const updateQuery = await articleUtils.updateArticle(
-                        req.params.article_id, {
+                        req.params.articleId, {
                             categoryId: req.body.categoryId,
                             title: req.body.title,
                             summary: req.body.summary,
                             thumbnail_img: thumbnail,
                             body: req.body.body
                         });
-
+                        
                     if (updateQuery && updateQuery.ok === 1 && updateQuery.nModified === 1) {
                         // Remove old thumbnail
                         if (req.files.thumbnail_img) {
@@ -263,7 +263,7 @@ module.exports = {
                             const path = require('path');
                             fs.unlinkSync(path.join(process.cwd(), old_thumbnail.path));
                         }
-
+                        
                         req.flash('success', 'Successfully. All changes were saved.');
                         return res.redirect("/articles");
                     }

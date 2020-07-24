@@ -209,7 +209,7 @@ const articleUtils = {
               .limit(numOfArticles);
         resultArray.push({category: listOfCategoryId[i], articles: listOfArticles});
       }
-      console.log(resultArray)
+      
       return resultArray;
     } catch (error) {
       return null;

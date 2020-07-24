@@ -392,12 +392,11 @@ button:focus {
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu {
     background-color: #222222;
-    min-width: 10rem;
+    min-width: 12rem;
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li ul.profile_sub_menu li a{
     height: 100%;
     padding: 7px 17px;
-    text-align: center;
 }
 .blog_profile .blog_main_menu .blog_main_menu_innerdiv ul li:last-child ul.profile_sub_menu {
     right: 5px;
