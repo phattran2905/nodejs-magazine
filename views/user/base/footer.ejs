@@ -26,11 +26,12 @@
                     <div class="widget widget_recent_post">
                         <h3 class="widget-title">Recent News</h3>
                         <ul>
+                            <% if(typeof latestArticles !== 'undefined' && latestArticles.length > 0) { %> 
                             <% for (let i=0; i < 3; i++) { %> 
                             <li>
                                 <div class="blog_recent_post">
                                     <div class="blog_recent_post_img">
-                                        <img src="https://via.placeholder.com/50x50" class="img-fluid" alt="">
+                                        <img src="/thumbnail/<%= latestArticles[i].thumbnail_img.filename %>" class="img-fluid" alt="">
                                     </div>
                                     <div class="blog_recent_post_content">
                                         <h4><a href="/article?id=<%= latestArticles[i]._id %>"><%- latestArticles[i].title %></a></h4>
@@ -38,6 +39,7 @@
                                     </div>
                                 </div>
                             </li>
+                            <% } %> 
                             <% } %> 
                         </ul>
                     </div>
@@ -48,6 +50,7 @@
                     <div class="widget widget_recent_news">
                         <h3 class="widget-title">Popular Post</h3>
                         <ul>
+                            <% if(typeof popularArticles !== 'undefined' && popularArticles.length > 0) { %> 
                             <% for (let i=0; i < 3; i++) { %> 
                             <li>
                                 <div class="blog_news">
@@ -57,6 +60,7 @@
                                     </div>
                                 </div>
                             </li>
+                            <% } %> 
                             <% } %> 
                         </ul>
                     </div>

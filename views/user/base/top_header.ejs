@@ -5,8 +5,8 @@
   <div class="blog_tranding_slider">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <% if (typeof latestArticles !== 'undefined') {%> 
-        <% for (let i =0; i < 3; i++) { %> 
+        <% if (typeof latestArticles !== 'undefined' && latestArticles.length > 0) {%> 
+        <% for (let i = 0; i < 3; i++) { %> 
         <div class="swiper-slide">
           <p>
             <span>

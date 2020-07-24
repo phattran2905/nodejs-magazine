@@ -3,7 +3,6 @@ const authorUtils = require('../../utils/authorUtils');
 const commonUtils = require('../../utils/commonUtils');
 const articleUtils = require('../../utils/articleUtils');
 const categoryUtils = require('../../utils/categoryUtils');
-const MenuModel = require('../../models/MenuModel');
 const AudienceModel = require('../../models/AudienceModel');
 const ArticleModel = require('../../models/ArticleModel');
 const CategoryModel = require('../../models/CategoryModel');
@@ -13,39 +12,21 @@ const AuthorModel = require('../../models/AuthorModel');
 module.exports = {
     showIndexPage: async (req, res) => {
       try {
-        const articleSelectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
-        const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
-        const hotArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5); // Most likes
-        const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5); // Most views
+        const selectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
+        const latestArticles = await articleUtils.getLatestArticles(selectedFields, 5);
+        const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5); // Most views
         const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
-        let articlesByHotCategory = Array();
-  
-        const hotCategories = await CategoryModel
-          .find({
-            status: 'Activated'
-          }, '_id name')
-          .sort({
-            createdAt: 'asc'
-          })
-          .limit(4);
-  
-        for (let i = 0; i < hotCategories.length; i++) {
-          articlesByHotCategory.push({
-            category: hotCategories[i],
-            articles: await articleUtils.getArticleByCategoryId(hotCategories[i]._id, 5, articleSelectedFields)
-          })
-        };
+        const mainCategories = await CategoryModel.find({status: 'Activated'}, '_id name').sort({createdAt: 'asc'}).limit(4);
+        console.log(categoryWithPostCounted)
         return res.render('user/index', {
           menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,
-          hotArticles: hotArticles,
           popularArticles: popularArticles,
-          articlesByHotCategory: articlesByHotCategory,
+          articlesByMainCategories: await articleUtils.getArticlesForMainCategories(mainCategories, 3, selectedFields),
           categoryWithPostCounted: categoryWithPostCounted,
           information: authUtils.getAuthorProfile(req)
         });
       } catch (error) {
-        console.log(error);
         return res.render(
           "error/user-404", {
             redirectLink: '/'
@@ -94,17 +75,29 @@ module.exports = {
           const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
-
-          const articlesByCategory = await articleUtils.getArticleByCategoryId(req.query.id, numOfArticles = 5, articleSelectedFields);
+          const articlesByCategory = await articleUtils.getArticleByCategoryId(req.query.id, articleSelectedFields);
 
           if (articlesByCategory) {
-            return res.render('user/articles_by_category.ejs', {
-              latestArticles: latestArticles,
-              popularArticles: popularArticles,
-              articlesByCategory: articlesByCategory,
-              menu_list: await menuUtils.getMenuList(),
-              information: authUtils.getAuthorProfile(req)
+            const currentPage = (typeof req.query.page !== 'undefined' && req.query.page > 0) 
+            ? req.query.page 
+            : 1;
+
+            const pagination = commonUtils.makePagination({
+              items: articlesByCategory,
+              itemPerPage: 6,
+              currentPage: currentPage
             });
+
+            if (currentPage && pagination) {
+              return res.render('user/articles_by_category.ejs', {
+                latestArticles: latestArticles,
+                popularArticles: popularArticles,
+                menu_list: await menuUtils.getMenuList(),
+                information: authUtils.getAuthorProfile(req),
+                pagination: pagination
+              });
+            }
+           
           }
         } catch (error) {
           return res.render("error/user-404");
@@ -120,17 +113,36 @@ module.exports = {
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
 
-          const articlesByTitle = await articleUtils.getArticleByTitle(req.query.title, numOfArticles = 5, articleSelectedFields);
-
+          const articlesByTitle = await articleUtils.getArticleByTitle(req.query.title, articleSelectedFields);
+          
           if (articlesByTitle) {
-            return res.render('user/search.ejs', {
-              latestArticles: latestArticles,
-              popularArticles: popularArticles,
-              articlesByTitle: articlesByTitle,
-              menu_list: await menuUtils.getMenuList(),
-              information: authUtils.getAuthorProfile(req)
+            const currentPage = (typeof req.query.page !== 'undefined' && req.query.page > 0) 
+            ? req.query.page 
+            : 1;
+
+            const pagination = commonUtils.makePagination({
+              items: articlesByTitle,
+              itemPerPage: 6,
+              currentPage: currentPage
             });
+
+            if (currentPage && pagination) {
+              return res.render('user/search.ejs', {
+                latestArticles: latestArticles,
+                popularArticles: popularArticles,
+                menu_list: await menuUtils.getMenuList(),
+                information: authUtils.getAuthorProfile(req),
+                pagination: pagination
+              });
+            }
           }
+
+          return res.render('user/search.ejs', {
+            latestArticles: latestArticles,
+            popularArticles: popularArticles,
+            menu_list: await menuUtils.getMenuList(),
+            information: authUtils.getAuthorProfile(req)
+          });
         } catch (error) {
           return res.render("error/user-404");
         }
@@ -139,7 +151,6 @@ module.exports = {
     },
 
     showAuthorPage: async (req, res) => {
-      console.log(req.query);
         if (req.query.id) {
           try {
             const articleSelectedFields = '_id title body summary interaction status categoryId authorId updated createdAt thumbnail_img';
@@ -149,9 +160,9 @@ module.exports = {
             const author = await authorUtils.getAuthorById(req.query.id);
 
             if (author) {
-              const currentPage = (req.query.page && req.query.page > 0) 
+              const currentPage = (typeof req.query.page !== 'undefined' && req.query.page > 0) 
                   ? req.query.page 
-                  : null;
+                  : 1;
 
               const pagination = commonUtils.makePagination({
                 items: author.articles,

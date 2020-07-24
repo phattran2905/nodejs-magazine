@@ -109,8 +109,9 @@ const articleUtils = {
         return null;
     }
   },
-  getLatestArticles: async (selectedFields = '', limit = 0) => {
-    if(limit <= 0 ) {return null;}
+
+  getLatestArticles: async (selectedFields = '', limit = 1) => {
+    if(limit < 1 ) {return null;}
     const recent_article_list = await ArticleModel
           .find({status: 'Published'}, selectedFields)
           .populate({
@@ -126,25 +127,9 @@ const articleUtils = {
 
     return recent_article_list;
   },
-  getHotArticles: async (selectedFields = '', limit = 0) => {
-    if(limit <= 0) {return null;}
-    const hot_article_list = await ArticleModel
-          .find({status: 'Published'}, selectedFields)
-          .populate({
-            path: 'authorId',
-            select: '_id profile'
-          })
-          .populate({
-            path: 'categoryId',
-            select: '_id name'
-          })
-          .sort({'interaction.comments': 'desc'})
-          .limit(limit);
 
-    return hot_article_list;
-  },
-  getPopularArticles: async (selectedFields = '', limit = 0) => {
-    if(limit <= 0 ) {return null;}
+  getPopularArticles: async (selectedFields = '', limit = 1) => {
+    if(limit < 1) {return null;}
     const hot_article_list = await ArticleModel
           .find({status: 'Published'}, selectedFields)
           .populate({
@@ -160,6 +145,7 @@ const articleUtils = {
 
     return hot_article_list;
   },
+
   getArticleById: async (articleId = null, selectedFields = '') => {
     if (!articleId ) {return null;}
     try {
@@ -186,8 +172,8 @@ const articleUtils = {
     }
   },
 
-  getArticleByCategoryId: async (categoryId = null , numOfArticles = null, selectedFields = null) => {
-    if (!categoryId || numOfArticles <= 0 || !selectedFields) {return null;}
+  getArticleByCategoryId: async (categoryId = null , selectedFields = null) => {
+    if (!categoryId || !selectedFields) {return null;}
     
     try {
       const listOfArticles = await ArticleModel
@@ -200,8 +186,7 @@ const articleUtils = {
         path: 'authorId',
         select: '_id profile'
       })
-      .sort({createdAt: 'desc'})
-      .limit(numOfArticles);
+      .sort({createdAt: 'desc'});
 
       return listOfArticles;
     } catch (error) {
@@ -209,8 +194,30 @@ const articleUtils = {
     }
   },
 
-  getArticleByTitle: async (title = null , numOfArticles = null, selectedFields = null) => {
-    if (!title || numOfArticles <= 0 || !selectedFields) {return null;}
+  getArticlesForMainCategories: async (listOfCategoryId , numOfArticles = 1, selectedFields = null) => {
+    if (!listOfCategoryId || numOfArticles < 1 || !selectedFields) {return null;}
+    
+    try {
+      let resultArray = new Array();
+      for(let i =0; i < listOfCategoryId.length; i++){
+        const listOfArticles = await ArticleModel.find({$and: [{status: 'Published'}, {categoryId: listOfCategoryId[i]._id}]}, selectedFields)
+              .populate({
+                path: 'authorId',
+                select: '_id profile'
+              })
+              .sort({createdAt: 'desc'})
+              .limit(numOfArticles);
+        resultArray.push({category: listOfCategoryId[i], articles: listOfArticles});
+      }
+      console.log(resultArray)
+      return resultArray;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  getArticleByTitle: async (title = null , selectedFields = null) => {
+    if (!title || !selectedFields) {return null;}
     
     try {
       const listOfArticles = await ArticleModel
@@ -224,8 +231,7 @@ const articleUtils = {
         path: 'authorId',
         select: '_id profile'
       })
-      .sort({createdAt: 'desc'})
-      .limit(numOfArticles);
+      .sort({createdAt: 'desc'});
       return listOfArticles;
     } catch (error) {
       console.log(error)

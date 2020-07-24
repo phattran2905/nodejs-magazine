@@ -51,8 +51,8 @@ const categoryUtils = {
         const categoryArr = await CategoryModel.find({status: 'Activated'}, '_id name');
         for (let i =0; i < categoryArr.length; i++) {
             resultArr.push({
-                categoryId: categoryArr[i]._id,
-                categoryName: categoryArr[i].name,
+                _id: categoryArr[i]._id,
+                name: categoryArr[i].name,
                 numOfArticles: await ArticleModel
                     .find({$and: [{status: 'Published'},{categoryId:  categoryArr[i]._id}]}, '_id')
                     .count()
