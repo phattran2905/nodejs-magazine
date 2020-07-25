@@ -8,6 +8,7 @@ const ArticleModel = require('../../models/ArticleModel');
 const CategoryModel = require('../../models/CategoryModel');
 const menuUtils = require('../../utils/menuUtils');
 const AuthorModel = require('../../models/AuthorModel');
+const validationUtils = require('../../utils/validationUtils');
 
 module.exports = {
     showIndexPage: async (req, res) => {
@@ -196,7 +197,7 @@ module.exports = {
             const author = await authorUtils.getAuthorById(req.query.id);
             
             if (author) {
-              if (!await commonUtils.isExistentAudienceEmail(req.body.email)) {
+              if (!await validationUtils.isExistentAudienceEmail(req.body.email)) {
                 let followers = author.info.followers;
                 const audience = await AudienceModel.create({
                   email: req.body.email
@@ -206,7 +207,7 @@ module.exports = {
                   followers.push(audience._id);
                   await AuthorModel.updateOne({_id: author.info._id},{followers: followers});
                 } 
-              }else if(!await commonUtils.isAlreadyFollower(author.info._id,req.body.email)){
+              }else if(!await validationUtils.isAlreadyFollower(author.info._id,req.body.email)){
                 //Existent email but not a follower
                   followers.push(audience._id);
                   await AuthorModel.updateOne({_id: author.info._id},{followers: followers});
@@ -273,6 +274,22 @@ module.exports = {
       } catch (error) {
         return res.render("error/user-404", );
       }
-    }
+    },
   
+    subscribeEmail: async (req, res) => {
+      if(req.query.email){
+        try {
+            if (!await validationUtils.isExistentAudienceEmail(req.query.email)) {
+              const audience = await AudienceModel.create({
+                email: req.query.email
+              });
+            }
+            req.flash('subscribe_success', 'Successfully! A notify email will send whenever a new article goes public.');
+            return res.redirect('/index');
+        } catch (error) {
+          return res.render("error/user-404");
+        }
+      }
+      return res.render("error/user-404");
+    },
 }

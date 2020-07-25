@@ -23,6 +23,13 @@
           cancelButtonColor: "#f46a6a",
         });
       }),
+      t("#sa-subscribe-success").click(function () {
+        Swal.fire({
+          title: "Thank you!",
+          text: "Thank you for your subscription!",
+          icon: "success",
+        });
+      }),
       t("#sa-warning").click(function () {
         Swal.fire({
           title: "Are you sure?",
@@ -146,8 +153,8 @@
           showCancelButton: !0,
           confirmButtonText: "Yes, delete it!",
           cancelButtonText: "No, cancel!",
-          confirmButtonClass: "btn btn-success mt-2",
-          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          // confirmButtonClass: "btn btn-success mt-2",
+          // cancelButtonClass: "btn btn-danger ml-2 mt-2",
           buttonsStyling: !1,
         }).then(function (t) {
           t.value
@@ -197,8 +204,8 @@
             'You can use <b>bold text</b>, <a href="//themesdesign.in/">links</a> and other HTML tags',
           showCloseButton: !0,
           showCancelButton: !0,
-          confirmButtonClass: "btn btn-success",
-          cancelButtonClass: "btn btn-danger ml-1",
+          // confirmButtonClass: "btn btn-success",
+          // cancelButtonClass: "btn btn-danger ml-1",
           confirmButtonColor: "#11c46e",
           cancelButtonColor: "#f46a6a",
           confirmButtonText: '<i class="fas fa-thumbs-up mr-1"></i> Great!',

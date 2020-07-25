@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const {
   showIndexPage, showAboutPage, showArticle, showArticlesByCategoryId, showAuthorPage,
-  searchArticlesByTitle, showContactPage, showTermsAndPolicy, followAuthor
+  searchArticlesByTitle, showContactPage, showTermsAndPolicy, followAuthor, subscribeEmail
 } = require('../../controllers/user/index.controller');
 
 router.get(['/', '/home', '/index'], showIndexPage);
@@ -11,6 +11,8 @@ router.get('/author', showAuthorPage);
 router.get('/article', showArticle);
 
 router.post('/follow', followAuthor);
+
+router.get('/subscribe', subscribeEmail);
 
 router.get('/category', showArticlesByCategoryId);
 
