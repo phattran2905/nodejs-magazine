@@ -178,8 +178,6 @@ const AuthorUtils = {
             console.log(articles.length);
             authors[i].numOfArticles = articles.length;
         }
-        
-        console.log(authors);
         return authors;
     },
 
@@ -268,9 +266,10 @@ const AuthorUtils = {
                     expiredOn: verifyToken.expiredOn
                 }
               });
-            
+             console.log(author);
             return author;
         } catch (error) {
+            console.log(error);
             return null;
         }
     },

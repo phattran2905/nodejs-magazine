@@ -437,9 +437,8 @@ button:focus {
 .blog_main_menu .blog_main_menu_innerdiv ul li a {
     display: inline-block;
     padding: 28px 0px;
-    margin: 0px 20px;
     position: relative;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: capitalize;
     color: #222222;
     font-family: "Montserrat", sans-serif;
@@ -499,7 +498,7 @@ button:focus {
     content: '';
     font-family: fontAwesome;
     content: "\f107";
-    right: -20px;
+    right: 5px;
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);

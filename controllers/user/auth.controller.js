@@ -71,7 +71,6 @@ module.exports = {
     ],
 
     showSignUpForm: [
-        // authUtils.checkNotAuthenticatedAuthor,
         async (req, res) => {
             try {
                 const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
@@ -101,20 +100,23 @@ module.exports = {
                 errors: errors,
                 validInput: validInput
             });
+            try {
+                const addedAuthor = await authorUtils.createNewAuthor({
+                    username: validInput.username,
+                    email: validInput.email,
+                    pwd: validInput.password
+                })
+                // send token to email
+                const mailResponse = await mailUtils.sendVerificationEmail(addedAuthor.email, addedAuthor.verifyToken.token);
 
-            const addedAuthor = await authorUtils.createNewAuthor(
-                validInput.username,
-                validInput.email,
-                validInput.password
-            )
-            // send token to email
-            const mailResponse = await mailUtils.sendVerificationEmail(addedAuthor.email, addedAuthor.verifyToken.token);
+                if (addedAuthor && mailResponse && mailResponse.accepted[0] === validInput.email) {
+                    req.flash("addSuccess", "Successfully. Please check your email to verify your registered account. ");
+                    return res.redirect('/signup');
+                }
 
-            if (addedAuthor && mailResponse && mailResponse.accepted[0] === validInput.email) {
-                req.flash("addSuccess", "Successfully. Please check your email to verify your registered account. ");
-                return res.redirect('/signup');
+            } catch (error) {
+                
             }
-
             req.flash("addFail", "Failed. An error occurred during the process.");
             return res.redirect('/signup');
         }
