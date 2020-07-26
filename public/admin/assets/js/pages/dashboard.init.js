@@ -18,12 +18,16 @@ var options = {
         dashArray: [0, 8]
     },
     series: [{
-        name: "2019",
-        data: [45, 52, 38, 24, 33, 56, 42, 20, 6, 18, 22, 10]
+        // name: "2019",
+        // data: [45, 52, 38, 24, 33, 56, 42, 20, 6, 18, 22, 10]
+        name: lastYear.name,
+        data: lastYear.data
     }, {
-        name: "2018",
+        // name: "2018",
+        // data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+        name: thisYear.name,
         type: "area",
-        data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+        data: thisYear.data
     }],
     colors: ["#3d8ef8", "#11c46e"],
     fill: {

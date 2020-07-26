@@ -53,12 +53,14 @@
                         <!-- end page title -->
 
                         <div class="row">
+                            
+                            <%# Number of articles %> 
                             <div class="col-sm-6 col-xl-3">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body">
-                                                <h5 class="font-size-14">Number of Sales</h5>
+                                                <h5 class="font-size-14">Number of Articles</h5>
                                             </div>
                                             <div class="avatar-xs">
                                                 <span class="avatar-title rounded-circle bg-primary">
@@ -66,18 +68,26 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <h4 class="m-0 align-self-center">1,753</h4>
-                                        <p class="mb-0 mt-3 text-muted"><span class="text-success">1.23 % <i class="mdi mdi-trending-up mr-1"></i></span> From previous period</p>
+                                        <h4 class="m-0 align-self-center"><%= yearlyStatistics.numOfArticles.data %></h4>
+                                        <p class="mb-0 mt-3 text-muted">
+                                            <% if ( parseInt(yearlyStatistics.numOfArticles.diffRate) > 0 ) { %> 
+                                            <span class="text-success">+ <%= yearlyStatistics.numOfArticles.diffRate %> <i class="mdi mdi-trending-up mr-1"></i></span> 
+                                            <% } else { %> 
+                                            <span class="text-danger">- <%= yearlyStatistics.numOfArticles.diffRate %> <i class="mdi mdi-trending-down mr-1"></i></span>
+                                            <% } %> 
+                                            From previous year
+                                        </p>
                                     </div>
                                 </div>
                             </div>
     
+                            <%# Number of authors %> 
                             <div class="col-sm-6 col-xl-3">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body">
-                                                <h5 class="font-size-14">Sales Revenue</h5>
+                                                <h5 class="font-size-14">Numbers of Authors</h5>
                                             </div>
                                             <div class="avatar-xs">
                                                 <span class="avatar-title rounded-circle bg-primary">
@@ -85,18 +95,26 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <h4 class="m-0 align-self-center">$45,253</h4>
-                                        <p class="mb-0 mt-3 text-muted"><span class="text-success">2.73 % <i class="mdi mdi-trending-up mr-1"></i></span> From previous period</p>
+                                        <h4 class="m-0 align-self-center"><%= yearlyStatistics.numOfAuthors.data %></h4>
+                                        <p class="mb-0 mt-3 text-muted">
+                                            <% if ( parseInt(yearlyStatistics.numOfAuthors.diffRate) > 0 ) { %> 
+                                            <span class="text-success">+ <%= yearlyStatistics.numOfAuthors.diffRate %> <i class="mdi mdi-trending-up mr-1"></i></span> 
+                                            <% } else { %> 
+                                            <span class="text-danger">- <%= yearlyStatistics.numOfAuthors.diffRate %> <i class="mdi mdi-trending-down mr-1"></i></span>
+                                            <% } %> 
+                                            From previous year
+                                        </p>
                                     </div>
                                 </div>
                             </div>
 
+                            <%# Number of views %> 
                             <div class="col-sm-6 col-xl-3">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body">
-                                                <h5 class="font-size-14">Average Price</h5>
+                                                <h5 class="font-size-14">Number of Views</h5>
                                             </div>
                                             <div class="avatar-xs">
                                                 <span class="avatar-title rounded-circle bg-primary">
@@ -104,18 +122,26 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <h4 class="m-0 align-self-center">$12.74</h4>
-                                        <p class="mb-0 mt-3 text-muted"><span class="text-danger">4.35 % <i class="mdi mdi-trending-down mr-1"></i></span> From previous period</p>
+                                        <h4 class="m-0 align-self-center"><%= yearlyStatistics.numOfViews.data %></h4>
+                                        <p class="mb-0 mt-3 text-muted">
+                                            <% if ( parseInt(yearlyStatistics.numOfViews.diffRate) > 0 ) { %> 
+                                            <span class="text-success">+ <%= yearlyStatistics.numOfViews.diffRate %> <i class="mdi mdi-trending-up mr-1"></i></span> 
+                                            <% } else { %> 
+                                            <span class="text-danger">- <%= yearlyStatistics.numOfViews.diffRate %> <i class="mdi mdi-trending-down mr-1"></i></span>
+                                            <% } %> 
+                                            From previous year
+                                        </p>
                                     </div>
                                 </div>
                             </div>
 
+                            <%# Number of audiences %> 
                             <div class="col-sm-6 col-xl-3">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body">
-                                                <h5 class="font-size-14">Product Sold</h5>
+                                                <h5 class="font-size-14">Number of Followers</h5>
                                             </div>
                                             <div class="avatar-xs">
                                                 <span class="avatar-title rounded-circle bg-primary">
@@ -123,8 +149,15 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <h4 class="m-0 align-self-center">20,781</h4>
-                                        <p class="mb-0 mt-3 text-muted"><span class="text-success">7.21 % <i class="mdi mdi-trending-up mr-1"></i></span> From previous period</p>
+                                        <h4 class="m-0 align-self-center"><%= yearlyStatistics.numOfFollowers.data %></h4>
+                                        <p class="mb-0 mt-3 text-muted">
+                                            <% if ( parseInt(yearlyStatistics.numOfFollowers.diffRate) > 0 ) { %> 
+                                            <span class="text-success">+ <%= yearlyStatistics.numOfFollowers.diffRate %> <i class="mdi mdi-trending-up mr-1"></i></span> 
+                                            <% } else { %> 
+                                            <span class="text-danger">- <%= yearlyStatistics.numOfFollowers.diffRate %> <i class="mdi mdi-trending-down mr-1"></i></span>
+                                            <% } %> 
+                                            From previous year
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +169,7 @@
                             <div class="col-xl-8">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="header-title mb-4">Sales Analytics</h4>
+                                        <h4 class="header-title mb-4">Views Analytics</h4>
                                         <div class="row justify-content-center">
                                             <div class="col-sm-4">
                                                 <div class="text-center">
@@ -393,7 +426,6 @@
                         </div>
                         <!-- end row -->
                         
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card">
@@ -612,6 +644,19 @@
     <script src="admin/static/assets/libs/jqvmap/jquery.vmap.min.js"></script>
     <script src="admin/static/assets/libs/jqvmap/maps/jquery.vmap.usa.js"></script>
     
+    <script>
+        var thisYear = {
+            name: '<%= viewsAnalytics.dataThisYear.name %>',
+            data: '<%= viewsAnalytics.dataThisYear.data %>'.split(',').map((value) => parseInt(value, 10))
+        };
+        var lastYear = {
+            name: '<%= viewsAnalytics.dataLastYear.name %>',
+            data: '<%= viewsAnalytics.dataLastYear.data %>'.split(',').map((value) => parseInt(value, 10))
+        };
+        console.log(thisYear);
+        console.log(lastYear);
+    </script>
+
     <script src="admin/static/assets/js/pages/dashboard.init.js"></script>
   </body>
 </html>
