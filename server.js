@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -9,9 +13,10 @@ const path = require("path");
 const passportSetup = require('./config/passport-setup');
 
 // Connect to database
-mongoose.connect("mongodb://localhost/electronic_newspaper", {
+mongoose.connect(process.env.DATABASE_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
 });
 mongoose.connection.once("open", () =>
     console.log("Successfully connected to database")
@@ -20,7 +25,6 @@ mongoose.connection.on("error", () => {
     console.error.bind(console, "connection error:");
 });
 
-mongoose.set('useFindAndModify', false);
 app.set("view engine", "ejs");
 app.set('views',path.join(__dirname, "views"));
 //  middleware
@@ -32,7 +36,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({
     name: 'user.id',
-    secret: "phatductran secret string",
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -61,5 +65,5 @@ require('./routes/admin/routes') );
 
 // SET PORT
 app.listen(process.env.PORT || 5000, () => {
-    console.log(`Server is listening`); 
+    console.log(`Server is listening on port ${process.env.PORT || 5000}`); 
 });
