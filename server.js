@@ -1,19 +1,21 @@
-if (process.env.NODE_ENV !== 'production') {
+
+if (process.env.NODE_ENV === 'production') {
     require('dotenv').config();
-  }
+}
 
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const passport = require('passport');
 const session = require('express-session');
-const cookieParser = require('cookie-parser')
+const MongoStore = require('connect-mongo')(session);
+const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
 const path = require("path");
 const passportSetup = require('./config/passport-setup');
 
 // Connect to database
-mongoose.connect(process.env.DATABASE_URI, {
+mongoose.connect(process.env.DATABASE_URI || 'mongodb://localhost/electronic_newspaper', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -36,7 +38,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({
     name: 'user.id',
-    secret: process.env.SECRET_KEY,
+    store: new MongoStore({mongooseConnection: mongoose.connection}),
+    secret: process.env.SECRET_KEY || 'phatductran_secret_key',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -48,7 +51,6 @@ passportSetup(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.authenticate('remember-me'));
-
 // Routes for Users
 app.use(require('./routes/user/routes') );
 
