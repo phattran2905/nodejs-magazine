@@ -149,6 +149,7 @@ module.exports = {
     showSendVerificationForm: (req, res) => {
         return res.render('user/auth/send_email', {
             form: {
+                title: 'Verify account',
                 submitBtn: 'Send verification email',
                 action: 'send_verification'
             }
@@ -168,6 +169,7 @@ module.exports = {
                 errors: errors,
                 validInput: validInput,
                 form: {
+                    title: 'Verify account',
                     submitBtn: 'Send verification',
                     action: 'send_verification'
                 }
@@ -210,6 +212,7 @@ module.exports = {
     showSendResetPwdEmailForm: (req, res) => {
         return res.render('user/auth/send_email', {
             form: {
+                title: 'Reset Password',
                 submitBtn: 'Send reset password link',
                 action: 'send_reset_pwd_email'
             }
@@ -228,6 +231,7 @@ module.exports = {
                 errors: errors,
                 validInput: validInput,
                 form: {
+                    title: 'Reset Password',
                     submitBtn: 'Send reset password link',
                     action: 'send_reset_pwd_email'
                 }
@@ -236,7 +240,7 @@ module.exports = {
                 authorUtils.validate.checkPendingVerifyTokenByEmail,
                 [validInput.email]
             );
-            console.log(isPending);
+            
             if (isPending) {
                 req.flash("sendSuccess", "An email was already sent to you. Please check your email again.");
                 return res.redirect('/send_reset_pwd_email');
@@ -317,4 +321,5 @@ module.exports = {
             });
         }
     ]
+    
 }

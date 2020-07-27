@@ -266,10 +266,9 @@ const AuthorUtils = {
                     expiredOn: verifyToken.expiredOn
                 }
               });
-             console.log(author);
+              
             return author;
         } catch (error) {
-            console.log(error);
             return null;
         }
     },

@@ -64,14 +64,20 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-lg-2 offset-lg-1"></div>
-									<div class="col-lg-8 col-md-12 col-sm-12 col-12">
+									<div class="col-lg-4 col-md-12 col-sm-12 col-12">
                                         <div class="form-check">
                                             <input class="form-check-input" value="true" type="checkbox" id="remember_me" name="remember_me">
                                             <label class="form-check-label" for="remember_me">
                                             Remember me
                                             </label>
                                         </div>
-                                    </div>
+									</div>
+									<div class="col-md-4">
+										<div class="text-md-right mt-3 mt-md-0">
+											<a href="/send_reset_pwd_email" 
+												class="text-primary" style="font-size: 13px;"><i class="fa fa-lock mr-1"></i> Forgot your password?</a>
+										</div>
+									</div>
 								</div>
 								<% if (messages.error) { %>
 									<div class="form-group mt-4 mb-2" >
