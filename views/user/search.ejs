@@ -101,11 +101,11 @@ Purchase:
 							<% } %>
 						</div>
 					</div>
-
 				
-					<%# pagination %> 
+					<% if (typeof pagination !== 'undefined') { %> 
+						<%# pagination %> 
 					<%- include('./pagination.ejs', {pagination: pagination, objectId: pagination.items[0].categoryId}) %> 
-
+					<% } %> 
 				</div>
 			</div>
 		</div>

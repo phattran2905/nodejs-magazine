@@ -43,6 +43,7 @@
 			<div class="row">
 				<div class="col-lg-9 col-md-12 col-sm-12 col-12">
 					<%# category #1 %> 
+					<% if (typeof articlesByMainCategories[0] !== 'undefined') { %> 
 					<div class="blog_sports blog_topheading_slider_nav" data-wow-duration="0.2s">
 						<div class="blog_main_heading_div wow fadeInUp">
 							<div class="blog_heading_div">
@@ -228,7 +229,9 @@
 							</div>
 						</div>
 					</div>
+					<% } %> 
 					<%# category #2 %> 
+					<% if (typeof articlesByMainCategories[1] !== 'undefined') { %> 
 					<div class="blog_travel blog_topheading_slider_nav">
 						<div class="blog_main_heading_div wow fadeInUp">
 							<div class="blog_heading_div">
@@ -342,7 +345,9 @@
 							
 						</div>
 					</div>
+					<% } %> 
 					<%# category #3 %> 
+					<% if (typeof articlesByMainCategories[2] !== 'undefined') { %> 
 					<div class="blog_technology blog_topheading_slider_nav">
 						<div class="blog_main_heading_div wow fadeInUp">
 							<div class="blog_heading_div">
@@ -419,8 +424,10 @@
 							</div>
 						</div>
 					</div>
+					<% } %> 
 					
 					<%# category #4 %> 
+					<% if (typeof articlesByMainCategories[3] !== 'undefined') { %> 
 					<div class="blog_sports blog_topheading_slider_nav" data-wow-duration="0.2s">
 						<div class="blog_main_heading_div wow fadeInUp">
 							<div class="blog_heading_div">
@@ -493,6 +500,7 @@
 							</div>
 						</div>
 					</div>
+					<% } %> 
 				</div>
 
 				<div class="col-lg-3 col-md-12 col-sm-12 col-12 theiaStickySidebar">
