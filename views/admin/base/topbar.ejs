@@ -305,7 +305,11 @@
         >
           <img
             class="rounded-circle header-profile-user"
+            <% if (typeof information.avatar_img !== 'undefined') { %> 
             src="/avatar/<%= information.avatar_img.filename %>"
+            <% } else { %> 
+            src="/static/images/anonymous-user.png"
+            <% } %> 
             alt="Header Avatar"
           />
           <span class="d-none d-sm-inline-block ml-1"><%= information.username %></span>

@@ -69,6 +69,7 @@ const authUtils = {
     getAdminProfile: (req) => {
         if(typeof req.session.admin !== 'undefined' && req.session.admin)
             {
+                console.log(req.admin);
                 return {
                     id: req.session.admin._id,
                     username: req.session.admin.username,
