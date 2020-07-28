@@ -1,5 +1,5 @@
 node_modules
 tmp
 package-lock.json
-# .env
+.env
 debug.log
