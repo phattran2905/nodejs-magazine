@@ -66,7 +66,7 @@ Purchase:
 				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="blog_food_health blog_topheading_slider_nav blog_topheading_style2 blog_innerpages">
 						<div class="blog_technology_slider">
-							<% if (typeof pagination !== 'undefined') { %> 
+							<% if (typeof pagination.items.length > 0) { %> 
 							<h5 class="mb-4">Found <span class="text-danger"><%= pagination.items.length %></span> articles</h5>
 								<% for(let i =0; i < pagination.items.length; i++) { %> 
 							<div class="blog_post_style2 wow fadeInUp">
@@ -96,13 +96,13 @@ Purchase:
 								</div>
 							</div>
 								<% } %> 
-                            <% } else { %> 
+													<% } else { %> 
 								<h5 class="mb-4">Found <span class="text-danger">0</span> articles</h5>
 							<% } %>
 						</div>
 					</div>
 				
-					<% if (typeof pagination !== 'undefined') { %> 
+					<% if (typeof pagination.items.length > 1) { %> 
 						<%# pagination %> 
 					<%- include('./pagination.ejs', {pagination: pagination, objectId: pagination.items[0].categoryId}) %> 
 					<% } %> 
