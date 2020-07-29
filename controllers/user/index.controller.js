@@ -77,7 +77,7 @@ module.exports = {
           const latestArticles = await articleUtils.getLatestArticles(articleSelectedFields, 5);
           const popularArticles = await articleUtils.getPopularArticles(articleSelectedFields, 5);
           const articlesByCategory = await articleUtils.getArticleByCategoryId(req.query.id, articleSelectedFields);
-
+          
           if (articlesByCategory) {
             const currentPage = (typeof req.query.page !== 'undefined' && req.query.page > 0) 
             ? req.query.page 
@@ -88,7 +88,7 @@ module.exports = {
               itemPerPage: 6,
               currentPage: currentPage
             });
-
+            
             if (currentPage && pagination) {
               return res.render('user/articles_by_category.ejs', {
                 latestArticles: latestArticles,
@@ -101,6 +101,7 @@ module.exports = {
            
           }
         } catch (error) {
+          console.log(error);
           return res.render("error/user-404");
         }
       }

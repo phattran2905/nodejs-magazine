@@ -51,11 +51,10 @@ const commonUtils = {
         return result;
     },
     makePagination: ({items, itemPerPage = 1, currentPage = 1} = {}) => {
-        if(!items || !Array.isArray(items) || itemPerPage < 1 || currentPage < 1) {return null;}
-
-        const numOfPages = Math.ceil(items.length / itemPerPage);
-        if(currentPage > numOfPages) {return null;}
+        if(!items || itemPerPage < 1 || currentPage < 1) {return null;}
         
+        const numOfPages = Math.ceil(items.length / itemPerPage);
+        if(numOfPages > 0 && currentPage > numOfPages) {return null;}
         const fromIndex = itemPerPage * (currentPage - 1);
          // omit -1 in (itemPerPage - 1) due to splice()
         const toIndex = fromIndex + itemPerPage;
