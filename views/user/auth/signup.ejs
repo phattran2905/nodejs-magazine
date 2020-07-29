@@ -36,117 +36,118 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 col-md-10 col-sm-12 col-12 offset-lg-2 offset-md-1 blog_toppadder40">
-          <div class="mb-5 blog_contact_form_div wow fadeInUp">
+                    <div class="blog_contact_form_div wow fadeInUp">
 						<div class="blog_main_heading_div">
 							<div class="blog_heading_div">
-								<h3 class="blog_bg_lightgreen">Sign Up</h3>
+								<h3 class="blog_bg_lightgreen">Sign up</h3>
 							</div>
 						</div>
-						<div class="blog_contact_form_div_inner">
+            <form action="/signup" method="POST" >
               <!-- Flash -->
               <%- include('../base/flash_messages') %>
               <!-- Form -->
-              <form action="/signup" method="POST" >
-							<div class="contact_form">
-                <div class="form-group row">
-                  <!-- Username -->
-                  <label for="username" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Username</label>
-                  <div class="col-lg-7 col-md-9 col-sm-12 col-12">
-                    <div class="blog_form_group">
-                    <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
-                      <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
-                    <% } %>
-                    <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
-                      <% if (errors) { %> 
-                      <% errors.forEach( (error) =>  { %> 
-                        <% if (error.param === 'username') { %> 
-                      <input type="text" value="<%= error.value %>" id="username" name="username" class="form-control" placeholder="Enter username" required>
-                      <div class="invalid-input">
-                        <p><%= error.msg %> </p>
+              <div class="blog_contact_form_div_inner">
+                <div class="contact_form">
+                  <div class="form-group row">
+                    <!-- Username -->
+                    <label for="username" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Username</label>
+                    <div class="col-lg-7 col-md-9 col-sm-12 col-12">
+                      <div class="blog_form_group">
+                      <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+                      <% } %>
+                      <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
+                        <% if (errors) { %> 
+                        <% errors.forEach( (error) =>  { %> 
+                          <% if (error.param === 'username') { %> 
+                        <input type="text" value="<%= error.value %>" id="username" name="username" class="form-control" placeholder="Enter username" required>
+                        <div class="invalid-input">
+                          <p><%= error.msg %> </p>
+                        </div>
+                          <% } %>
+                        <% }) %>
+                        <% } %>  
+                        <% if (validInput && validInput.username) { %> 
+                          <input type="text" value="<%= validInput.username %>" id="username" name="username" class="form-control" placeholder="Enter username" required>
+                        <% } %> 
+                      <% } %>
                       </div>
-                        <% } %>
-                      <% }) %>
-                      <% } %>  
-                      <% if (validInput && validInput.username) { %> 
-                        <input type="text" value="<%= validInput.username %>" id="username" name="username" class="form-control" placeholder="Enter username" required>
-                      <% } %> 
-                    <% } %>
                     </div>
                   </div>
-                </div>
-                    
-								<div class="form-group row">
-                  <!-- Email -->
-                  <label for="email" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Email</label>
-									<div class="col-lg-7 col-md-9 col-sm-12 col-12">
-										<div class="blog_form_group">
-                      <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
-                        <input type="text" id="email" name="email" class="form-control" placeholder="Enter email" required>
-                        <% } %>
-                        <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
-                          <% if (errors) { %> 
-                            <% errors.forEach( (error) =>  { %> 
-                              <% if(error.param === 'email') { %> 
-                            <input type="text" value="<%= error.value %>" id="email" name="email" class="form-control" placeholder="Enter email" required>
-                            <div class="invalid-input">
-                                <p><%= error.msg %> </p>
-                            </div>
-                              <% } %> 
-                          <% }) %>
-                          <% } %>  
-                          <% if (validInput && validInput.email) { %> 
-                            <input type="text" value="<%= validInput.email %>" id="email" name="email" class="form-control" placeholder="Enter email" required>
+                      
+                  <div class="form-group row">
+                    <!-- Email -->
+                    <label for="email" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Email</label>
+                    <div class="col-lg-7 col-md-9 col-sm-12 col-12">
+                      <div class="blog_form_group">
+                        <% if (typeof errors === 'undefined' && typeof validInput === 'undefined') { %> 
+                          <input type="text" id="email" name="email" class="form-control" placeholder="Enter email" required>
                           <% } %>
+                          <% if (typeof errors !== 'undefined' && typeof validInput !== 'undefined') { %>
+                            <% if (errors) { %> 
+                              <% errors.forEach( (error) =>  { %> 
+                                <% if(error.param === 'email') { %> 
+                              <input type="text" value="<%= error.value %>" id="email" name="email" class="form-control" placeholder="Enter email" required>
+                              <div class="invalid-input">
+                                  <p><%= error.msg %> </p>
+                              </div>
+                                <% } %> 
+                            <% }) %>
+                            <% } %>  
+                            <% if (validInput && validInput.email) { %> 
+                              <input type="text" value="<%= validInput.email %>" id="email" name="email" class="form-control" placeholder="Enter email" required>
+                            <% } %>
+                          <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Password</label>
+                    <div class="col-lg-7 col-md-9 col-sm-12 col-12">
+                      <div class="blog_form_group">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                        <% if (typeof errors !== 'undefined' && errors) { %>
+                          <% errors.forEach( (error) =>  { %> 
+                          <% if(error.param === 'password') { %>
+                        <div class="invalid-input">
+                          <p><%= error.msg %> </p>
+                        </div>
+                          <% } %> 
+                          <% }) %> 
                         <% } %>
-										</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="confirm_password" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Confirm Password</label>
+                    <div class="col-lg-7 col-md-9 col-sm-12 col-12">
+                      <div class="blog_form_group">
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+                        <% if (typeof errors !== 'undefined' && errors) { %>
+                          <% errors.forEach( (error) =>  { %> 
+                          <% if(error.param === 'confirm_password') { %>
+                        <div class="invalid-input">
+                          <p><%= error.msg %> </p>
+                        </div>
+                          <% } %> 
+                          <% }) %> 
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                                  
+                  <div class="form-group row">
+                    <button id="login_btn" class="col-lg-8 offset-lg-2 col-md-12 col-sm-12 col-12 blog_btn blog_bg_pink">Sign up</button>
                   </div>
                 </div>
-                
-								<div class="form-group row">
-                  <label for="password" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Password</label>
-									<div class="col-lg-7 col-md-9 col-sm-12 col-12">
-										<div class="blog_form_group">
-                      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-                      <% if (typeof errors !== 'undefined' && errors) { %>
-                        <% errors.forEach( (error) =>  { %> 
-                        <% if(error.param === 'password') { %>
-                      <div class="invalid-input">
-                        <p><%= error.msg %> </p>
-                      </div>
-                        <% } %> 
-                        <% }) %> 
-                      <% } %>
-										</div>
-                  </div>
-								</div>
-								<div class="form-group row">
-                  <label for="confirm_password" class="col-sm-2 col-lg-3 offset-lg-1 col-form-label">Confirm Password</label>
-									<div class="col-lg-7 col-md-9 col-sm-12 col-12">
-										<div class="blog_form_group">
-                      <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
-                      <% if (typeof errors !== 'undefined' && errors) { %>
-                        <% errors.forEach( (error) =>  { %> 
-                        <% if(error.param === 'confirm_password') { %>
-                      <div class="invalid-input">
-                        <p><%= error.msg %> </p>
-                      </div>
-                        <% } %> 
-                        <% }) %> 
-                      <% } %>
-										</div>
-                  </div>
               </div>
-                                
-								<div class="form-group row">
-                  <button id="login_btn" class="col-lg-8 offset-lg-2 col-md-12 col-sm-12 col-12 blog_btn blog_bg_pink">Sign up</button>
-              </div>
-          </form>
-            </div>
-          </div>
-        </div>
-      </div>
+            </form>
+					</div>
+				</div>
+			</div>
 		</div>
-  </div>
+    </div>
     <!-- end main content -->
     
     <!-- footer and copyright -->

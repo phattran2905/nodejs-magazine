@@ -12,9 +12,9 @@
         <div class="blog_main_menu_innerdiv">
             <ul>
                 <% if (typeof menu_list !== 'undefined') { %> 
-                    <% for(let i =0; i < menu_list.length; i++) { %> 
+                    <% for(let i = 0; i < menu_list.length; i++) { %> 
                         <!-- <li class="active"> -->
-                        <li >
+                        <li class="mx-3">
                             <a href="/category?id=<%= menu_list[i].categoryId %>"><%= menu_list[i].name %></a>
                             <% if (menu_list[i].submenu.length > 0) { %> 
                             <ul class="sub-menu">
