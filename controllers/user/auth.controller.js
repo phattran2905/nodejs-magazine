@@ -11,7 +11,6 @@ const menuUtils = require("../../utils/menuUtils");
 
 module.exports = {
     showLoginForm:  [
-        // authUtils.checkNotAuthenticatedAuthor,
         async (req, res) => {
             const selectedFields = '_id title interaction status categoryId authorId updated createdAt thumbnail_img';
             const latestArticles = await articleUtils.getLatestArticles(selectedFields, 3);
@@ -25,7 +24,6 @@ module.exports = {
     ],
 
     login: [
-        // authUtils.checkNotAuthenticatedAuthor,
         passport.authenticate('auth-user', {
             failureRedirect: "/login",
             failureFlash: true
@@ -61,7 +59,6 @@ module.exports = {
     ],
 
     logout:  [
-        // authUtils.checkAuthenticatedAuthor,
         (req, res) => {
             res.clearCookie('remember_me');
             req.logout();

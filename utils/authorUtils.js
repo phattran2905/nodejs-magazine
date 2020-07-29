@@ -175,7 +175,6 @@ const AuthorUtils = {
         const authors = await AuthorModel.find();
         for(let i = 0; i < authors.length; i++) {
             const articles = await ArticleModel.find({authorId: authors[i]._id});
-            console.log(articles.length);
             authors[i].numOfArticles = articles.length;
         }
         return authors;

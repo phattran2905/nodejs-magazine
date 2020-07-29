@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 
 module.exports = {
     getAuthorStatistics: async(year = new Date().getFullYear()) => {
-        if (!year || year < new Date().getFullYear() - 5) {return null;} // around  5 years;
+        if (!year || year < new Date().getFullYear() - 5 || year > new Date().getFullYear()) 
+            {return null;} // around  5 years;
         
         // Return { numOfFollower, numOfAuthors }
         return await AuthorModel.aggregate([
@@ -18,7 +19,8 @@ module.exports = {
     },
 
     getArticleStatistics: async(year = new Date().getFullYear()) => {
-        if (!year || year < new Date().getFullYear() - 5) {return null;} // around  5 years;
+        if (!year || year < new Date().getFullYear() - 5 || year > new Date().getFullYear()) 
+            {return null;} // around  5 years;
         
         // Return { numOfViews, numOfArticles }
         return await ArticleModel.aggregate([
@@ -76,7 +78,8 @@ module.exports = {
     },
 
     getNumOfViewsPerMonth: async (year = new Date().getFullYear()) => {
-        if (!year || year < new Date().getFullYear() - 5) {return null;} // around  5 years;
+        if (!year || year < new Date().getFullYear() - 5 || year > new Date().getFullYear()) 
+            {return null;} // around  5 years;
 
         const viewsPerMonth =  await ArticleModel.aggregate([
             {$match: {$and: [
@@ -93,18 +96,77 @@ module.exports = {
         return viewsPerMonth;
     },
 
-    getViewAnalytics: async function() {
+    getViewAnalyticsForChart: async function() {
         try {   
             const viewsPerMonthThisYear = await this.getNumOfViewsPerMonth(new Date().getFullYear()); 
             const viewsPerMonthLastYear = await this.getNumOfViewsPerMonth(new Date().getFullYear() - 1);
             const dataForChartThisYear = viewsPerMonthThisYear.map(element => element.numOfViews);
             const dataForChartLastYear = viewsPerMonthLastYear.map(element => element.numOfViews);
             return {
-                dataThisYear: { data: dataForChartThisYear, name: new Date().getFullYear().toString() },
-                dataLastYear: { data: dataForChartLastYear, name: (new Date().getFullYear() -1 ).toString() },
+                thisYear: { data: dataForChartThisYear, name: new Date().getFullYear().toString() },
+                lastYear: { data: dataForChartLastYear, name: (new Date().getFullYear() -1 ).toString() },
             }   
         } catch (error) {
             return null;
         }
-    }
+    },
+
+    getNumOfViewsByTime: async function(date_str = new Date()){
+        if (!date_str) {return null;}
+
+        try {
+            const viewsPerDay = await ArticleModel.aggregate([
+                {$match: {$and: {status: 'Published'} }},
+                {$project: { _id: 1, 'day': {$dayOfMonth: '$updated'}, 'views': '$interaction.views' }},
+                {$match: { '$day': {$eq: {$dayOfMonth: new Date(date_str)} } } },
+                {$group: {
+                    _id: '$day',
+                    totalViews: { $sum: '$interaction.views' },
+                }}, 
+                {$project: { _id: 0, 'numOfViews': '$totalViews'}}
+            ]);
+            const viewsPerWeek = await ArticleModel.aggregate([
+                {$match: {$and: {status: 'Published'} }},
+                {$project: { _id: 1, 'week': {$week: '$updated'}, 'views': '$interaction.views' }},
+                {$match: { '$week': {$eq: {$week: new Date(date_str)} } } },
+                {$group: {
+                    _id: '$week',
+                    totalViews: { $sum: '$interaction.views' },
+                }}, 
+                {$project: { _id: 0, 'numOfViews': '$totalViews'}}
+            ]);
+            const viewsPerMonth = await ArticleModel.aggregate([
+                {$match: {$and: {status: 'Published'} }},
+                {$project: { _id: 1, 'month': {$month: '$updated'}, 'views': '$interaction.views' }},
+                {$match: { '$month': {$eq: {$week: new Date(date_str)} } } },
+                {$group: {
+                    _id: '$month',
+                    totalViews: { $sum: '$interaction.views' },
+                }}, 
+                {$project: { _id: 0, 'numOfViews': '$totalViews'}}
+            ]);
+            const viewsPerYear = await ArticleModel.aggregate([
+                {$match: {$and: [
+                    {status: 'Published'},
+                    {updated: {$gte: new Date(date_str.getFullYear(), 1, 1), $lte: new Date(date_str.getFullYear(), 12, 31) } }
+                ]}},
+                {$group: {
+                    _id: null,
+                    totalViews: { $sum: '$interaction.views' },
+                }}, 
+                {$project: { _id: 0, 'numOfViews': '$totalViews'}}
+            ]);
+            
+            return {
+                day: viewsPerDay[0].numOfViews,
+                week: viewsPerWeek[0].numOfViews,
+                month: viewsPerMonth[0].numOfViews,
+                year: viewsPerYear[0].numOfViews,
+            }
+        } catch (error) {
+            return null;
+        }
+
+    },
+
 }
