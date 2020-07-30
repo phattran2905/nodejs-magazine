@@ -1,5 +1,6 @@
 const authUtils = require('../../utils/authUtils');
 const articleUtils = require('../../utils/articleUtils');
+const menuUtils = require('../../utils/menuUtils');
 const authorUtils = require('../../utils/authorUtils');
 const validateProfile = require('../../validation/user/validateProfile');
 const upload = require('../../config/upload-setup');
@@ -10,6 +11,7 @@ module.exports = {
             const returnFields = '_id title interaction status categoryId authorId updated createdAt';
             const latestArticles = await articleUtils.getLatestArticles(returnFields, 5);
             const popularArticles = await articleUtils.getPopularArticles(returnFields, 5);
+            
             res.render('user/profile/profile_base', {
                 latestArticles: latestArticles,
                 popularArticles: popularArticles,
