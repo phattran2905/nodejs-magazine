@@ -386,8 +386,7 @@ const AuthorUtils = {
                 status: 'Activated'
             }).exec();
             if(!author) return null;
-
-            const newVerifyToken = await commonUtils.generateToken(author.username + 'resetpwd' + email, 7);
+            const newVerifyToken = await commonUtils.generateToken(author.username + process.env.SECRET_KEY + email, 7);
             const responseQuery = await AuthorModel.updateOne(
                 {email: email},
                 {
@@ -398,7 +397,7 @@ const AuthorUtils = {
                 // send verification email
                 const mailResponse = await mailUtils.sendResetPwdEmail(email,newVerifyToken.tokenStr);
                 
-                if(mailResponse && mailResponse.accepted[0] === email){
+                if(mailResponse && mailResponse.info.accepted[0] === email){
                     return mailResponse;
                 }
             }

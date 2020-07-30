@@ -51,7 +51,10 @@ const sendEmail = async (sending_info) => {
     // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     // console.log(nodemailer.getTestMessageUrl(info));
-    return info;
+    return {
+      info: info,
+      testMailURL: nodemailer.getTestMessageUrl(info)
+    };
   }
 
 const sendVerificationEmail = async (email,token) => {

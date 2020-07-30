@@ -6,7 +6,7 @@ const validateProfile = {
     profile: [
         body('fullname')
             .trim()
-            .isLength({min: 6}).withMessage('Fullname must be in range of 4-30 characters.')
+            .isLength({min: 4}).withMessage('Fullname must be in range of 4-30 characters.')
             .custom(validationUtils.checkFullnameValid).withMessage('Your name must be alphabetic characters.'),
         body('dob') // isDate() was removed from express-validator
             .isBefore('1/1/2004').withMessage('Invalid Date'),

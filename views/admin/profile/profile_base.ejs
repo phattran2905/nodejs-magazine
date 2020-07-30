@@ -61,7 +61,12 @@
               <div class="card h-100">
                 <div class="card-body email-leftbar">
                   <img class="d-flex mx-auto mb-4 rounded-circle avatar-profile"
-                    src="/avatar/<%= information.avatar_img.filename %> " alt="Generic placeholder image" />
+                  <% if (typeof information.avatar_img !== 'undefined') { %> 
+                    src="/avatar/<%= information.avatar_img.filename %> " 
+                  <% } else { %> 
+                    src="/static/images/anonymous-user.png"
+                  <% } %> 
+                    alt="Generic placeholder image" />
                     <form action="/admin/profile/upload_avatar/" class="mx-auto" method="POST" enctype="multipart/form-data">
                         <input hidden onchange="this.form.submit()" type="file" id="avatar_img"  name="avatar_img" accept="image/*" />
                         <label for="avatar_img" class="btn btn-primary btn-block btn-rounded waves-effect waves-light">
@@ -70,9 +75,6 @@
                     </form>
 
                   <div class="mail-list mt-4">
-                    <!-- <a href="#" class="active"><i class="mdi mdi-inbox mr-2">
-                      </i> Inbox <span class="ml-1 float-right">(18)</span>
-                    </a> -->
                     
                     <a href="/admin/profile" class="<% if (content === 'profile') { %><%= 'active' %><% } %> ">
                       <i class="mdi mdi-account-badge-horizontal mr-2"></i>Profile

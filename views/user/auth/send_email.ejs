@@ -44,6 +44,11 @@
 						</div>
 						<div class="blog_contact_form_div_inner">
             <%- include('../base/flash_messages') %> 
+            <% if (typeof verification_link !== 'undefined') { %> 
+            <p class="p-2 pl-3 bg-soft-primary">
+              Click <a href="<%= verification_link %>" class="text-primary" target="_blank">here</a> to be able to access verification email
+            </p>
+            <% } %> 
               <div class="contact_form ">
                 <form action="/<%= form.action %>/" class="form-group row mb-5" method="POST">
                   <div class="col-lg-10 col-md-9 col-sm-12 col-12 offset-lg-1">

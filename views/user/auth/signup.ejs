@@ -46,6 +46,11 @@
               <!-- Flash -->
               <%- include('../base/flash_messages') %>
               <!-- Form -->
+            <% if (typeof verification_link !== 'undefined') { %> 
+              <p class="p-2 pl-3 bg-soft-primary">
+                Click <a href="<%= verification_link %>" class="text-primary" target="_blank">here</a> to be able to access verification email
+              </p>
+              <% } %> 
               <div class="blog_contact_form_div_inner">
                 <div class="contact_form">
                   <div class="form-group row">
@@ -143,6 +148,11 @@
                 </div>
               </div>
             </form>
+
+            <p class="mx-auto pl-5" style="font-size: 13px;">
+              Already signed up but not verified, click <a href="/send_verification" class="text-primary font-weight-bolder">here</a>
+            </p>
+            
 					</div>
 				</div>
 			</div>

@@ -106,13 +106,17 @@ module.exports = {
                 // send token to email
                 const mailResponse = await mailUtils.sendVerificationEmail(addedAuthor.email, addedAuthor.verifyToken.token);
 
-                if (addedAuthor && mailResponse && mailResponse.accepted[0] === validInput.email) {
-                    req.flash("addSuccess", "Successfully. Please check your email to verify your registered account. ");
-                    return res.redirect('/signup');
+                // if (addedAuthor && mailResponse.info && mailResponse.info.accepted[0] === validInput.email) {
+                if (addedAuthor && mailResponse.info ) {
+                    req.flash("addSuccess", "Successfully. An verification email was sent to you.");
+                    return res.render('user/auth/signup', {
+                        verification_link: mailResponse.testMailURL
+                    });
                 }
 
             } catch (error) {
-                
+                req.flash("addFail", "Failed. An error occurred during the process.");
+                return res.redirect('/signup');
             }
             req.flash("addFail", "Failed. An error occurred during the process.");
             return res.redirect('/signup');
@@ -177,7 +181,7 @@ module.exports = {
                 [validInput.email]
             );
             if (isActivated) {
-                req.flash("sendSuccess", "Your account was already activated.");
+                req.flash("fail", "Your account was already activated.");
                 return res.redirect('/send_verification');
             }
             const isPending = await commonUtils.castPromiseToBoolean(
@@ -185,7 +189,7 @@ module.exports = {
                 [validInput.email]
             );
             if (isPending) {
-                req.flash("sendSuccess", "A verification email was already sent to your email.");
+                req.flash("fail", "A verification email was already sent to your email.");
                 return res.redirect('/send_verification');
             }
 
@@ -194,7 +198,14 @@ module.exports = {
 
                 if (verification) {
                     req.flash("sendSuccess", "Successfully. Please check your email to verify your registered account. ");
-                    return res.redirect('/send_verification');
+                    return res.render('user/auth/send_email', {
+                        form: {
+                            title: 'Verify account',
+                            submitBtn: 'Send verification email',
+                            action: 'send_verification',
+                        },
+                        verification_link: verification.testMailURL
+                    });
                 }
 
                 req.flash("sendFail", "Failed. An error occurred during the process.");
@@ -244,10 +255,17 @@ module.exports = {
             }
             try {
                 const resetPwdRes = await authorUtils.sendResetPwd(validInput.email);
-
+                
                 if (resetPwdRes) {
                     req.flash("sendSuccess", "Successfully. Please check your email to reset your password");
-                    return res.redirect('/send_reset_pwd_email');
+                    return res.render('user/auth/send_email', {
+                        form: {
+                            title: 'Reset Password',
+                            submitBtn: 'Send reset password link',
+                            action: 'send_reset_pwd_email'
+                        },
+                        verification_link: resetPwdRes.testMailURL
+                    });
                 }
 
                 req.flash("sendFail", "Failed. An error occurred during the process.");

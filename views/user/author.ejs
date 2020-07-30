@@ -65,9 +65,15 @@
 							<div class="blog_food_bigdiv wow fadeInUp">
 								<div class="blog_post_style2">
                                     <div class="row">
-                                        <div class="col-3 author_avatar" style="width: 30%;padding: 15px;margin-left: 36px;margin-top: 30px;">
-                                            <img src="/avatar/<%= author.info.profile.avatar_img.filename %>" class="img-fluid" alt="" style="border-radius: 50%;height: 13rem;">
-                                            <p class="text-center mt-3 p-2">
+                                        <div class="col-3 author_avatar" >
+                                            <img      
+                                            <% if (typeof author.info.profile.avatar_img !== 'undefined' && author.info.profile.avatar_img.filename != null) { %>
+                                                src="/avatar/<%= author.info.profile.avatar_img.filename %>" 
+                                            <% } else  { %>
+                                                src="/static/images/anonymous-user.png"
+                                            <% } %> 
+                                            class="img-fluid ml-5 mt-4" alt="" style="border-radius: 50%;height: 13rem;">
+                                            <p class="text-center mt-3 ml-5">
                                                 <% if (typeof information === 'undefined' || information == null) { %> 
                                                 <button type="button" class="btn btn-primary mx-auto" data-toggle="modal" data-target="#exampleModalCenter" style="font-size: 16px;">
                                                     <i class="fa fa-random mr-2"></i>Follow
@@ -86,7 +92,9 @@
                                                         <i class="fa fa-address-card mr-2"></i>Full-name
                                                     </p>
                                                     <p class="col-8 text-center font-weight-bold text-black" style="font-size: 18px;">
+                                                        <% if (author.info.profile.fullname !== 'undefined' && author.info.profile.fullname != null) { %> 
                                                         <%= author.info.profile.fullname.toUpperCase()  %>
+                                                        <% } %> 
                                                     </p>
                                                 </li>
                                                 <li class="row border-bottom">
@@ -107,7 +115,9 @@
                                                         <i class="fa fa-birthday-cake mr-2"></i> Date of birth
                                                     </p>
                                                     <p class="col-8 text-center font-weight-bold text-black" style="font-size: 18px;">
+                                                        <% if (author.info.profile.dateOfBirth !== 'undefined' && author.info.profile.dateOfBirth != null) { %> 
                                                         <%= author.info.profile.dateOfBirth.toLocaleDateString('en-Us', {year: 'numeric', month: 'long', day: '2-digit'}) %>
+                                                        <% } %> 
                                                     </p>
                                                 </li>
                                                 <li class="row border-bottom">
@@ -174,7 +184,7 @@
 							</div>
                         </div>
                         
-                        <h3 class="mt-3">Recent articles</h3>
+                        <h3 class="mt-4">Recent articles</h3>
 
                         <%# list of articles %> 
 						<div class="blog_technology_slider">
@@ -211,8 +221,12 @@
                             <% } %> 
                         </div>
 
+                        <% if (pagination.numOfPages > 1) { %> 
                         <%# pagination %> 
                         <%- include('./pagination.ejs', {pagination: pagination, objectId: author.info._id}) %> 
+                        <% } else { %> 
+                            <p class="pl-3 font-italic">There are no articles</p>
+                            <% } %> 
 
                         <%# modal %> 
                         <!-- Modal -->  
