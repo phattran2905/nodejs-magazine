@@ -49,19 +49,9 @@
 							<div class="blog_heading_div">
 								<h3 class="blog_bg_lightblue"><%= articlesByMainCategories[0].category.name %> </h3>
 							</div>
-							<nav class="blog_tab_nav blog_color_lightblue">
-								<div class="nav nav-tabs" id="nav-tab1" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#nav-sportall" role="tab" aria-selected="true">All</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-crickets" role="tab" aria-selected="false">Crickets</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-football" role="tab" aria-selected="false">Football</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-wrestling" role="tab" aria-selected="false">Wrestling</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-swimming" role="tab" aria-selected="false">Swimming</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-hockey" role="tab" aria-selected="false">Hockey</a>
-								</div>
-							</nav>
-							<div class="tab_toggle_menu">
-								<a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="13px" height="14px"><path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M0.001,10.115 L0.001,7.969 L13.000,7.969 L13.000,10.115 L0.001,10.115 ZM3.649,6.028 L3.649,3.881 L12.992,3.881 L12.992,6.028 L3.649,6.028 ZM0.001,-0.002 L13.000,-0.002 L13.000,2.145 L0.001,2.145 L0.001,-0.002 ZM12.992,13.998 L3.649,13.998 L3.649,11.853 L12.992,11.853 L12.992,13.998 Z"></path></svg></a>
-							</div>
+							<p style="position: absolute;right: 12px;top: 15px;margin: 0;">
+								<a href="/category?id=<%= articlesByMainCategories[0].category.id %>" class="text-primary">More &gt;&gt;</a>
+							</p>
 						</div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active tabslider wow fadeInUp" id="nav-sportall" role="tabpanel"> 
@@ -75,14 +65,14 @@
 													<div class="swiper-slide" style="max-height: 270px;">
 														<div class="blog_post_style2">
 															<div class="blog_post_style2_img">
-																<img src="/thumbnail/<%= articlesByMainCategories[0].articles[i].thumbnail_img.filename %>" class="img-fluid" alt="" style=" max-height: 180px;max-width: 130px;height: 100%;">
+																<img src="/thumbnail/<%= articlesByMainCategories[0].articles[i].thumbnail_img.filename %>"  alt="" style=" max-height: 180px;max-width: 130px;height: 100%;">
 															</div>
 															<div class="blog_post_style2_content">
 																<h3>
-																	<a href="/article?id=<%= articlesByMainCategories[2].articles[i]._id %>"><%- articlesByMainCategories[0].articles[i].title %></a>
+																	<a href="/article?id=<%= articlesByMainCategories[0].articles[i]._id %>"><%- articlesByMainCategories[0].articles[i].title %></a>
 																</h3>
 																<div class="blog_author_data mt-1">
-																	<a href="/author?id=<%= articlesByMainCategories[2].articles[i].authorId._id %>">
+																	<a href="/author?id=<%= articlesByMainCategories[0].articles[i].authorId._id %>">
 																		<img src="/avatar/<%= articlesByMainCategories[0].articles[i].authorId.profile.avatar_img.filename %>" 
 																		class="img-fluid" alt="" width="34" height="34"> <%= articlesByMainCategories[0].articles[i].authorId.profile.fullname %>
 																	</a>
@@ -219,9 +209,7 @@
 													</div> -->
 
 												</div>
-												<!-- Add Arrows -->
-												<div class="sport-swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M7.782,5.992 L1.722,0.206 C1.582,0.073 1.395,-0.001 1.196,-0.001 C0.996,-0.001 0.809,0.073 0.669,0.206 L0.223,0.633 C-0.068,0.910 -0.068,1.361 0.223,1.639 L5.311,6.496 L0.217,11.360 C0.077,11.494 -0.001,11.672 -0.001,11.863 C-0.001,12.053 0.077,12.231 0.217,12.366 L0.663,12.791 C0.804,12.925 0.991,12.999 1.190,12.999 C1.390,12.999 1.577,12.925 1.717,12.791 L7.782,7.001 C7.923,6.867 8.000,6.688 8.000,6.497 C8.000,6.305 7.923,6.126 7.782,5.992 Z"/></svg></div>
-												<div class="sport-swiper-button-prev"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M0.218,5.992 L6.277,0.206 C6.418,0.073 6.605,-0.001 6.804,-0.001 C7.004,-0.001 7.191,0.073 7.331,0.206 L7.777,0.633 C8.068,0.910 8.068,1.361 7.777,1.639 L2.689,6.496 L7.783,11.360 C7.923,11.494 8.000,11.672 8.000,11.863 C8.000,12.053 7.923,12.231 7.783,12.366 L7.337,12.791 C7.196,12.925 7.009,12.999 6.810,12.999 C6.610,12.999 6.423,12.925 6.283,12.791 L0.218,7.001 C0.077,6.867 -0.000,6.688 0.000,6.497 C-0.000,6.305 0.077,6.126 0.218,5.992 Z"/></svg></div>
+
 											</div>
 										</div>
 									</div>
@@ -237,18 +225,9 @@
 							<div class="blog_heading_div">
 								<h3 class="blog_bg_lightgreen"><%= articlesByMainCategories[1].category.name %></h3>
 							</div>
-							<nav class="blog_tab_nav blog_color_lightgreen">
-								<div class="nav nav-tabs" id="nav-tab3" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#nav-travelall" role="tab" aria-selected="true">All</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#travel_tab1" role="tab" aria-selected="false">Europe</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#travel_tab2" role="tab" aria-selected="false">Asia</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#travel_tab3" role="tab" aria-selected="false">Flight</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#travel_tab4" role="tab" aria-controls="nav-america" aria-selected="false">Train</a>
-								</div>
-							</nav>
-							<div class="tab_toggle_menu">
-								<a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="13px" height="14px"><path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M0.001,10.115 L0.001,7.969 L13.000,7.969 L13.000,10.115 L0.001,10.115 ZM3.649,6.028 L3.649,3.881 L12.992,3.881 L12.992,6.028 L3.649,6.028 ZM0.001,-0.002 L13.000,-0.002 L13.000,2.145 L0.001,2.145 L0.001,-0.002 ZM12.992,13.998 L3.649,13.998 L3.649,11.853 L12.992,11.853 L12.992,13.998 Z"></path></svg></a>
-							</div>
+							<p style="position: absolute;right: 12px;top: 15px;margin: 0;">
+								<a href="/category?id=<%= articlesByMainCategories[1].category.id %>" class="text-primary">More &gt;&gt;</a>
+							</p>
 						</div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active tabslider wow fadeInUp" id="nav-travelall" role="tabpanel"> 
@@ -263,7 +242,7 @@
 													<div class="blog_col_6">
 														<div class="blog_post_slider_wrapper"> 
 															<a href="/article?id=<%= articlesByMainCategories[1].articles[i]._id %>" class="blog_post_slider_img"> 
-																<img src="/thumbnail/<%= articlesByMainCategories[1].articles[i].thumbnail_img.filename %> " class="img-fluid" alt="">
+																<img src="/thumbnail/<%= articlesByMainCategories[1].articles[i].thumbnail_img.filename %> " style="width: 100%;" alt="">
 															</a> 
 															<div class="blog_post_slider_content"> 
 																<h2>
@@ -297,9 +276,10 @@
 												<% } %> 
 
 												<%# 3 small slides %> 
-												<% if (articlesByMainCategories[1].articles.length > 3) { %> 
+												<% if (articlesByMainCategories[1].articles.length > 2) { %> 
 												<div class="swiper-slide">
 													<% for(let i = 2; i < 5; i++) { %> 
+														<% if (typeof articlesByMainCategories[1].articles[i] !== 'undefined') { %> 
 													<div class="blog_col_4">
 														<div class="blog_post_slider_wrapper"> 
 															<a href="/article?id=<%= articlesByMainCategories[1].articles[i]._id %>" class="blog_post_slider_img"> 
@@ -331,13 +311,11 @@
 														</div>
 													</div>
 													<% } %> 
+													<% } %> 
 												</div>
 												<% } %> 
 
 											</div>
-											<!-- Add Arrows -->
-											<div class="travel-swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M7.782,5.992 L1.722,0.206 C1.582,0.073 1.395,-0.001 1.196,-0.001 C0.996,-0.001 0.809,0.073 0.669,0.206 L0.223,0.633 C-0.068,0.910 -0.068,1.361 0.223,1.639 L5.311,6.496 L0.217,11.360 C0.077,11.494 -0.001,11.672 -0.001,11.863 C-0.001,12.053 0.077,12.231 0.217,12.366 L0.663,12.791 C0.804,12.925 0.991,12.999 1.190,12.999 C1.390,12.999 1.577,12.925 1.717,12.791 L7.782,7.001 C7.923,6.867 8.000,6.688 8.000,6.497 C8.000,6.305 7.923,6.126 7.782,5.992 Z"/></svg></div>
-											<div class="travel-swiper-button-prev"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M0.218,5.992 L6.277,0.206 C6.418,0.073 6.605,-0.001 6.804,-0.001 C7.004,-0.001 7.191,0.073 7.331,0.206 L7.777,0.633 C8.068,0.910 8.068,1.361 7.777,1.639 L2.689,6.496 L7.783,11.360 C7.923,11.494 8.000,11.672 8.000,11.863 C8.000,12.053 7.923,12.231 7.783,12.366 L7.337,12.791 C7.196,12.925 7.009,12.999 6.810,12.999 C6.610,12.999 6.423,12.925 6.283,12.791 L0.218,7.001 C0.077,6.867 -0.000,6.688 0.000,6.497 C-0.000,6.305 0.077,6.126 0.218,5.992 Z"/></svg></div>
 										</div>
 									</div>
 								</div>
@@ -353,34 +331,25 @@
 							<div class="blog_heading_div">
 								<h3 class="blog_bg_darkblue"><%= articlesByMainCategories[2].category.name %></h3>
 							</div>
-							<nav class="blog_tab_nav blog_color_darkblue">
-								<div class="nav nav-tabs" id="nav-tab4" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#nav-technologyall" role="tab" aria-selected="true">All</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#technology1" role="tab" aria-selected="false">Creative</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#technology2" role="tab" aria-selected="false">Phone</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#technology3" role="tab" aria-selected="false">World</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#technology4" role="tab" aria-controls="nav-america" aria-selected="false">Apps</a>
-								</div>
-							</nav>
-							<div class="tab_toggle_menu">
-								<a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="13px" height="14px"><path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M0.001,10.115 L0.001,7.969 L13.000,7.969 L13.000,10.115 L0.001,10.115 ZM3.649,6.028 L3.649,3.881 L12.992,3.881 L12.992,6.028 L3.649,6.028 ZM0.001,-0.002 L13.000,-0.002 L13.000,2.145 L0.001,2.145 L0.001,-0.002 ZM12.992,13.998 L3.649,13.998 L3.649,11.853 L12.992,11.853 L12.992,13.998 Z"></path></svg></a>
-							</div>
+							<p style="position: absolute;right: 12px;top: 15px;margin: 0;">
+								<a href="/category?id=<%= articlesByMainCategories[2].category.id %>" class="text-primary">More &gt;&gt;</a>
+							</p>
 						</div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active tabslider wow fadeInUp" id="nav-technologyall" role="tabpanel"> 
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 										<div class="blog_technology_slider">
-											<div class="swiper-container">
+											<div class="swiper-container mb-5">
 												<div class="swiper-wrapper">
 													
 												<% if (articlesByMainCategories[2].articles.length > 0 ) { %> 
-													<% for(let i =0; i < articlesByMainCategories[0].articles.length; i++) { %> 
+													<% for(let i =0; i < articlesByMainCategories[2].articles.length; i++) { %> 
 													<div class="swiper-slide">
 														<div class="blog_post_style2">
 															<div class="blog_post_style2_img">
 																<img src="/thumbnail/<%= articlesByMainCategories[2].articles[i].thumbnail_img.filename %> " 
-																class="img-fluid" alt="">
+																style="width: 100%;height: 100%;" alt="">
 															</div>
 															<div class="blog_post_style2_content">
 																<h3>
@@ -397,7 +366,7 @@
 																		<span class="blog_bg_blue">
 																			<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="7px">
 																				<path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M11.829,3.074 C11.732,2.948 9.422,-0.000 6.468,-0.000 C3.514,-0.000 1.203,2.948 1.106,3.074 C0.916,3.320 0.916,3.678 1.106,3.925 C1.203,4.050 3.514,6.999 6.468,6.999 C9.422,6.999 11.732,4.050 11.829,3.925 C12.020,3.678 12.020,3.320 11.829,3.074 ZM7.370,1.771 C7.569,1.651 7.846,1.788 7.989,2.077 C8.132,2.366 8.087,2.696 7.888,2.816 C7.689,2.936 7.412,2.799 7.269,2.510 C7.126,2.221 7.171,1.890 7.370,1.771 ZM6.468,5.930 C4.404,5.930 2.668,4.183 2.067,3.499 C2.473,3.037 3.397,2.091 4.589,1.525 C4.357,1.915 4.220,2.381 4.220,2.883 C4.220,4.251 5.227,5.360 6.468,5.360 C7.709,5.360 8.715,4.251 8.715,2.883 C8.715,2.381 8.579,1.915 8.346,1.525 C9.539,2.091 10.463,3.037 10.869,3.499 C10.268,4.184 8.531,5.930 6.468,5.930 Z"/>
-																			</svg> <%= articlesByMainCategories[0].articles[i].interaction.views %></span>
+																			</svg> <%= articlesByMainCategories[2].articles[i].interaction.views %></span>
 																		</li> 
 																	<li>
 																		<span class="blog_bg_pink">
@@ -414,9 +383,6 @@
 													<% } %> 
 												<% } %> 
 												</div>
-												<!-- Add Arrows -->
-												<div class="technology-swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M7.782,5.992 L1.722,0.206 C1.582,0.073 1.395,-0.001 1.196,-0.001 C0.996,-0.001 0.809,0.073 0.669,0.206 L0.223,0.633 C-0.068,0.910 -0.068,1.361 0.223,1.639 L5.311,6.496 L0.217,11.360 C0.077,11.494 -0.001,11.672 -0.001,11.863 C-0.001,12.053 0.077,12.231 0.217,12.366 L0.663,12.791 C0.804,12.925 0.991,12.999 1.190,12.999 C1.390,12.999 1.577,12.925 1.717,12.791 L7.782,7.001 C7.923,6.867 8.000,6.688 8.000,6.497 C8.000,6.305 7.923,6.126 7.782,5.992 Z"/></svg></div>
-												<div class="technology-swiper-button-prev"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M0.218,5.992 L6.277,0.206 C6.418,0.073 6.605,-0.001 6.804,-0.001 C7.004,-0.001 7.191,0.073 7.331,0.206 L7.777,0.633 C8.068,0.910 8.068,1.361 7.777,1.639 L2.689,6.496 L7.783,11.360 C7.923,11.494 8.000,11.672 8.000,11.863 C8.000,12.053 7.923,12.231 7.783,12.366 L7.337,12.791 C7.196,12.925 7.009,12.999 6.810,12.999 C6.610,12.999 6.423,12.925 6.283,12.791 L0.218,7.001 C0.077,6.867 -0.000,6.688 0.000,6.497 C-0.000,6.305 0.077,6.126 0.218,5.992 Z"/></svg></div>
 											</div>
 										</div>
 									</div>
@@ -433,19 +399,9 @@
 							<div class="blog_heading_div">
 								<h3 class="blog_bg_lightblue"><%= articlesByMainCategories[3].category.name %> </h3>
 							</div>
-							<nav class="blog_tab_nav blog_color_lightblue">
-								<div class="nav nav-tabs" id="nav-tab1" role="tablist">
-									<a class="nav-item nav-link active" data-toggle="tab" href="#nav-sportall" role="tab" aria-selected="true">All</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-crickets" role="tab" aria-selected="false">Crickets</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-football" role="tab" aria-selected="false">Football</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-wrestling" role="tab" aria-selected="false">Wrestling</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-swimming" role="tab" aria-selected="false">Swimming</a>
-									<a class="nav-item nav-link" data-toggle="tab" href="#nav-hockey" role="tab" aria-selected="false">Hockey</a>
-								</div>
-							</nav>
-							<div class="tab_toggle_menu">
-								<a href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" width="13px" height="14px"><path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M0.001,10.115 L0.001,7.969 L13.000,7.969 L13.000,10.115 L0.001,10.115 ZM3.649,6.028 L3.649,3.881 L12.992,3.881 L12.992,6.028 L3.649,6.028 ZM0.001,-0.002 L13.000,-0.002 L13.000,2.145 L0.001,2.145 L0.001,-0.002 ZM12.992,13.998 L3.649,13.998 L3.649,11.853 L12.992,11.853 L12.992,13.998 Z"></path></svg></a>
-							</div>
+							<p style="position: absolute;right: 12px;top: 15px;margin: 0;">
+								<a href="/category?id=<%= articlesByMainCategories[3].category.id %>" class="text-primary">More &gt;&gt;</a>
+							</p>
 						</div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active tabslider wow fadeInUp" id="nav-sportall" role="tabpanel"> 
@@ -490,9 +446,6 @@
 													<% } %> 
 													<% } %> 
 												</div>
-												<!-- Add Arrows -->
-												<div class="sport-swiper-button-next"><svg xmlns="http://www.w3.org/2000/svg" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M7.782,5.992 L1.722,0.206 C1.582,0.073 1.395,-0.001 1.196,-0.001 C0.996,-0.001 0.809,0.073 0.669,0.206 L0.223,0.633 C-0.068,0.910 -0.068,1.361 0.223,1.639 L5.311,6.496 L0.217,11.360 C0.077,11.494 -0.001,11.672 -0.001,11.863 C-0.001,12.053 0.077,12.231 0.217,12.366 L0.663,12.791 C0.804,12.925 0.991,12.999 1.190,12.999 C1.390,12.999 1.577,12.925 1.717,12.791 L7.782,7.001 C7.923,6.867 8.000,6.688 8.000,6.497 C8.000,6.305 7.923,6.126 7.782,5.992 Z"/></svg></div>
-												<div class="sport-swiper-button-prev"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="8px" height="13px"><path fill-rule="evenodd"  fill="rgb(34, 34, 34)" d="M0.218,5.992 L6.277,0.206 C6.418,0.073 6.605,-0.001 6.804,-0.001 C7.004,-0.001 7.191,0.073 7.331,0.206 L7.777,0.633 C8.068,0.910 8.068,1.361 7.777,1.639 L2.689,6.496 L7.783,11.360 C7.923,11.494 8.000,11.672 8.000,11.863 C8.000,12.053 7.923,12.231 7.783,12.366 L7.337,12.791 C7.196,12.925 7.009,12.999 6.810,12.999 C6.610,12.999 6.423,12.925 6.283,12.791 L0.218,7.001 C0.077,6.867 -0.000,6.688 0.000,6.497 C-0.000,6.305 0.077,6.126 0.218,5.992 Z"/></svg></div>
 											</div>
 										</div>
 									</div>

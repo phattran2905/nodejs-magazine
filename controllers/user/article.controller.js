@@ -59,6 +59,7 @@ module.exports = {
                     article: article,
                     latestArticles: latestArticles,
                     popularArticles: popularArticles,
+                    menu_list: await menuUtils.getMenuList(),
                     information: authUtils.getAuthorProfile(req)
                 });
             }
@@ -84,6 +85,7 @@ module.exports = {
                 categories: categories,
                 latestArticles: latestArticles,
                 popularArticles: popularArticles,
+                menu_list: await menuUtils.getMenuList(),
                 information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
@@ -125,6 +127,7 @@ module.exports = {
                         categories: categories,
                         latestArticles: latestArticles,
                         popularArticles: popularArticles,
+                        menu_list: await menuUtils.getMenuList(),
                         information: authUtils.getAuthorProfile(req)
                     });
                 };
@@ -179,6 +182,7 @@ module.exports = {
                         categories: categories,
                         latestArticles: latestArticles,
                         popularArticles: popularArticles,
+                        menu_list: await menuUtils.getMenuList(),
                         information: authUtils.getAuthorProfile(req)
                     });
             }
@@ -235,6 +239,7 @@ module.exports = {
                                 latestArticles: latestArticles,
                                 popularArticles: popularArticles,
                                 categories: categories,
+                                menu_list: await menuUtils.getMenuList(),
                                 information: authUtils.getAuthorProfile(req)
                             });
                     };
@@ -261,7 +266,9 @@ module.exports = {
                         if (req.files.thumbnail_img) {
                             const fs = require('fs');
                             const path = require('path');
-                            fs.unlinkSync(path.join(process.cwd(), old_thumbnail.path));
+                            if(typeof old_thumbnail !== 'undefined' && fs.access(path.join(process.cwd, old_thumbnail.path))) {
+                                fs.unlinkSync(path.join(process.cwd(), old_thumbnail.path));
+                            }
                         }
                         
                         req.flash('success', 'Successfully. All changes were saved.');

@@ -26,7 +26,7 @@
       <th>Category</th>
       <th>Created at</th>
       <th>Last update</th>
-      <th>Likes</th>
+      <th>Comments</th>
       <th>Views</th>
       <th>Status</th>
       <th>Action</th>
@@ -56,7 +56,7 @@
         <%= articles[i].updated.toLocaleDateString('en-US',{month: '2-digit', day: '2-digit', year: 'numeric'}) %>
       </td>
       <td class="text-right">
-        <%= articles[i].interaction.likes %>
+        <%= articles[i].interaction.comments.length %>
       </td>
       <td class="text-right">
         <%= articles[i].interaction.views %>

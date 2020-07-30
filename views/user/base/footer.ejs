@@ -28,6 +28,7 @@
                         <ul>
                             <% if(typeof latestArticles !== 'undefined' && latestArticles.length > 0) { %> 
                             <% for (let i=0; i < 3; i++) { %> 
+                                <% if (typeof latestArticles[i] !== 'undefined') {%> 
                             <li>
                                 <div class="blog_recent_post">
                                     <div class="blog_recent_post_img">
@@ -41,6 +42,7 @@
                             </li>
                             <% } %> 
                             <% } %> 
+                            <% } %> 
                         </ul>
                     </div>
                 </div>
@@ -52,14 +54,18 @@
                         <ul>
                             <% if(typeof popularArticles !== 'undefined' && popularArticles.length > 0) { %> 
                             <% for (let i=0; i < 3; i++) { %> 
+                                <% if (typeof popularArticles[i] !== 'undefined') {%> 
                             <li>
                                 <div class="blog_news">
                                     <div class="blog_news_title">
                                         <h4><a href="/article?id=<%= popularArticles[i]._id %>"><%- popularArticles[i].title %></a></h4>
-                                        <p><%= popularArticles[i].createdAt.toLocaleDateString('en-Us', {year: 'numeric', month: 'short', day: '2-digit'}) %><a href="#">- <%= popularArticles[i].categoryId.name %></a></p>
+                                        <p><%= popularArticles[i].createdAt.toLocaleDateString('en-Us', {year: 'numeric', month: 'short', day: '2-digit'}) %>
+                                            <a href="/category?id=<%= popularArticles[i].categoryId._id %>">- <%= popularArticles[i].categoryId.name %></a>
+                                        </p>
                                     </div>
                                 </div>
                             </li>
+                                <% } %> 
                             <% } %> 
                             <% } %> 
                         </ul>

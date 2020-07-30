@@ -5,13 +5,13 @@ var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         switch (file.fieldname) {
             case 'thumbnail_img':
-                cb(null,'tmp/thumbnail_img');
+                cb(null,'uploaded_files/thumbnail_img');
                 break;
             case 'avatar_img':
-                cb(null,'tmp/avatar_img');
+                cb(null,'uploaded_files/avatar_img');
                 break;
             default:
-                cb(null,'tmp/uploads/')
+                cb(null,'uploaded_files/uploads/')
                 break;
         }
     },

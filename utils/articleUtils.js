@@ -9,14 +9,15 @@ const articleUtils = {
       ) => {
         if (!title) {return Promise.reject(false)};
 
-        const articleIdFromReq = (req.params.article_id)
-          ? req.params.article_id
+        const articleIdFromReq = (req.params.articleId)
+          ? req.params.articleId
           : null;
-
+        
           try {
             const article = await ArticleModel.findOne({title: title});
+            
             if(article) {
-              if (articleIdFromReq && articleIdFromReq === article.title){
+              if (articleIdFromReq && articleIdFromReq.toString() == article._id.toString()){
                 return Promise.reject(false);
               }
               return Promise.resolve(true);

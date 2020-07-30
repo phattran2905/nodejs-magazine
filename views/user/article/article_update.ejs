@@ -42,7 +42,7 @@
         <% errors.forEach( (error) => { %>
         <% if (error.param === 'summary') { %>
           <textarea id="summary" name="summary" class="form-control is-invalid" maxlength="225" rows="3"
-          value="<%- error.value %>"></textarea>
+          value=""><%- error.value %></textarea>
         <div class="invalid-feedback">
           <%= error.msg %>
         </div>
@@ -53,7 +53,7 @@
       
     <% if (typeof validInput !== 'undefined' && validInput.summary) { %>
         <textarea id="summary" name="summary" class="form-control is-valid" maxlength="225" rows="3"
-          value="<%- validInput.summary %>"></textarea>
+          value=""><%- validInput.summary %></textarea>
       <% } %>
     </div>
 
@@ -79,6 +79,7 @@
       <select class="custom-select" name="categoryId" id="categoryId">
         <option value="0" >Choose a category</option>
         <% for(let i = 0; i < categories.length ;i++) { %>
+          <% if (categories[i].name != 'Page') { %> 
         <option value="<%= categories[i]._id %>" 
             <% if (categories[i]._id.toString() == article.categoryId._id.toString()) { %>
                 selected=""
@@ -86,6 +87,7 @@
             > <%# end option tag %>
           <%= categories[i].name %>
         </option>
+        <% } %> 
         <% } %> 
       </select>
     </div>

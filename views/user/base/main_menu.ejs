@@ -15,7 +15,11 @@
                     <% for(let i = 0; i < menu_list.length; i++) { %> 
                         <!-- <li class="active"> -->
                         <li class="mx-3">
+                            <% if (menu_list[i].name.toLowerCase() == 'home') { %> 
+                            <a href="/"><%= menu_list[i].name %></a>
+                            <% } else { %> 
                             <a href="/category?id=<%= menu_list[i].categoryId %>"><%= menu_list[i].name %></a>
+                            <%  } %> 
                             <% if (menu_list[i].submenu.length > 0) { %> 
                             <ul class="sub-menu">
                                 <% for(let j =0 ; j < menu_list[i].submenu.length; j++) { %> 

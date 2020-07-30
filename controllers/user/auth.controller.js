@@ -54,7 +54,7 @@ module.exports = {
         },
         (req, res) => {
             req.session.user = req.user;
-            return res.redirect('/home');
+            return res.redirect('/');
         }
     ],
 

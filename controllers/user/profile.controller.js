@@ -17,6 +17,7 @@ module.exports = {
                     content: 'profile',
                     header: 'profile'
                 },
+                menu_list: await menuUtils.getMenuList(),
                 information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
@@ -47,6 +48,7 @@ module.exports = {
                             content: 'profile',
                             header: 'profile'
                         },
+                        menu_list: await menuUtils.getMenuList(),
                         information: authUtils.getAuthorProfile(req)
                     });
                 };
@@ -80,7 +82,8 @@ module.exports = {
         upload.single('avatar_img'),
         async (req, res) => {
             let information = authUtils.getAuthorProfile(req);
-
+            const oldFile= information.avatar_img;
+            
             const updateQuery = await authorUtils.update_avatar(
                 information.id, {
                     path: req.file.path,
@@ -94,7 +97,9 @@ module.exports = {
                     // Remove old thumbnail
                     const fs = require('fs');
                     const path = require('path');
-                    fs.unlinkSync(path.join(process.cwd(), information.avatar_img.path));
+                    if (typeof oldFile !== 'undefined' && fs.access(path.join(process.cwd, oldFile.path)) ) {
+                        fs.unlinkSync(path.join(process.cwd(), oldFile.path));
+                    }
                     req.flash('success', 'Successfully! Your profile image was saved.');
                     return res.redirect('/profile');
                 }
@@ -118,6 +123,7 @@ module.exports = {
                     content: 'change_password',
                     header: 'Change Password'
                 },
+                menu_list: await menuUtils.getMenuList(),
                 information: authUtils.getAuthorProfile(req)
             });
         } catch (error) {
@@ -142,6 +148,7 @@ module.exports = {
                         content: 'change_password',
                         header: 'Change Password'
                     },
+                    menu_list: await menuUtils.getMenuList(),
                     information: authUtils.getAuthorProfile(req)
                 });
             };

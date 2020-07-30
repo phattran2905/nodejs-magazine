@@ -11,7 +11,7 @@
       <th>Title</th>
       <th>Category</th>
       <th>Views</th>
-      <th>Likes</th>
+      <th>Comments</th>
       <th>Created date</th>
       <th>Status</th>
       <th></th>
@@ -34,7 +34,7 @@
         <%= articles[i].interaction.views %>
       </td>
       <td>
-        <%= articles[i].interaction.likes %>
+        <%= articles[i].interaction.comments.length %>
       </td>
       <td>
         <%= articles[i].createdAt.toLocaleDateString('en-US',{month: '2-digit', day: '2-digit', year: 'numeric'}) %>

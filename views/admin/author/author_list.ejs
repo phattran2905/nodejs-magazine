@@ -23,7 +23,7 @@
     <tr>
       <td class="admin-username" id="<%= author.username %>"><%= author.username %></td>
       <td><%= author.email %></td>
-      <td><%= author.createdAt.toDateString() %></td>
+      <td><%= author.createdAt.toLocaleDateString('en-US',{year: 'numeric', month: 'short', day: '2-digit'}) %></td>
       <td class="text-right"><%= author.followers.length %> </td>
       <td class="text-right"><%= author.numOfArticles %> </td>
       <% if(author.status === 'Deactivated') { %>

@@ -1,7 +1,7 @@
 const ArticleModel = require('../models/ArticleModel');
 const CommentModel = require('../models/CommentModel');
 const AudienceModel = require('../models/AudienceModel');
-const commonUtils = require('./commonUtils');
+const validationUtils = require('./validationUtils');
 
 const commentUtils = {
   validate: {
@@ -39,7 +39,7 @@ const commentUtils = {
     try {
       let audience = null;
       let addedComment = null;
-      if (!await commonUtils.isExistentAudienceEmail(email)){
+      if (!await validationUtils.isExistentAudienceEmail(email)){
         audience = await AudienceModel.create({
           name: postedBy,
           email: email,

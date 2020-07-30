@@ -14,8 +14,8 @@ module.exports = {
     showIndexPage: async (req, res) => {
       try {
         const selectedFields = '_id title summary interaction status categoryId authorId updated createdAt thumbnail_img';
-        const latestArticles = await articleUtils.getLatestArticles(selectedFields, 5);
-        const popularArticles = await articleUtils.getPopularArticles(selectedFields, 5); // Most views
+        const latestArticles = await articleUtils.getLatestArticles(selectedFields, 10);
+        const popularArticles = await articleUtils.getPopularArticles(selectedFields, 10); // Most views
         const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
         const mainCategories = await CategoryModel.find({status: 'Activated'}, '_id name').sort({createdAt: 'asc'}).limit(4);
       
@@ -23,7 +23,7 @@ module.exports = {
           menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,
           popularArticles: popularArticles,
-          articlesByMainCategories: await articleUtils.getArticlesForMainCategories(mainCategories, 3, selectedFields),
+          articlesByMainCategories: await articleUtils.getArticlesForMainCategories(mainCategories, 10, selectedFields),
           categoryWithPostCounted: categoryWithPostCounted,
           information: authUtils.getAuthorProfile(req)
         });
@@ -117,16 +117,18 @@ module.exports = {
 
           const articlesByTitle = await articleUtils.getArticleByTitle(req.query.title, articleSelectedFields);
           
+          
           if (articlesByTitle) {
             const currentPage = (typeof req.query.page !== 'undefined' && req.query.page > 0) 
             ? req.query.page 
             : 1;
-
+            
             const pagination = commonUtils.makePagination({
               items: articlesByTitle,
               itemPerPage: 6,
               currentPage: currentPage
             });
+            console.log(pagination.items.length);
 
             if (currentPage && pagination) {
               return res.render('user/search.ejs', {
