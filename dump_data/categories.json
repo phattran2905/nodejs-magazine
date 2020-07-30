@@ -1,0 +1,7 @@
+{"_id":{"$oid":"5f21254a13915f2ee028c19d"},"status":"Deactivated","createdAt":{"$date":"2020-07-29T07:22:24.264Z"},"name":"Page","__v":0}
+{"_id":{"$oid":"5f21258913915f2ee028c19f"},"status":"Activated","createdAt":{"$date":"2020-07-29T07:22:24.264Z"},"name":"Coronavirus","__v":0}
+{"_id":{"$oid":"5f21259013915f2ee028c1a0"},"status":"Activated","createdAt":{"$date":"2020-07-29T07:22:24.264Z"},"name":"Sport","__v":0}
+{"_id":{"$oid":"5f2125d013915f2ee028c1a1"},"status":"Activated","createdAt":{"$date":"2020-07-29T07:22:24.264Z"},"name":"Politics","__v":0}
+{"_id":{"$oid":"5f2125e013915f2ee028c1a2"},"status":"Activated","createdAt":{"$date":"2020-07-29T07:22:24.264Z"},"name":"Tech","__v":0}
+{"_id":{"$oid":"5f2126891397b503ec07ffcc"},"status":"Activated","createdAt":{"$date":"2020-07-29T07:33:13.25Z"},"name":"Entertainment","__v":0}
+{"_id":{"$oid":"5f212a19e98d4a2810216ce9"},"status":"Activated","createdAt":{"$date":"2020-07-29T07:43:25.326Z"},"name":"World","__v":0}

@@ -1,0 +1,1 @@
+{"_id":{"$oid":"5f22daf04e6fde199826d045"},"likes":2,"dislikes":0,"status":"Public","createdAt":{"$date":"2020-07-30T14:36:12.482Z"},"articleId":{"$oid":"5f22d7179a338407ccf9e398"},"text":"Tik Tok is fun!","audienceId":{"$oid":"5f22daef4e6fde199826d044"},"__v":0}
