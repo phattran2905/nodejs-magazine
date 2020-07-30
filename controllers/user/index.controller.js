@@ -18,7 +18,7 @@ module.exports = {
         const popularArticles = await articleUtils.getPopularArticles(selectedFields, 10); // Most views
         const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
         const mainCategories = await CategoryModel.find({status: 'Activated'}, '_id name').sort({createdAt: 'asc'}).limit(4);
-        console.log(authUtils.getAuthorProfile(req));
+        
         return res.render('user/index', {
           menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,

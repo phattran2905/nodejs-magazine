@@ -10,7 +10,7 @@ router.get('/login', checkNotAuthenticatedAuthor, showLoginForm)
 
 router.post('/login', checkNotAuthenticatedAuthor, login)
 
-router.get('/logout', checkAuthenticatedAuthor, logout)
+router.get('/logout', logout)
 
 router.get('/signup', checkNotAuthenticatedAuthor, showSignUpForm)
 
