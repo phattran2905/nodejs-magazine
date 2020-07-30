@@ -1,10 +1,8 @@
 
-if (process.env.NODE_ENV === 'production') {
-    require('dotenv').config();
-}
 
 const express = require("express");
 const app = express();
+const dotenv = require('dotenv');
 const mongoose = require("mongoose");
 const passport = require('passport');
 const session = require('express-session');
@@ -13,6 +11,8 @@ const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
 const path = require("path");
 const passportSetup = require('./config/passport-setup');
+
+dotenv.config(path.join(__dirname, '.env'));
 
 // Connect to database
 mongoose.connect(process.env.DATABASE_URI || 'mongodb://localhost/electronic_newspaper', {
@@ -31,8 +31,8 @@ app.set("view engine", "ejs");
 app.set('views',path.join(__dirname, "views"));
 //  middleware
 app.use("/static", express.static(path.join(__dirname, "public/user")));
-app.use("/avatar", express.static(path.join(__dirname, "tmp/avatar_img")));
-app.use("/thumbnail", express.static(path.join(__dirname, "tmp/thumbnail_img")));
+app.use("/avatar", express.static(path.join(__dirname, "uploaded_files/avatar_img")));
+app.use("/thumbnail", express.static(path.join(__dirname, "uploaded_files/thumbnail_img")));
 app.use("/admin/static", express.static(path.join(__dirname, "public/admin/")));
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
