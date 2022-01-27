@@ -3,27 +3,27 @@ const authUtils = require('../../utils/authUtils.js');
 
 module.exports = {
     showArticleList: async (req, res) => {
-        let by_status = {
+        let filters = {
             status: {
                 $ne: 'Draft'
             }
         }; // Show all except 'Draft'
         if (req.query.by_status === 'pending') {
-            by_status = {
+            filters = {
                 status: 'Pending'
             };
         } else if (req.query.by_status === 'published') {
-            by_status = {
+            filters = {
                 status: 'Published'
             };
         } else if (req.query.by_status === 'disapproved') {
-            by_status = {
+            filters = {
                 status: 'Disapproved'
             };
         }
         const returnFields = '_id title interaction status categoryId authorId updated createdAt';
         const articles = await ArticleModel
-            .find(by_status, returnFields)
+            .find(filters, returnFields)
             .populate({
                 path: 'categoryId',
                 select: '_id name'
