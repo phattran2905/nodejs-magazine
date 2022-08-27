@@ -1,11 +1,13 @@
 import mongoose from "mongoose"
 
-export async function connectDb() {
-	try {
-		const { DATABASE_URI } = process.env
-		const connected = await mongoose.connect(DATABASE_URI ?? "mongodb://localhost:27017")
+export function connectDb() {
+	const { DATABASE_URI } = process.env
+	mongoose.connect(DATABASE_URI ?? "mongodb://localhost:27017")
+
+	mongoose.connection.once("connected", () =>
 		console.log("[MongoDB] Connection has been established successfully.")
-	} catch (error) {
+	)
+	mongoose.connection.on("error", (error) =>
 		console.error("[MongoDB] Unable to connect to the database:", error)
-	}
+	)
 }
