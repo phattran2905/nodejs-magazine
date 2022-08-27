@@ -19,7 +19,7 @@ module.exports = {
         const categoryWithPostCounted = await categoryUtils.getNumOfArticleByCategory();
         const mainCategories = await CategoryModel.find({status: 'Activated'}, '_id name').sort({createdAt: 'asc'}).limit(4);
         
-        return res.render('user/index', {
+        return res.render('./user/index', {
           menu_list: await menuUtils.getMenuList(),
           latestArticles: latestArticles,
           popularArticles: popularArticles,
