@@ -1,7 +1,7 @@
 import path from "path"
 import dotenv from "dotenv"
 import { makeApp } from "./src/app"
-import { connectDb } from "./src/config/database"
+import { connectDb } from "./src/config/database.config"
 
 dotenv.config({ path: path.resolve(__dirname, "./src/config/config.env") })
 
