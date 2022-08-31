@@ -1,14 +1,18 @@
-import express from "express"
-import morgan from "morgan"
-import adminRoutes from "./routes/admin/router"
+import express from 'express'
+import morgan from 'morgan'
+import path from 'path'
+import dotenv from 'dotenv'
 
-export function makeApp(): express.Application {
-	const app = express()
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
+const app = express()
 
-    app.use(express.json())
-	app.use(morgan("dev"))
+app.use(morgan('dev'))
+app.use(express.json())
 
-	app.use("/admin", adminRoutes)
+app.get('/', (req, res) => {
+	res.json({
+		message: 'Hello World',
+	})
+})
 
-	return app
-}
+export default app
