@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { ZodError } from 'zod'
 import { Users, User, UserWithId } from './user.model'
 
 export function findAll(req, res, next) {
@@ -12,16 +13,16 @@ export async function createOne(
 	next: NextFunction
 ) {
 	try {
-		if (!req.body.username) {
-			throw new Error('Invalid username')
-		}
-		const insertResult = await Users.insertOne(req.body)
-		if (!insertResult.acknowledged) throw new Error('Error inserting user.')
+        console.log(req.body)
+        const user = await User.parse(req.body)
+		// const insertResult = await Users.insertOne(req.body)
+		// if (!insertResult.acknowledged) throw new Error('Error inserting user.')
 
 		res.status(201)
 		res.json({
-			_id: insertResult.insertedId,
-			...req.body,
+			// _id: insertResult.insertedId,
+			// ...req.body,
+            ...user
 		})
 	} catch (error) {
 		console.log(error)
