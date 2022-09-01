@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { MongoClient } from 'mongodb'
 
 const { MONGO_URI = 'mongodb://localhost/cooking_blog' } = process.env
