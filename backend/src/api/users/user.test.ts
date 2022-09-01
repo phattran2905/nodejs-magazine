@@ -1,7 +1,5 @@
-import { response } from 'express'
 import request from 'supertest'
 import app from '../../app'
-import { client } from '../../database'
 import { Users } from './user.model'
 
 beforeAll(async () => {
