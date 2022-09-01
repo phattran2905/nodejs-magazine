@@ -1,12 +1,10 @@
 import express from 'express'
 import morgan from 'morgan'
-import path from 'path'
-import dotenv from 'dotenv'
 import apiRoutes from './api'
 import MessageResponse from './interfaces/MessageResponse'
 import * as middlewares from './middlewares'
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') })
+require('dotenv').config()
 const app = express()
 
 app.use(morgan('dev'))
