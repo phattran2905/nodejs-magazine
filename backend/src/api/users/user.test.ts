@@ -48,6 +48,7 @@ describe('POST /api/v1/users', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .then((response) => {
+        console.log(response.body)
         expect(response.body).toHaveProperty('_id')
         id = response.body._id
         expect(response.body).toHaveProperty('username')

@@ -17,12 +17,12 @@ export const User = z.object({
     .min(4, { message: 'Username must be at least 4 characters' })
     .max(60, { message: 'Username is too long' }),
   email: z.string().trim().email({ message: 'Invalid email address' }),
-  password: z.string().trim().optional(),
-  avatar: z.string().optional(),
-  token: z.string().nullable().optional(),
-  gender: z.string().optional(),
-  role: z.literal(Roles.Enum.user).optional(),
-  status: z.literal(Statuses.Enum.active).optional(),
+  password: z.string().trim(),
+  avatar: z.string().nullable().default(null),
+  token: z.string().nullable().default(null),
+  gender: z.string().nullable().default(null),
+  role: z.string().default(Roles.enum.user),
+  status: z.string().default(Statuses.enum.active),
 })
 
 export type User = z.infer<typeof User>

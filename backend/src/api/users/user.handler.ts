@@ -28,7 +28,7 @@ export async function findOne(
       res.status(404)
       throw new Error(`User with id "${req.params.id}" not found.`)
     }
-
+    console.log(user)
     res.status(200).json(user)
   } catch (error) {
     next(error)
@@ -46,9 +46,7 @@ export async function createOne(
 
     const user = {
       _id: insertResult.insertedId,
-      username: req.body.username,
-      email: req.body.email,
-      token: 'token',
+      ...req.body
     }
 
     res.status(201).json(user)
