@@ -3,16 +3,17 @@ import { ObjectId } from 'mongodb'
 import { ParamsWithId } from '../../interfaces/ParamsWithId'
 import bcrypt from 'bcrypt'
 import { Users, User, UserWithId } from './user.model'
+import DataResponse from '../../interfaces/DataResponse'
 
 export async function findAll(
   req: Request,
-  res: Response<UserWithId[]>,
+  res: Response<DataResponse<UserWithId>>,
   next: NextFunction
 ) {
   try {
     const users = await Users.find({}).toArray()
 
-    res.status(200).json(users)
+    res.status(200).json({ data: users, message: 'OK' })
   } catch (error) {
     next(error)
   }
@@ -20,7 +21,7 @@ export async function findAll(
 
 export async function findOne(
   req: Request<ParamsWithId, UserWithId, {}>,
-  res: Response<UserWithId>,
+  res: Response<DataResponse<UserWithId>>,
   next: NextFunction
 ) {
   try {
@@ -30,8 +31,8 @@ export async function findOne(
       res.status(404)
       throw new Error(`User with id "${req.params.id}" not found.`)
     }
-    console.log(user)
-    res.status(200).json(user)
+
+    res.status(200).json({ data: user, message: 'OK' })
   } catch (error) {
     next(error)
   }
@@ -39,7 +40,7 @@ export async function findOne(
 
 export async function createOne(
   req: Request<{}, UserWithId, User>,
-  res: Response<UserWithId>,
+  res: Response<DataResponse<UserWithId>>,
   next: NextFunction
 ) {
   try {
@@ -56,7 +57,7 @@ export async function createOne(
       ...req.body,
     }
 
-    res.status(201).json(user)
+    res.status(201).json({ data: user, message: 'OK' })
   } catch (error) {
     next(error)
   }
@@ -64,7 +65,7 @@ export async function createOne(
 
 export async function updateOne(
   req: Request<ParamsWithId, UserWithId, User>,
-  res: Response<UserWithId>,
+  res: Response<DataResponse<UserWithId>>,
   next: NextFunction
 ) {
   try {
@@ -79,7 +80,8 @@ export async function updateOne(
       res.status(404)
       throw new Error(`User with id "${req.params.id}" not found`)
     }
-    res.status(200).json(result.value)
+
+    res.status(200).json({ data: result.value, message: 'OK' })
   } catch (error) {
     next(error)
   }

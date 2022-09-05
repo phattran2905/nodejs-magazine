@@ -42,17 +42,17 @@ export function errorHandler(
   next: NextFunction
 ) {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500
-  const responseErr: ErrorResponse = {
+  const response: ErrorResponse = {
     message: err.message,
     stack: process.env.NODE_ENV === 'development' ? '🚩' : err.stack,
     errors: [],
   }
 
   if (err instanceof ZodError) {
-    responseErr.errors = err.issues
-    responseErr.message = 'Invalid Validation.'
+    response.errors = err.issues
+    response.message = 'Invalid Validation.'
   }
 
   res.status(statusCode)
-  res.json(responseErr)
+  res.json(response)
 }
