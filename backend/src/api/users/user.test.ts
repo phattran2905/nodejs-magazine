@@ -32,8 +32,10 @@ describe('POST /api/v1/users', () => {
       .expect(422)
       .then((response) => {
         expect(response.body).toHaveProperty('message')
-        expect(response.body.message.username).toHaveProperty('_errors')
-        expect(response.body.message.email).toHaveProperty('_errors')
+        expect(response.body.message).toBe('Invalid Validation.')
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toHaveProperty('length')
+        expect(response.body.errors.length).toBeGreaterThan(0)
       }))
 
   test('response with the user object', () =>
@@ -48,7 +50,6 @@ describe('POST /api/v1/users', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .then((response) => {
-        console.log(response.body)
         expect(response.body).toHaveProperty('_id')
         id = response.body._id
         expect(response.body).toHaveProperty('username')
@@ -147,9 +148,7 @@ describe('DELETE /api/v1/users/:id', () => {
       .expect(422, done)
   })
   test('response with a 204 status code', (done) => {
-    request(app)
-      .delete(`/api/v1/users/${id}`)
-      .expect(204, done)
+    request(app).delete(`/api/v1/users/${id}`).expect(204, done)
   })
   test('response with a not found error', (done) => {
     request(app)

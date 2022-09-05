@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Request, response, Response } from 'express'
 import { ZodError } from 'zod'
 import ErrorResponse from './interfaces/ErrorResponse'
 import RequestValidators from './interfaces/RequestValidators'
@@ -42,15 +42,17 @@ export function errorHandler(
   next: NextFunction
 ) {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500
-  const responseError: ErrorResponse = {
+  const responseErr: ErrorResponse = {
     message: err.message,
     stack: process.env.NODE_ENV === 'development' ? '🚩' : err.stack,
+    errors: [],
   }
 
   if (err instanceof ZodError) {
-    responseError.message = err.format()
+    responseErr.errors = err.issues
+    responseErr.message = 'Invalid Validation.'
   }
 
   res.status(statusCode)
-  res.json(responseError)
+  res.json(responseErr)
 }

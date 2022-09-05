@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { ObjectId } from 'mongodb'
 import { ParamsWithId } from '../../interfaces/ParamsWithId'
+import bcrypt from 'bcrypt'
 import { Users, User, UserWithId } from './user.model'
 
 export async function findAll(
@@ -9,8 +10,9 @@ export async function findAll(
   next: NextFunction
 ) {
   try {
-    const users = await Users.find({})
-    res.status(200).json([])
+    const users = await Users.find({}).toArray()
+
+    res.status(200).json(users)
   } catch (error) {
     next(error)
   }
@@ -41,12 +43,17 @@ export async function createOne(
   next: NextFunction
 ) {
   try {
-    const insertResult = await Users.insertOne(req.body)
+    const password = await bcrypt.hash(req.body.password, 10)
+    const insertUser = {
+      ...req.body,
+      password,
+    }
+    const insertResult = await Users.insertOne(insertUser)
     if (!insertResult.acknowledged) throw new Error('Error inserting user.')
 
     const user = {
       _id: insertResult.insertedId,
-      ...req.body
+      ...req.body,
     }
 
     res.status(201).json(user)
