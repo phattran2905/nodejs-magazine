@@ -50,7 +50,7 @@ export function errorHandler(
 
   if (err instanceof ZodError) {
     response.errors = err.issues
-    response.message = 'Invalid Validation.'
+    response.message = 'Invalid validation.'
   }
 
   res.status(statusCode)

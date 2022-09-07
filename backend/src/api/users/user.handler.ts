@@ -7,11 +7,11 @@ import DataResponse from '../../interfaces/DataResponse'
 
 export async function findAll(
   req: Request,
-  res: Response<DataResponse<UserWithId>>,
+  res: Response<DataResponse<object>>,
   next: NextFunction
 ) {
   try {
-    const users = await Users.find({}).toArray()
+    const users = await Users.find({ select: '-password -token' }).toArray()
 
     res.status(200).json({ data: users, message: 'OK' })
   } catch (error) {
@@ -25,13 +25,15 @@ export async function findOne(
   next: NextFunction
 ) {
   try {
-    const user = await Users.findOne({ _id: new ObjectId(req.params.id) })
+    const user = await Users.findOne({
+      _id: new ObjectId(req.params.id),
+      select: '-password -token',
+    })
 
     if (!user) {
       res.status(404)
       throw new Error(`User with id "${req.params.id}" not found.`)
     }
-
     res.status(200).json({ data: user, message: 'OK' })
   } catch (error) {
     next(error)
@@ -59,6 +61,7 @@ export async function createOne(
 
     res.status(201).json({ data: user, message: 'OK' })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 }
@@ -74,7 +77,7 @@ export async function updateOne(
       {
         $set: req.body,
       },
-      { returnDocument: 'after' }
+      { projection: { password: 0, token: 0 }, returnDocument: 'after' }
     )
     if (!result.value) {
       res.status(404)

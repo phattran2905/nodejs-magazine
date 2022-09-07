@@ -1,7 +1,7 @@
-import { AnyZodObject } from 'zod'
+import { AnyZodObject, ZodEffects } from 'zod'
 
 export default interface RequestValidators {
-	params?: AnyZodObject
-	body?: AnyZodObject
+	params?: AnyZodObject 
+	body?: AnyZodObject | ZodEffects<AnyZodObject>
 	query?: AnyZodObject
 }
