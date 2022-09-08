@@ -1,7 +1,6 @@
 import request from 'supertest'
-import bcrypt from 'bcrypt'
 import app from '../../app'
-import { User, Users } from '../users/user.model'
+import {  Users } from '../users/user.model'
 
 let templateUser = {
   username: 'jennie',
@@ -9,26 +8,20 @@ let templateUser = {
   password: '123',
 }
 
+const newUser = {
+  email: 'lisa@blackpink.com',
+  password: '1234',
+  confirmPassword: '1234',
+}
+
 beforeAll(async () => {
   try {
     await Users.drop()
-    const insertUser = await User.parseAsync(templateUser)
-
-    const hashedPassword = await bcrypt.hash(insertUser.password, 10)
-    await Users.insertOne({
-      ...insertUser,
-      password: hashedPassword,
-    })
   } catch (error) {}
 })
 
-describe('POST /api/v1/signup', () => {
-  const newUser = {
-    email: 'lisa@blackpink.com',
-    password: '1234',
-    confirmPassword: '1234',
-  }
 
+describe('POST /api/v1/signup', () => {
   test('response with an invalid email error', () =>
     request(app)
       .post('/api/v1/signup')
@@ -47,30 +40,6 @@ describe('POST /api/v1/signup', () => {
         expect(response.body.errors.length).toBeGreaterThan(0)
         expect(response.body.errors[0]).toHaveProperty('message')
         expect(response.body.errors[0].message).toBe('Invalid email address.')
-        expect(response.body.errors[0]).toHaveProperty('path')
-        expect(response.body.errors[0].path).toHaveProperty('length')
-        expect(response.body.errors[0].path.length).toBeGreaterThan(0)
-        expect(response.body.errors[0].path[0]).toBe('email')
-      }))
-
-  test('response with an existing email error', () =>
-    request(app)
-      .post('/api/v1/signup')
-      .set('Accept', 'application/json')
-      .send({
-        ...newUser,
-        email: templateUser.email,
-      })
-      .expect('Content-Type', /json/)
-      .expect(422)
-      .then((response) => {
-        expect(response.body).toHaveProperty('message')
-        expect(response.body.message).toBe('Invalid validation.')
-        expect(response.body).toHaveProperty('errors')
-        expect(response.body.errors).toHaveProperty('length')
-        expect(response.body.errors.length).toBeGreaterThan(0)
-        expect(response.body.errors[0]).toHaveProperty('message')
-        expect(response.body.errors[0].message).toBe('Email already existed.')
         expect(response.body.errors[0]).toHaveProperty('path')
         expect(response.body.errors[0].path).toHaveProperty('length')
         expect(response.body.errors[0].path.length).toBeGreaterThan(0)
@@ -142,6 +111,27 @@ describe('POST /api/v1/signup', () => {
         expect(response.body.data.email).toBe(newUser.email)
         expect(response.body.data).toHaveProperty('accessToken')
       }))
+
+  test('response with an existing email error', () =>
+    request(app)
+      .post('/api/v1/signup')
+      .set('Accept', 'application/json')
+      .send(newUser)
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .then((response) => {
+        expect(response.body).toHaveProperty('message')
+        expect(response.body.message).toBe('Invalid validation.')
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toHaveProperty('length')
+        expect(response.body.errors.length).toBeGreaterThan(0)
+        expect(response.body.errors[0]).toHaveProperty('message')
+        expect(response.body.errors[0].message).toBe('Email already existed.')
+        expect(response.body.errors[0]).toHaveProperty('path')
+        expect(response.body.errors[0].path).toHaveProperty('length')
+        expect(response.body.errors[0].path.length).toBeGreaterThan(0)
+        expect(response.body.errors[0].path[0]).toBe('email')
+      }))
 })
 
 describe('POST /api/v1/login', () => {
@@ -151,7 +141,7 @@ describe('POST /api/v1/login', () => {
       .set('Accept', 'application/json')
       .send({
         email: 'not-found@email.com',
-        password: templateUser.password,
+        password: newUser.password,
       })
       .expect('Content-Type', /json/)
       .expect(404, done)
@@ -162,7 +152,7 @@ describe('POST /api/v1/login', () => {
       .post('/api/v1/login')
       .set('Accept', 'application/json')
       .send({
-        email: templateUser.email,
+        email: newUser.email,
         password: 'incorrect-password',
       })
       .expect('Content-Type', /json/)
@@ -174,8 +164,8 @@ describe('POST /api/v1/login', () => {
       .post('/api/v1/login')
       .set('Accept', 'application/json')
       .send({
-        email: templateUser.email,
-        password: templateUser.password,
+        email: newUser.email,
+        password: newUser.password,
       })
       .expect('Content-Type', /json/)
       .expect(200)
@@ -184,7 +174,7 @@ describe('POST /api/v1/login', () => {
         expect(response.body.message).toBe('OK')
         expect(response.body).toHaveProperty('data')
         expect(response.body.data).toHaveProperty('email')
-        expect(response.body.data.email).toBe(templateUser.email)
+        expect(response.body.data.email).toBe(newUser.email)
         expect(response.body.data).toHaveProperty('accessToken')
       }))
 })

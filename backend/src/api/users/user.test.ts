@@ -1,7 +1,6 @@
 import request from 'supertest'
-import bcrypt from 'bcrypt'
 import app from '../../app'
-import { Users, User } from './user.model'
+import { Users } from './user.model'
 
 let templateUser = {
   username: 'jennie',
@@ -9,16 +8,16 @@ let templateUser = {
   password: '123',
 }
 
+let newUser = {
+  id: '',
+  username: 'rosie',
+  email: 'rosie@blackpink.com',
+  password: '1234',
+}
+
 beforeAll(async () => {
   try {
     await Users.drop()
-    const insertUser = await User.parseAsync(templateUser)
-
-    const hashedPassword = await bcrypt.hash(insertUser.password, 10)
-    await Users.insertOne({
-      ...insertUser,
-      password: hashedPassword,
-    })
   } catch (error) {}
 })
 
@@ -37,12 +36,6 @@ describe('GET /api/v1/users', () => {
       }))
 })
 
-let newUser = {
-  id: '',
-  username: 'rosie',
-  email: 'rosie@blackpink.com',
-  password: '1234',
-}
 
 describe('POST /api/v1/users', () => {
   test('response with an invalid email error', () =>
@@ -69,13 +62,32 @@ describe('POST /api/v1/users', () => {
         expect(response.body.errors[0].path[0]).toBe('email')
       }))
 
+  test('response with the user object', () =>
+    request(app)
+      .post('/api/v1/users')
+      .set('Accept', 'application/json')
+      .send(newUser)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .then((response) => {
+        expect(response.body).toHaveProperty('message')
+        expect(response.body.message).toBe('OK')
+        expect(response.body).toHaveProperty('data')
+        expect(response.body.data).toHaveProperty('_id')
+        newUser.id = response.body.data._id
+        expect(response.body.data).toHaveProperty('username')
+        expect(response.body.data.username).toBe(newUser.username)
+        expect(response.body.data).toHaveProperty('email')
+        expect(response.body.data.email).toBe(newUser.email)
+      }))
+
   test('response with an existing email error', () =>
     request(app)
       .post('/api/v1/users')
       .set('Accept', 'application/json')
       .send({
         ...newUser,
-        email: templateUser.email,
+        email: newUser.email,
       })
       .expect('Content-Type', /json/)
       .expect(422)
@@ -91,26 +103,6 @@ describe('POST /api/v1/users', () => {
         expect(response.body.errors[0].path).toHaveProperty('length')
         expect(response.body.errors[0].path.length).toBeGreaterThan(0)
         expect(response.body.errors[0].path[0]).toBe('email')
-      }))
-
-  test('response with the user object', () =>
-    request(app)
-      .post('/api/v1/users')
-      .set('Accept', 'application/json')
-      .send(newUser)
-      .expect('Content-Type', /json/)
-      .expect(201)
-      .then((response) => {
-        expect(response.body).toHaveProperty('message')
-        expect(response.body.message).toBe('OK')
-        expect(response.body).toHaveProperty('data')
-        expect(response.body.data).toHaveProperty('_id')
-        // id = response.body.data._id
-        newUser.id = response.body.data._id
-        expect(response.body.data).toHaveProperty('username')
-        expect(response.body.data.username).toBe(newUser.username)
-        expect(response.body.data).toHaveProperty('email')
-        expect(response.body.data.email).toBe(newUser.email)
       }))
 })
 
@@ -207,9 +199,7 @@ describe('DELETE /api/v1/users/:id', () => {
       .expect(422, done)
   })
   test('response with a 204 status code', (done) => {
-    request(app)
-      .delete(`/api/v1/users/${newUser.id}`)
-      .expect(204, done)
+    request(app).delete(`/api/v1/users/${newUser.id}`).expect(204, done)
   })
   test('response with a not found error', (done) => {
     request(app)

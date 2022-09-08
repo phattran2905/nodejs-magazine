@@ -53,6 +53,7 @@ export async function signup(
   try {
     const token = crypto.randomBytes(32).toString('hex')
     const hashedToken = await bcrypt.hash(token, 10)
+
     const user = await User.parseAsync({
       email: req.body.email,
       username: `user0${crypto.randomBytes(2).toString('hex')}`,
