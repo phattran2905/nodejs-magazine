@@ -23,8 +23,8 @@ To install all the packages that were involved in this project, run this command
 npm install
 ```
 
-### Create enviroment variables
-You have to install enviroment variables and grab it inside a __*.env*__ file. Make sure you have included these variable:
+### Create environment variables
+You have to install environment variables and grab it inside a __*.env*__ file. Make sure you have included these variable:
 
 ```
 DATABASE_URI="your connect string with mongodb"
@@ -34,7 +34,7 @@ NODE_ENV="whether it is 'development' or 'production'"
 ```
 
 ### Run project
-After defining enviroment variables, run this command to start the server:
+After defining environment variables, run this command to start the server:
 ```shell
 npm run dev
 ```
