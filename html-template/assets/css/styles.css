@@ -81,7 +81,6 @@ nav ul li.active a {
   display: flex;
   flex-direction: row;
 }
-
 .socials ul li {
   font-size: 1.1em;
 }
@@ -89,4 +88,58 @@ nav ul li.active a {
   color: var(--red);
   padding: 8px;
   font-size: 1.2em;
+}
+
+/* ================= CAROUSEL ================= */
+.carousel {
+  width: 100%;
+  margin: 10px;
+}
+.carousel .carousel-items {
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.carousel .carousel-items .carousel-description{
+  width: 50%;
+  padding: 20px;
+}
+.carousel-description h1 {
+  font-size: 4.5em;
+  margin: 20px 0;
+}
+.carousel-sliders {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px;
+}
+.carousel-sliders a:first-child {
+  margin-right: 8px;
+}
+.carousel-sliders a i {
+  color: var(--red);
+  font-weight: bold;
+  padding: 4px;
+  border: 3px solid var(--red);
+  border-radius: 50%;
+}
+.carousel-sliders a:hover {
+  background-color: var(--red);
+  border-radius: 50%;
+}
+.carousel-sliders a:hover i {
+  color: var(--light);
+}
+.carousel .carousel-items .carousel-images {
+  width: 50%;
+  background-color: #7d81e9;
+}
+
+/* MAIN */
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
