@@ -7,6 +7,7 @@
   --red-3: #ffcecf;
   --white: #ffffff;
   --light: #f6f6f6;
+  --gray: #666666;
 }
 
 * {
@@ -105,7 +106,7 @@ nav ul li.active a {
 }
 .carousel .carousel-items .carousel-description{
   width: 50%;
-  padding: 10px;
+  margin: 20px 20px 20px 0;
 }
 .carousel-description h1 {
   font-size: 4.5em;
@@ -114,8 +115,7 @@ nav ul li.active a {
 .carousel-sliders {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  padding: 10px;
+  justify-content: flex-start;
 }
 .carousel-sliders a:first-child {
   margin-right: 8px;
@@ -144,23 +144,103 @@ main {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 30px 0;
 }
-
-/* ================= TOP RECIPES ================= */
-.top-recipes {
+main section {
+  margin-bottom: 40px;
+}
+section h2 {
+  font-size: 2.5em;
+}
+.rows {
+  margin: 10px;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
 }
-.top-recipes h2 {
-  font-size: 3em;
+/* ================= ARTICLE ================= */
+.rows article {
+  width: 480px;
+  padding: 15px 30px;
+  margin: 15px;
 }
-.top-recipes .first-row,
-.top-recipes .second-row {
+.rows article .article-cover-image {
+  height: 296px;
+  background-color: var(--purple-2);
+  border-radius: 5px;
+  position: relative;
+  margin-bottom: 15px;
+}
+.rows article .article-cover-image span.category {
+  display: inline-block;
+  padding: 5px 20px;
+  text-transform: uppercase;
+  background-color: var(--red);
+  position: absolute;
+  border-radius: 5px;
+  color: var(--light);
+  font-size: 0.9em;
+  top: 20px;
+  right: 20px;
+}
+.rows article .article-details {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 5px;
 }
+.rows article .article-details span.posted-date{
+  color: var(--gray);
+  font-size: 0.9em;
+}
+.rows article .article-details ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.rows article .article-details ul li {
+  padding: 5px 10px;
+  background-color: var(--red-3);
+  border-radius: 50%;
+}
+.rows article .article-details ul li:first-child {
+  margin-right: 5px;
+}
+.rows article .article-details ul li a {
+  color: var(--red);
+  font-size: 0.9em;
+}
+.rows article .article-description h3{
+  font-size: 1.9em;
+  margin: 15px 0;
+}
+.rows article .article-description p {
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+.rows article .article-description a.read-more {
+  text-decoration: none;
+  color: var(--red);
+  font-size: 0.9em;
+}
+.view-more-container {
+  text-align: center;
+}
+.view-more-container a.view-more-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: var(--light);
+  background-color: var(--purple);
+  border-radius: 10px;
+}
+/* ================= TOP RECIPES ================= */
+/* .top-recipes {
+  display: flex;
+  flex-direction: column;
+}
+.top-recipes .rows article:first-of-type {
+  flex-grow: 2;
+} */
 /* ================= LATEST RECIPES ================= */
 /* ================= AUTHOR ================= */
 /* ================= SUBSCRIPTION ================= */
