@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 30px;
 }
 
 h1,
@@ -39,13 +40,15 @@ ul {
 header {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 50px;
+  margin: 10px 0;
 }
 
 header a#logo {
+  display: inline-block;
   text-decoration: none;
   color: var(--red);
   font-weight: bold;
@@ -93,17 +96,16 @@ nav ul li.active a {
 /* ================= CAROUSEL ================= */
 .carousel {
   width: 100%;
-  margin: 10px;
 }
 .carousel .carousel-items {
-  padding: 30px;
+  padding: 30px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 .carousel .carousel-items .carousel-description{
   width: 50%;
-  padding: 20px;
+  padding: 10px;
 }
 .carousel-description h1 {
   font-size: 4.5em;
@@ -121,7 +123,7 @@ nav ul li.active a {
 .carousel-sliders a i {
   color: var(--red);
   font-weight: bold;
-  padding: 4px;
+  padding: 4px 6px;
   border: 3px solid var(--red);
   border-radius: 50%;
 }
@@ -137,9 +139,28 @@ nav ul li.active a {
   background-color: #7d81e9;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 main {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 30px 0;
 }
+
+/* ================= TOP RECIPES ================= */
+.top-recipes {
+  display: flex;
+  flex-direction: column;
+}
+.top-recipes h2 {
+  font-size: 3em;
+}
+.top-recipes .first-row,
+.top-recipes .second-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+/* ================= LATEST RECIPES ================= */
+/* ================= AUTHOR ================= */
+/* ================= SUBSCRIPTION ================= */
