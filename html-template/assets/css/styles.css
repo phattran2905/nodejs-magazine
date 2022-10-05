@@ -8,6 +8,7 @@
     4. Main
         4.1 Article 
         4.2 View more
+    5. Writer
     5. Testimonials
     6. CTA
     7. Footer
@@ -199,7 +200,6 @@ nav ul li.active a {
 
 /* ########## 4. Main ########## */
 main {
-    margin: 1em;
     display: flex;
     flex-direction: column;
 }
@@ -320,16 +320,44 @@ main section h2 {
     border-radius: 10px;
 }
 
-/* ########## 5. View more ########## */
-/* ================= AUTHOR ================= */
-#author {
+/* ########## 5. Writer ########## */
+#writer {
     width: 100%;
-    height: 596px;
+    height: 600px;
+    position: relative;
+    padding: 0;
+    background-color: var(--white);
 }
 
-.author-profile {
-    background-color: var(--red);
-    padding: 30px;
+.writer-profile {
+    background-color: var(--red-2);
+    padding: 2em 2.5em;
 }
-
-/* ================= SUBSCRIPTION ================= */
+.writer-profile p,
+.writer-profile a {
+    color: var(--light)
+}
+.writer-profile > p {
+    margin: 10px 0;
+    max-width: 40%;
+}
+.writer-profile > p.writer-name {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+.writer-profile > .socials {
+    padding: 1em 0;
+}
+.writer-profile > .socials ul li a{
+    color: var(--light)
+}
+.writer-image {
+    border-radius: 50%;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 2em;
+    right: 20%;
+    background-color: #666666;
+}
+/* ########## 5. Writer ########## */
