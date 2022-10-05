@@ -215,7 +215,15 @@ main section h2 {
 .top-recipes-grid {
     margin: 10px;
     display: grid;
-    grid-template-columns: repeat(3, minmax(296px, 1fr));
+    grid-template-columns: repeat(3, minmax(400px, 1fr));
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 1.5em;
+}
+
+.latest-recipes-grid {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(600px, 1fr));
     grid-template-rows: 1fr 1fr;
     grid-gap: 1.5em;
 }
@@ -299,6 +307,8 @@ main section h2 {
 /* ########## 4.2 View more ########## */
 .view-more-container {
     text-align: center;
+    margin-top: 1em;
+    padding: 1em;
 }
 
 .view-more-container a.view-more-btn {
@@ -311,7 +321,6 @@ main section h2 {
 }
 
 /* ########## 5. View more ########## */
-/* ================= LATEST RECIPES ================= */
 /* ================= AUTHOR ================= */
 #author {
     width: 100%;
