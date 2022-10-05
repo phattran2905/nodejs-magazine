@@ -204,7 +204,7 @@ main {
 }
 
 main section {
-    margin-bottom: 40px;
+    margin-bottom: 3em;
 }
 
 main section h2 {
@@ -322,7 +322,7 @@ main section h2 {
 /* ########## 5. Writer ########## */
 #writer {
     width: 100%;
-    height: 480px;
+    height: 450px;
     position: relative;
     padding: 0;
     background-color: var(--white);
@@ -374,7 +374,7 @@ main section h2 {
     background-color: #9ba2f4;
     width: 300px;
     height: 300px;
-    border-radius: 50%;
+    border-radius: 10px;
 }
 .cta-message h6{
     margin: 10px;
@@ -407,4 +407,60 @@ main section h2 {
     border: none;
     border-radius: 5px;
     color: var(--white)
+}
+/* ########## 7. Footer ########## */
+footer {
+    width: 100%;
+    padding: 2em;
+    background-color: var(--purple);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+}
+footer .logo {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 2em;
+}
+.footer-socials,
+.footer-info {
+    padding-top: 1em;
+}
+.footer-socials {
+    width: 40%;
+    margin: 0;
+}
+.footer-socials figcaption {
+    font-size: 1.1rem;
+    color: var(--white);
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+.footer-socials ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+}
+.footer-socials ul li {
+    margin: 10px 0;
+}
+.footer-socials ul li a,
+.footer-info li a {
+    text-decoration: none;
+    color: var(--white)
+}
+.footer-info {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+.footer-info li {
+    margin-bottom: 1em;
+}
+.footer-info li a i {
+    margin-right: 10px;
 }
