@@ -5,7 +5,12 @@
         2.2 Socials
         2.3
     3. Carousel
-    5.
+    4. Main
+        4.1 Article 
+        4.2 View more
+    5. Testimonials
+    6. CTA
+    7. Footer
 */
 
 /* ########## 1.Global styles ########## */
@@ -75,7 +80,7 @@ ul {
 
 header,
 section {
-    padding: 0 3rem;
+    padding: 0 2rem;
 }
 
 /* ########## 2. Header ########## */
@@ -139,7 +144,6 @@ nav ul li.active a {
 /* ########## 3. Carousel ########## */
 .carousel {
     width: 100%;
-    height: 350px;
     margin: 30px 0;
     display: flex;
     flex-direction: row;
@@ -193,35 +197,35 @@ nav ul li.active a {
     background-color: #7d81e9;
 }
 
-/* ================= MAIN ================= */
+/* ########## 4. Main ########## */
 main {
+    margin: 1em;
     display: flex;
     flex-direction: column;
-    width: 100%;
 }
 
 main section {
     margin-bottom: 40px;
 }
 
-section h2 {
+main section h2 {
     font-size: 2.5em;
 }
 
-.rows {
+.top-recipes-grid {
     margin: 10px;
-    display: flex;
-    flex-flow: row wrap;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(296px, 1fr));
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 1.5em;
 }
 
-/* ================= ARTICLE ================= */
-.rows article {
-    width: 480px;
-    padding: 15px 30px;
-    margin: 15px;
+/* ########## 4.1 Article ########## */
+.top-recipes-grid article:nth-child(1) {
+    grid-column: 1/ span 2;
 }
 
-.rows article .article-cover-image {
+.article-cover-image {
     height: 296px;
     background-color: var(--purple-2);
     border-radius: 5px;
@@ -229,7 +233,7 @@ section h2 {
     margin-bottom: 15px;
 }
 
-.rows article .article-cover-image span.category {
+.article-cover-image span.category {
     display: inline-block;
     padding: 5px 20px;
     text-transform: uppercase;
@@ -242,7 +246,7 @@ section h2 {
     right: 20px;
 }
 
-.rows article .article-details {
+.article-details {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -250,48 +254,49 @@ section h2 {
     margin-bottom: 5px;
 }
 
-.rows article .article-details span.posted-date {
+.article-details span.posted-date {
     color: var(--gray);
     font-size: 0.9em;
 }
 
-.rows article .article-details ul {
+.article-details ul {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.rows article .article-details ul li {
+.article-details ul li {
     padding: 5px 10px;
     background-color: var(--red-3);
     border-radius: 50%;
 }
 
-.rows article .article-details ul li:first-child {
+.article-details ul li:first-child {
     margin-right: 5px;
 }
 
-.rows article .article-details ul li a {
+.article-details ul li a {
     color: var(--red);
     font-size: 0.9em;
 }
 
-.rows article .article-description h3 {
+.article-description h3 {
     font-size: 1.9em;
     margin: 15px 0;
 }
 
-.rows article .article-description p {
+.article-description p {
     font-size: 0.8em;
     line-height: 1.5;
 }
 
-.rows article .article-description a.read-more {
+.article-description a.read-more {
     text-decoration: none;
     color: var(--red);
     font-size: 0.9em;
 }
 
+/* ########## 4.2 View more ########## */
 .view-more-container {
     text-align: center;
 }
@@ -305,14 +310,7 @@ section h2 {
     border-radius: 10px;
 }
 
-/* ================= TOP RECIPES ================= */
-/* .top-recipes {
-  display: flex;
-  flex-direction: column;
-}
-.top-recipes .rows article:first-of-type {
-  flex-grow: 2;
-} */
+/* ########## 5. View more ########## */
 /* ================= LATEST RECIPES ================= */
 /* ================= AUTHOR ================= */
 #author {
