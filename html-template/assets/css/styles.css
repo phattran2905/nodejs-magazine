@@ -1,25 +1,26 @@
 :root {
-  --purple: #7d81e9;
-  --purple-2: #9ba2f4;
-  --purple-3: #c8ccff;
-  --red: #f66568;
-  --red-2: #ff8e90;
-  --red-3: #ffcecf;
-  --white: #ffffff;
-  --light: #f6f6f6;
-  --gray: #666666;
+    --purple: #7d81e9;
+    --purple-2: #9ba2f4;
+    --purple-3: #c8ccff;
+    --red: #f66568;
+    --red-2: #ff8e90;
+    --red-3: #ffcecf;
+    --white: #ffffff;
+    --light: #f6f6f6;
+    --gray: #666666;
 }
 
 * {
-  font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
 h1,
@@ -28,211 +29,244 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Merriweather', serif;
+    font-family: 'Merriweather', serif;
 }
 
 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+header,
+section {
+    padding: 0 40px;
 }
 
 /* ================= HEADER ================= */
 header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-  margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
 }
 
 header a#logo {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--red);
-  font-weight: bold;
-  font-size: 1.8em;
+    text-decoration: none;
+    color: var(--red);
+    font-weight: bold;
+    font-size: 1.8em;
 }
 
 /* ================= NAV ================= */
 nav ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 nav ul li {
-  padding: 10px;
+    padding: 10px;
 }
 
 nav ul li a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 nav ul li a:visited {
-  color: black;
+    color: black;
 }
 
 nav ul li.active a {
-  color: var(--red);
-  font-weight: bold;
+    color: var(--red);
+    font-weight: bold;
 }
 
 /* ================= SOCIALS ================= */
 .socials ul {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
+
 .socials ul li {
-  font-size: 1.1em;
+    font-size: 1.1em;
 }
+
 .socials ul li a {
-  color: var(--red);
-  padding: 8px;
-  font-size: 1.2em;
+    color: var(--red);
+    padding: 8px;
+    font-size: 1.2em;
 }
 
 /* ================= CAROUSEL ================= */
 .carousel {
-  width: 100%;
+    width: 100%;
 }
+
 .carousel .carousel-items {
-  padding: 30px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+    padding: 30px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
-.carousel .carousel-items .carousel-description{
-  width: 50%;
-  margin: 20px 20px 20px 0;
+
+.carousel .carousel-items .carousel-description {
+    width: 50%;
+    margin: 20px 20px 20px 0;
 }
+
 .carousel-description h1 {
-  font-size: 4.5em;
-  margin: 20px 0;
+    font-size: 4.5em;
+    margin: 20px 0;
 }
+
 .carousel-sliders {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
+
 .carousel-sliders a:first-child {
-  margin-right: 8px;
+    margin-right: 8px;
 }
+
 .carousel-sliders a i {
-  color: var(--red);
-  font-weight: bold;
-  padding: 4px 6px;
-  border: 3px solid var(--red);
-  border-radius: 50%;
+    color: var(--red);
+    font-weight: bold;
+    padding: 4px 6px;
+    border: 3px solid var(--red);
+    border-radius: 50%;
 }
+
 .carousel-sliders a:hover {
-  background-color: var(--red);
-  border-radius: 50%;
+    background-color: var(--red);
+    border-radius: 50%;
 }
+
 .carousel-sliders a:hover i {
-  color: var(--light);
+    color: var(--light);
 }
+
 .carousel .carousel-items .carousel-images {
-  width: 50%;
-  background-color: #7d81e9;
+    width: 50%;
+    background-color: #7d81e9;
 }
 
 /* ================= MAIN ================= */
 main {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+
 main section {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
+
 section h2 {
-  font-size: 2.5em;
+    font-size: 2.5em;
 }
+
 .rows {
-  margin: 10px;
-  display: flex;
-  flex-flow: row wrap;
+    margin: 10px;
+    display: flex;
+    flex-flow: row wrap;
 }
+
 /* ================= ARTICLE ================= */
 .rows article {
-  width: 480px;
-  padding: 15px 30px;
-  margin: 15px;
+    width: 480px;
+    padding: 15px 30px;
+    margin: 15px;
 }
+
 .rows article .article-cover-image {
-  height: 296px;
-  background-color: var(--purple-2);
-  border-radius: 5px;
-  position: relative;
-  margin-bottom: 15px;
+    height: 296px;
+    background-color: var(--purple-2);
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 15px;
 }
+
 .rows article .article-cover-image span.category {
-  display: inline-block;
-  padding: 5px 20px;
-  text-transform: uppercase;
-  background-color: var(--red);
-  position: absolute;
-  border-radius: 5px;
-  color: var(--light);
-  font-size: 0.9em;
-  top: 20px;
-  right: 20px;
+    display: inline-block;
+    padding: 5px 20px;
+    text-transform: uppercase;
+    background-color: var(--red);
+    position: absolute;
+    border-radius: 5px;
+    color: var(--light);
+    font-size: 0.9em;
+    top: 20px;
+    right: 20px;
 }
+
 .rows article .article-details {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5px;
 }
-.rows article .article-details span.posted-date{
-  color: var(--gray);
-  font-size: 0.9em;
+
+.rows article .article-details span.posted-date {
+    color: var(--gray);
+    font-size: 0.9em;
 }
+
 .rows article .article-details ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
+
 .rows article .article-details ul li {
-  padding: 5px 10px;
-  background-color: var(--red-3);
-  border-radius: 50%;
+    padding: 5px 10px;
+    background-color: var(--red-3);
+    border-radius: 50%;
 }
+
 .rows article .article-details ul li:first-child {
-  margin-right: 5px;
+    margin-right: 5px;
 }
+
 .rows article .article-details ul li a {
-  color: var(--red);
-  font-size: 0.9em;
+    color: var(--red);
+    font-size: 0.9em;
 }
-.rows article .article-description h3{
-  font-size: 1.9em;
-  margin: 15px 0;
+
+.rows article .article-description h3 {
+    font-size: 1.9em;
+    margin: 15px 0;
 }
+
 .rows article .article-description p {
-  font-size: 0.8em;
-  line-height: 1.5;
+    font-size: 0.8em;
+    line-height: 1.5;
 }
+
 .rows article .article-description a.read-more {
-  text-decoration: none;
-  color: var(--red);
-  font-size: 0.9em;
+    text-decoration: none;
+    color: var(--red);
+    font-size: 0.9em;
 }
+
 .view-more-container {
-  text-align: center;
+    text-align: center;
 }
+
 .view-more-container a.view-more-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  text-decoration: none;
-  color: var(--light);
-  background-color: var(--purple);
-  border-radius: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: var(--light);
+    background-color: var(--purple);
+    border-radius: 10px;
 }
+
 /* ================= TOP RECIPES ================= */
 /* .top-recipes {
   display: flex;
@@ -243,4 +277,14 @@ section h2 {
 } */
 /* ================= LATEST RECIPES ================= */
 /* ================= AUTHOR ================= */
+#author {
+    width: 100%;
+    height: 596px;
+}
+
+.author-profile {
+    background-color: var(--red);
+    padding: 30px;
+}
+
 /* ================= SUBSCRIPTION ================= */
