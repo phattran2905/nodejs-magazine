@@ -1,3 +1,14 @@
+/* 
+    1. Global styles
+    2. Header
+        2.1 Navigation
+        2.2 Socials
+        2.3
+    3. Carousel
+    5.
+*/
+
+/* ########## 1.Global styles ########## */
 :root {
     --purple: #7d81e9;
     --purple-2: #9ba2f4;
@@ -32,6 +43,30 @@ h6 {
     font-family: 'Merriweather', serif;
 }
 
+h1 {
+    font-size: 4.3em;
+}
+
+h2 {
+    font-size: 3.5em;
+}
+
+h3 {
+    font-size: 3em;
+}
+
+h4 {
+    font-size: 2.5em;
+}
+
+h5 {
+    font-size: 2em;
+}
+
+h6 {
+    font-size: 1.5em;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -40,10 +75,10 @@ ul {
 
 header,
 section {
-    padding: 0 40px;
+    padding: 0 3rem;
 }
 
-/* ================= HEADER ================= */
+/* ########## 2. Header ########## */
 header {
     display: flex;
     flex-direction: row;
@@ -61,7 +96,7 @@ header a#logo {
     font-size: 1.8em;
 }
 
-/* ================= NAV ================= */
+/* ########## 2.1 Navigation ########## */
 nav ul {
     display: flex;
     flex-direction: row;
@@ -85,7 +120,7 @@ nav ul li.active a {
     font-weight: bold;
 }
 
-/* ================= SOCIALS ================= */
+/* ########## 2.2 Socials ########## */
 .socials ul {
     display: flex;
     flex-direction: row;
@@ -101,36 +136,44 @@ nav ul li.active a {
     font-size: 1.2em;
 }
 
-/* ================= CAROUSEL ================= */
+/* ########## 3. Carousel ########## */
 .carousel {
     width: 100%;
-}
-
-.carousel .carousel-items {
-    padding: 30px 0;
+    height: 350px;
+    margin: 30px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.carousel .carousel-items .carousel-description {
+.carousel-description {
     width: 50%;
-    margin: 20px 20px 20px 0;
+    margin: 20px 30px 20px 0;
 }
 
 .carousel-description h1 {
-    font-size: 4.5em;
-    margin: 20px 0;
+    margin: 25px 0;
+}
+
+.carousel-description p {
+    font-size: 1.2em;
+    line-height: 1.5;
 }
 
 .carousel-sliders {
+    padding: 1em 1.5em;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
 }
 
 .carousel-sliders a:first-child {
     margin-right: 8px;
+}
+
+.carousel-sliders a:hover {
+    background-color: var(--red);
+    border-radius: 50%;
 }
 
 .carousel-sliders a i {
@@ -141,16 +184,11 @@ nav ul li.active a {
     border-radius: 50%;
 }
 
-.carousel-sliders a:hover {
-    background-color: var(--red);
-    border-radius: 50%;
-}
-
 .carousel-sliders a:hover i {
     color: var(--light);
 }
 
-.carousel .carousel-items .carousel-images {
+.carousel .carousel-images {
     width: 50%;
     background-color: #7d81e9;
 }
