@@ -9,7 +9,6 @@
         4.1 Article 
         4.2 View more
     5. Writer
-    5. Testimonials
     6. CTA
     7. Footer
 */
@@ -323,7 +322,7 @@ main section h2 {
 /* ########## 5. Writer ########## */
 #writer {
     width: 100%;
-    height: 600px;
+    height: 480px;
     position: relative;
     padding: 0;
     background-color: var(--white);
@@ -360,4 +359,52 @@ main section h2 {
     right: 20%;
     background-color: #666666;
 }
-/* ########## 5. Writer ########## */
+/* ########## 6. CTA ########## */
+#cta {
+    width: 100%;
+    height: 360px;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background: var(--light);
+}
+.cta-image {
+    background-color: #9ba2f4;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}
+.cta-message h6{
+    margin: 10px;
+    text-align: center;
+}
+.cta-message p {
+    color: var(--gray);
+    margin-bottom: 1.5em;
+}
+.cta-message form {
+    margin: 1em;
+    display: flex;
+    position: relative;
+}
+.cta-message input[type=text] {
+    width: 100%;
+    padding: 15px;
+    display: block;
+    color: var(--gray);
+    border: none;
+    border-radius: 8px;
+}
+.cta-message button {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--purple);
+    border: none;
+    border-radius: 5px;
+    color: var(--white)
+}
