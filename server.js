@@ -19,6 +19,7 @@ mongoose.connect(process.env.DATABASE_URI || 'mongodb://localhost/electronic_new
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true
 });
 mongoose.connection.once("open", () =>
     console.log("Successfully connected to database")
