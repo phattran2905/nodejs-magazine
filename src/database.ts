@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 function connectDb() {
-  mongoose.connect(process.env.DATABASE_URI || 'mongodb://localhost/cooking_blog', {
+  mongoose.connect(process.env.DATABASE_URI || 'mongodb://localhost/nodejs-magazine', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
