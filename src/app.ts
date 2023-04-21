@@ -1,43 +1,76 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import morgan from 'morgan'
-import path from 'path'
-import connectDb from './database'
-import routes from './routes'
+// import {connect, connection} from 'mongoose'
+import passport from 'passport'
 import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import flash from 'express-flash'
+import path from 'path'
+// import passportSetup from './config/passport-setup'
 
-// Load environment variables
-dotenv.config()
-// Connect to database
-connectDb()
+// dotenv.config(path.join(__dirname, '.env'))
 
-// Express Server
 const app = express()
-// Middleware
-app.use(morgan('dev'))
-app.use(express.urlencoded({ extended: false }))
-app.use(
-  session({
-    name: 'magazine',
-    secret: process.env.SECRET_KEY ?? 'phatductran_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 24 * 3600 * 1000 * 7
-    }
-  })
-)
-app.use(flash())
+// const MongoStore = require('connect-mongo')(session)
 
-// View template
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, '../views'))
-app.use('/static', express.static(path.join(__dirname, '../public/user')))
-app.use('/admin/static', express.static(path.join(__dirname, '../public/admin')))
+// // Connect to database
+// connect(process.env.DATABASE_URI || 'mongodb://localhost/electronic_newspaper', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false,
+//   useCreateIndex: true,
+// })
+// connection.once('open', () => console.log('Successfully connected to database'))
+// connection.on('error', () => {
+//   console.error.bind(console, 'connection error:')
+// })
 
-// Routes
-app.use(routes)
-// app.use((req, res) => res.render('error/user-404'))
+// app.set('view engine', 'ejs')
+// app.set('views', path.join(__dirname, 'views'))
+// //  middleware
+// app.use('/static', express.static(path.join(__dirname, 'public/user')))
+// app.use('/avatar', express.static(path.join(__dirname, 'uploaded_files/avatar_img')))
+// app.use(
+//   '/thumbnail',
+//   express.static(path.join(__dirname, 'uploaded_files/thumbnail_img'))
+// )
+// app.use('/admin/static', express.static(path.join(__dirname, 'public/admin/')))
+// app.use(express.urlencoded({ extended: false }))
+// app.use(cookieParser())
+// app.use(
+//   session({
+//     name: 'user.id',
+//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//     secret: process.env.SECRET_KEY || 'phatductran_secret_key',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       maxAge: 24 * 3600 * 1000 * 7,
+//     },
+//   })
+// )
+// app.use(flash())
+// passportSetup(passport)
+// app.use(passport.initialize())
+// app.use(passport.session())
+// app.use(passport.authenticate('remember-me'))
+// Routes for Users
+// app.use(require('./routes/user/routes'))
+
+// Routes for Administration
+// app.use(
+//   '/admin',
+//   (req, res, next) => {
+//     const authUtils = require('./utils/authUtils')
+//     if (req.url === '/login') {
+//       return authUtils.checkNotAuthenticatedAdmin(req, res, next)
+//     } else {
+//       return authUtils.checkAuthenticatedAdmin(req, res, next)
+//     }
+//   },
+//   require('./routes/admin/routes')
+// )
+
+app.get("/", (req,res) => res.json("Magazine"))
 
 export default app
