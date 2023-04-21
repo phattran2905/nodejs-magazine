@@ -8,7 +8,7 @@ import flash from 'express-flash'
 import path from 'path'
 // import passportSetup from './config/passport-setup'
 
-// dotenv.config(path.join(__dirname, '.env'))
+dotenv.config()
 
 const app = express()
 // const MongoStore = require('connect-mongo')(session)
