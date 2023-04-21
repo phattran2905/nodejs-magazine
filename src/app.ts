@@ -9,6 +9,7 @@ import path from 'path'
 import helmet from 'helmet';
 import morgan from 'morgan';
 import {store} from './config/database';
+import clientRoutes from './routes/client/index.router';
 
 // Load environment variables
 dotenv.config()
@@ -20,15 +21,15 @@ app.use(morgan("dev"))
 
 // View engine
 app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'views'))
-//  middleware
-app.use('/static', express.static(path.join(__dirname, 'public/user')))
-app.use('/avatar', express.static(path.join(__dirname, 'uploaded_files/avatar_img')))
+app.set('views', path.join(__dirname, '../views'))
+// Set path
+app.use('/static', express.static(path.join(__dirname, '../public/user')))
+app.use('/avatar', express.static(path.join(__dirname, '../uploaded_files/avatar_img')))
 app.use(
   '/thumbnail',
-  express.static(path.join(__dirname, 'uploaded_files/thumbnail_img'))
+  express.static(path.join(__dirname, '../uploaded_files/thumbnail_img'))
 )
-app.use('/admin/static', express.static(path.join(__dirname, 'public/admin/')))
+app.use('/admin/static', express.static(path.join(__dirname, '../public/admin/')))
 
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -44,13 +45,14 @@ app.use(
     },
   })
 )
-// app.use(flash())
+app.use(flash())
 // passportSetup(passport)
 // app.use(passport.initialize())
 // app.use(passport.session())
 // app.use(passport.authenticate('remember-me'))
+
 // Routes for Users
-// app.use(require('./routes/user/routes'))
+app.use(clientRoutes)
 
 // Routes for Administration
 // app.use(
