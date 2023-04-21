@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-// import {connect, connection} from 'mongoose'
+import mongoose from 'mongoose'
 import passport from 'passport'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
@@ -14,16 +14,11 @@ const app = express()
 // const MongoStore = require('connect-mongo')(session)
 
 // // Connect to database
-// connect(process.env.DATABASE_URI || 'mongodb://localhost/electronic_newspaper', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false,
-//   useCreateIndex: true,
-// })
-// connection.once('open', () => console.log('Successfully connected to database'))
-// connection.on('error', () => {
-//   console.error.bind(console, 'connection error:')
-// })
+mongoose.connect(process.env.DATABASE_URI || 'mongodb://localhost/nodejs_magazine')
+mongoose.connection.once('open', () => console.log('Successfully connected to database'))
+mongoose.connection.on('error', () => {
+  console.error.bind(console, 'connection error:')
+})
 
 // app.set('view engine', 'ejs')
 // app.set('views', path.join(__dirname, 'views'))
