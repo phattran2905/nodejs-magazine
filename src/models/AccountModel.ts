@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose"
+import {IAccount} from '../types/Account';
 
-const AccountSchema = new Schema(
+const AccountSchema = new Schema<IAccount>(
 	{
 		email: {
 			type: String,
@@ -17,7 +18,7 @@ const AccountSchema = new Schema(
 		role: {
 			type: String,
 			default: "audience",
-            enum: ["audience", "admin", "blogger"]
+			enum: ["audience", "admin", "blogger"],
 		},
 		verify_token: {
 			token: String,
@@ -33,12 +34,12 @@ const AccountSchema = new Schema(
 		status: {
 			type: String,
 			default: "inactive",
-            enum: ["inactive", "active", "banned"]
+			enum: ["inactive", "active", "banned"],
 		},
 	},
 	{ timestamps: true }
 )
 
-const AccountModel = model("Account", AccountSchema)
+const AccountModel = model<IAccount>("Account", AccountSchema)
 
 export default AccountModel

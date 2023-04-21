@@ -5,7 +5,7 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import flash from 'express-flash'
 import path from 'path'
-// import passportSetup from './config/passport-setup'
+import passportSetup from './config/passport'
 import helmet from 'helmet';
 import morgan from 'morgan';
 import {store} from './config/database';
@@ -46,10 +46,10 @@ app.use(
   })
 )
 app.use(flash())
-// passportSetup(passport)
-// app.use(passport.initialize())
-// app.use(passport.session())
-// app.use(passport.authenticate('remember-me'))
+passportSetup(passport)
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(passport.authenticate('remember-me'))
 
 // Routes for Users
 app.use(clientRoutes)
