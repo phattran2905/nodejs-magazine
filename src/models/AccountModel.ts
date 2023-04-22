@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose"
-import {IAccount} from '../types/Account';
+import { Schema, model, Types } from "mongoose"
+import { IAccount, ACCOUNT_ROLES, ACCOUNT_STATUS } from "../types/Account"
 
 const AccountSchema = new Schema<IAccount>(
 	{
@@ -12,13 +12,13 @@ const AccountSchema = new Schema<IAccount>(
 			type: String,
 		},
 		profile_id: {
-			type: Schema.Types.ObjectId,
+			type: Types.ObjectId,
 			ref: "Profile",
 		},
 		role: {
 			type: String,
-			default: "audience",
-			enum: ["audience", "admin", "blogger"],
+			default: ACCOUNT_ROLES.audience,
+			enum: ACCOUNT_ROLES,
 		},
 		verify_token: {
 			token: String,
@@ -33,8 +33,8 @@ const AccountSchema = new Schema<IAccount>(
 		},
 		status: {
 			type: String,
-			default: "inactive",
-			enum: ["inactive", "active", "banned"],
+			default: ACCOUNT_STATUS.active,
+			enum: ACCOUNT_STATUS,
 		},
 	},
 	{ timestamps: true }

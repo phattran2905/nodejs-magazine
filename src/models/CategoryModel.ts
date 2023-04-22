@@ -1,17 +1,18 @@
 import {Schema, model} from 'mongoose';
+import { CATEGORY_STATUS, ICategory } from '../types/Category';
 
-const CategorySchema = new Schema({
+const CategorySchema = new Schema<ICategory>({
     name: {
         type: String,
         required: true
     },
     status: {
         type: String,
-        default: "inactive",
-        enum: ["inactive", "active"]
+        default: CATEGORY_STATUS.active,
+        enum: CATEGORY_STATUS
     },
 }, {timestamps: true})
 
-const CategoryModel = model("Category", CategorySchema)
+const CategoryModel = model<ICategory>("Category", CategorySchema)
 
 export default CategoryModel

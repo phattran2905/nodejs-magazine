@@ -1,6 +1,7 @@
-import { Schema, model } from "mongoose"
+import { Schema, model, Types } from "mongoose"
+import { ARTICLE_STATUS, IArticle } from "../types/Article"
 
-const ArticleSchema = new Schema(
+const ArticleSchema = new Schema<IArticle>(
 	{
 		title: {
 			type: String,
@@ -17,12 +18,12 @@ const ArticleSchema = new Schema(
 			size: Number,
 		},
 		category_id: {
-			type: Schema.Types.ObjectId,
+			type: Types.ObjectId,
 			ref: "Category",
 			required: true,
 		},
 		author_id: {
-			type: Schema.Types.ObjectId,
+			type: Types.ObjectId,
 			ref: "Account",
 			required: true,
 		},
@@ -36,13 +37,13 @@ const ArticleSchema = new Schema(
         },
 		status: {
 			type: String,
-			default: "draft",
-            enum: ["draft", "published", "banned"]
+			default: ARTICLE_STATUS.draft,
+            enum: ARTICLE_STATUS
 		},
 	},
 	{ timestamps: true }
 )
 
-const ArticleModel = model("Article", ArticleSchema)
+const ArticleModel = model<IArticle>("Article", ArticleSchema)
 
 export default ArticleModel

@@ -1,18 +1,26 @@
 import {Types} from 'mongoose';
 
-export type ROLES = "audience" | "admin" | "blogger"
+export enum ACCOUNT_ROLES {
+    audience = "audience",
+    admin = "admin",
+    blogger = "blogger"
+}
 
-export type STATUS = "inactive" | "active" | "banned"
+export enum ACCOUNT_STATUS {
+    inactive = "inactive",
+    active = "active",
+    banned = "banned"
+}
 
 export interface IAccount {
 	email: string
 	hashed_password?: string
 	profile_id?: Types.ObjectId
-	role: ROLES
+	role: ACCOUNT_ROLES
 	verify_token?: string
 	remember_token?: string
 	last_login?: Date
-	status: STATUS
+	status: ACCOUNT_STATUS
 	createdAt?: Date
 	updatedAt?: Date
 }

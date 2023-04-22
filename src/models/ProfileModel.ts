@@ -1,6 +1,7 @@
-import { Schema, model } from "mongoose"
+import { Schema, model,Types } from "mongoose"
+import { IProfile } from "../types/Profile"
 
-const ProfileSchema = new Schema(
+const ProfileSchema = new Schema<IProfile>(
 	{
 		full_name: {
 			type: String,
@@ -13,17 +14,17 @@ const ProfileSchema = new Schema(
 		phone: { type: String },
 		avatar_img: {
 			path: String,
-			content_type: String,
-			file_name: String,
+			contentType: String,
+			filename: String,
 			size: Number,
 		},
         followers: [{
-            type: Schema.Types.ObjectId
+            type: Types.ObjectId
         }],
 	},
 	{ timestamps: true }
 )
 
-const ProfileModel = model("Profile", ProfileSchema)
+const ProfileModel = model<IProfile>("Profile", ProfileSchema)
 
 export default ProfileModel

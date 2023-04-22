@@ -1,13 +1,14 @@
-import { Schema, model } from "mongoose"
+import { Schema, model, Types } from "mongoose"
+import { COMMENT_STATUS, IComment } from "../types/Comment"
 
-const CommentSchema = new Schema(
+const CommentSchema = new Schema<IComment>(
 	{
 		text: {
 			type: String,
 			required: true,
 		},
 		article_id: {
-			type: Schema.Types.ObjectId,
+			type: Types.ObjectId,
 			ref: "Article",
 		},
 		likes: {
@@ -19,18 +20,18 @@ const CommentSchema = new Schema(
 			default: 0,
 		},
 		account_id: {
-			type: Schema.Types.ObjectId,
+			type: Types.ObjectId,
 			ref: "Account",
 		},
 		status: {
 			type: String,
-			default: "public",
-            enum: ["public", "hide"]
+			default: COMMENT_STATUS.public,
+            enum: COMMENT_STATUS
 		},
 	},
 	{ timestamps: true }
 )
 
-const CommentModel = model("Comment", CommentSchema)
+const CommentModel = model<IComment>("Comment", CommentSchema)
 
 export default CommentModel
