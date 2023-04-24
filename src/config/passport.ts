@@ -2,7 +2,7 @@ import { Strategy as LocalStrategy } from "passport-local"
 import { Strategy as RememberMeStrategy } from "passport-remember-me"
 import AccountModel from "../models/AccountModel"
 import bcrypt from "bcrypt"
-import { nanoid } from "nanoid"
+import * as nanoid from "nanoid"
 import { IAccount } from "../types/Account"
 
 const isUser = async function (id: string) {

@@ -38,8 +38,8 @@ dependencies:
     specifier: ^1.4.2
     version: 1.4.2
   nanoid:
-    specifier: ^3.1.10
-    version: 3.1.10
+    specifier: ^4.0.2
+    version: 4.0.2
   nodemailer:
     specifier: ^6.4.6
     version: 6.4.6
@@ -66,9 +66,6 @@ devDependencies:
   '@types/cookie-parser':
     specifier: ^1.4.3
     version: 1.4.3
-  '@types/dotenv':
-    specifier: ^8.2.0
-    version: 8.2.0
   '@types/express':
     specifier: ^4.17.14
     version: 4.17.14
@@ -957,13 +954,6 @@ packages:
       '@types/express': 4.17.14
     dev: true
 
-  /@types/dotenv@8.2.0:
-    resolution: {integrity: sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==}
-    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
-    dependencies:
-      dotenv: 8.2.0
-    dev: true
-
   /@types/express-flash@0.0.2:
     resolution: {integrity: sha512-1l0s3YiZpMkWZ/65S4iSOLOnI7bYNDgnxx54nw5eA2pWOZ7Vvc7PpDv6iJq0bB7EBusoVWkzd+RV4r/nLY4/HA==}
     dependencies:
@@ -1534,6 +1524,7 @@ packages:
   /dotenv@8.2.0:
     resolution: {integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==}
     engines: {node: '>=8'}
+    dev: false
 
   /duplexer3@0.1.5:
     resolution: {integrity: sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==}
@@ -2232,9 +2223,9 @@ packages:
       xtend: 4.0.2
     dev: false
 
-  /nanoid@3.1.10:
-    resolution: {integrity: sha512-iZFMXKeXWkxzlfmMfM91gw7YhN2sdJtixY+eZh9V6QWJWTOiurhpKhBMgr82pfzgSqglQgqYSCowEYsz8D++6w==}
-    engines: {node: ^10 || ^12 || >=13.7}
+  /nanoid@4.0.2:
+    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
+    engines: {node: ^14 || ^16 || >=18}
     hasBin: true
     dev: false
 
