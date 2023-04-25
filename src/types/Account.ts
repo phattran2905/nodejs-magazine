@@ -13,11 +13,12 @@ export enum ACCOUNT_STATUS {
 }
 
 export interface IAccount {
+    id: Types.ObjectId
 	email: string
-	hashed_password?: string
+	hashed_password: string
 	profile_id?: Types.ObjectId
 	role: ACCOUNT_ROLES
-	verify_token?: string
+	verify_token: string
 	remember_token?: string
 	last_login?: Date
 	status: ACCOUNT_STATUS

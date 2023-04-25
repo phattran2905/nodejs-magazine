@@ -2,14 +2,17 @@ import { Strategy as LocalStrategy } from "passport-local"
 import { Strategy as RememberMeStrategy } from "passport-remember-me"
 import AccountModel from "../models/AccountModel"
 import bcrypt from "bcrypt"
-import * as nanoid from "nanoid"
-import { IAccount } from "../types/Account"
+import { ACCOUNT_ROLES, ACCOUNT_STATUS, IAccount } from "../types/Account"
+import { Request } from "express"
+import passport, { PassportStatic } from "passport"
+import crypto from "crypto"
+import { Types } from "mongoose"
 
-const isUser = async function (id: string) {
+const isUser = async function (id: string | Types.ObjectId) {
 	try {
-		const user = await AccountModel.findById(id) as IAccount
+		const user: IAccount | null = await AccountModel.findById(id)
 
-		if (user.role === "audience" || user.role === "blogger") {
+		if (user && (user.role === ACCOUNT_ROLES.audience || user.role === ACCOUNT_ROLES.blogger)) {
 			return true
 		}
 
@@ -19,11 +22,11 @@ const isUser = async function (id: string) {
 	}
 }
 
-const isAdmin = async function (id: string) {
+const isAdmin = async function (id: string | Types.ObjectId) {
 	try {
-		const admin = await AccountModel.findById(id) as IAccount
+		const admin: IAccount | null = await AccountModel.findById(id)
 
-		if (admin.role === "admin") {
+		if (admin && admin.role === ACCOUNT_ROLES.admin) {
 			return true
 		}
 
@@ -33,17 +36,23 @@ const isAdmin = async function (id: string) {
 	}
 }
 
-const passportSetup = function (passport) {
-	const authenticateAdmin = async (req, email, password, done) => {
+const passportSetup = function (passport: PassportStatic) {
+	const authenticateAdmin = async (
+		req: Request,
+		email: string,
+		password: string,
+		done: Function
+	) => {
 		try {
-			const admin = await AccountModel.findOne({ email: email }) as IAccount
+			const admin = await AccountModel.findOne({ email: email })
 			if (!admin) {
 				return done(null, false, { message: "Incorrect email!" })
 			}
-			if (!(await bcrypt.compare(password, admin.password))) {
+			const correctPassword = await bcrypt.compare(password, admin.hashed_password)
+			if (!correctPassword) {
 				return done(null, false, { message: "Incorrect password!" })
 			}
-			if (admin.status === "Deactivated") {
+			if (admin.status === ACCOUNT_STATUS.inactive) {
 				return done(null, false, { message: "Your account was not allowed to log in!" })
 			}
 
@@ -53,16 +62,21 @@ const passportSetup = function (passport) {
 		}
 	}
 
-	const authenticateUser = async (req, email, password, done) => {
+	const authenticateUser = async (
+		req: Request,
+		email: string,
+		password: string,
+		done: Function
+	) => {
 		try {
-			const user = await AuthorModel.findOne({ email: email })
+			const user: IAccount | null = await AccountModel.findOne({ email: email })
 			if (!user) {
 				return done(null, false, { message: "Incorrect email!" })
 			}
-			if (!(await bcrypt.compare(password, user.password))) {
+			if (!(await bcrypt.compare(password, user.hashed_password))) {
 				return done(null, false, { message: "Incorrect password!" })
 			}
-			if (user.status === "Deactivated") {
+			if (user.status === ACCOUNT_STATUS.inactive) {
 				return done(null, false, { message: "Your account was not allowed to log in!" })
 			}
 
@@ -72,27 +86,29 @@ const passportSetup = function (passport) {
 		}
 	}
 
-	passport.serializeUser(async function (obj, done) {
-		if (await isUser(obj.id)) {
-			return done(null, { id: obj.id, model: "user" })
-		} else if (await isAdmin(obj.id)) {
-			return done(null, { id: obj.id, model: "admin" })
-		}
+	passport.serializeUser<any,any>(function (req: Request, obj, done): void {
+        // isUser(obj?.id).then((result) => {
+        //     if (result) {
+        //         done(null, { id: obj?.id, model: "user" })
+        //     }
+        // })
+
+        // isAdmin(obj?.id).then((result) => {
+        //     if (result) {
+        //         done(null, { id: obj?.id, model: "admin" })
+        //     }
+        // })
+        return done(undefined, obj)
 		// return done(null, obj.id);
 	})
 
-	passport.deserializeUser(async function ({ id, model }, done) {
-		if (model === "user") {
-			AuthorModel.findById(id, function (err, user) {
-				done(null, user)
-			})
-		} else if (model === "admin") {
-			AdminModel.findById(id, function (err, admin) {
-				done(null, admin)
-			})
-		} else {
-			done(null, false)
-		}
+	passport.deserializeUser(async function (
+		user: Express.User,
+		done: Function
+	) {
+        const account = AccountModel.findById(user, function (err: any, user: IAccount) {
+			done(null, account)
+		})
 	})
 
 	passport.use(
@@ -123,11 +139,11 @@ const passportSetup = function (passport) {
 			// consume the token
 			async function (token, done) {
 				try {
-					const user = await AuthorModel.findOne({
+					const user: IAccount | null = await AccountModel.findOne({
 						remember_token: token,
 					})
 					if (user) {
-						await AuthorModel.findOneAndUpdate(
+						await AccountModel.findOneAndUpdate(
 							{
 								_id: user.id,
 							},
@@ -137,13 +153,13 @@ const passportSetup = function (passport) {
 						)
 						return done(null, user)
 					}
-					const admin = await AdminModel.findOne({
+					const admin: IAccount | null = await AccountModel.findOne({
 						remember_token: token,
 					})
 					if (admin) {
-						await AdminModel.findOneAndUpdate(
+						await AccountModel.findOneAndUpdate(
 							{
-								_id: user.id,
+								_id: admin.id,
 							},
 							{
 								remember_token: null,
@@ -160,9 +176,9 @@ const passportSetup = function (passport) {
 			},
 			// issue new token
 			async function (obj, done) {
-				var token = nanoid(64)
+				var token = crypto.randomBytes(64).toString("base64url")
 				if (await isUser(obj._id)) {
-					const userWithNewToken = await AuthorModel.findOneAndUpdate(
+					const userWithNewToken = await AccountModel.findOneAndUpdate(
 						{
 							_id: obj._id,
 						},
@@ -174,7 +190,7 @@ const passportSetup = function (passport) {
 						return done(null, userWithNewToken.remember_token)
 					}
 				} else if (await isAdmin(obj._id)) {
-					const admWithNewToken = await AdminModel.findOneAndUpdate(
+					const admWithNewToken = await AccountModel.findOneAndUpdate(
 						{
 							_id: obj._id,
 						},
@@ -186,7 +202,7 @@ const passportSetup = function (passport) {
 						return done(null, admWithNewToken.remember_token)
 					}
 				}
-				return done(null, false, {
+				return done(null, {
 					message: "Can not issue token.",
 				})
 			}
