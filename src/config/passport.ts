@@ -86,29 +86,30 @@ const passportSetup = function (passport: PassportStatic) {
 		}
 	}
 
-	passport.serializeUser<any,any>(function (req: Request, obj, done): void {
-        // isUser(obj?.id).then((result) => {
-        //     if (result) {
-        //         done(null, { id: obj?.id, model: "user" })
-        //     }
-        // })
+	passport.serializeUser<any, any>(function (req: Request, obj, done): void {
+		// isUser(obj?.id).then((result) => {
+		//     if (result) {
+		//         done(null, { id: obj?.id, model: "user" })
+		//     }
+		// })
 
-        // isAdmin(obj?.id).then((result) => {
-        //     if (result) {
-        //         done(null, { id: obj?.id, model: "admin" })
-        //     }
-        // })
-        return done(undefined, obj)
+		// isAdmin(obj?.id).then((result) => {
+		//     if (result) {
+		//         done(null, { id: obj?.id, model: "admin" })
+		//     }
+		// })
+		return done(undefined, obj)
 		// return done(null, obj.id);
 	})
 
-	passport.deserializeUser(async function (
-		user: Express.User,
-		done: Function
-	) {
-        const account = AccountModel.findById(user, function (err: any, user: IAccount) {
-			done(null, account)
-		})
+	passport.deserializeUser(async function (id: Express.User, done: Function) {
+		const account = AccountModel.findById(id)
+
+		if (account) {
+			return done(null, account)
+		}
+
+		return done(null, false)
 	})
 
 	passport.use(
