@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { login } from "../../controller/auth.controller"
-import { showLoginForm } from "../../view/user/auth.view"
+import { showLoginForm, showSignUpForm } from "../../view/user/auth.view"
 import { authenticate, checkNotAuthenticatedUser } from "../../middlewares/auth.middleware"
 
 const router = Router()
@@ -11,7 +11,7 @@ router.post("/login", checkNotAuthenticatedUser, login)
 
 // router.get('/logout', logout)
 
-// router.get('/signup', checkNotAuthenticatedAuthor, showSignUpForm)
+router.get('/signup', checkNotAuthenticatedUser, showSignUpForm)
 
 // router.post('/signup', checkNotAuthenticatedAuthor, signUp)
 

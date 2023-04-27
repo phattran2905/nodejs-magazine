@@ -17,3 +17,23 @@ export const showLoginForm = async (req: Request, res: Response) => {
 		menu_list: [],
 	})
 }
+
+export const showSignUpForm = async (req: Request, res: Response) => {
+    try {
+      const selectedFields =
+        '_id title interaction status categoryId authorId updated createdAt thumbnail_img'
+    //   const latestArticles = await getLatestArticles(selectedFields, 3)
+    //   const popularArticles = await getPopularArticles(selectedFields, 5)
+	const latestArticles: IArticle[] = []
+	const popularArticles: IArticle[] = []
+
+      res.render('user/auth/signup', {
+        // menu_list: await menuUtils.getMenuList(),
+        menu_list: [],
+        latestArticles: latestArticles,
+        popularArticles: popularArticles
+      })
+    } catch (error) {
+      return res.render('error/user-404')
+    }
+  }
