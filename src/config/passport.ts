@@ -4,7 +4,7 @@ import AccountModel from "../models/AccountModel"
 import bcrypt from "bcrypt"
 import { ACCOUNT_ROLES, ACCOUNT_STATUS, IAccount } from "../types/Account"
 import { Request } from "express"
-import passport, { PassportStatic } from "passport"
+import { PassportStatic } from "passport"
 import crypto from "crypto"
 import { Types } from "mongoose"
 

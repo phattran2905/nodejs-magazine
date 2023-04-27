@@ -13,7 +13,8 @@ export interface IArticle {
 		path: string
 		contentType: string
 		filename: string
-		size: number
+		size: number,
+        mimetype: string
 	}
 	category_id?: Types.ObjectId
 	author_id?: Types.ObjectId
