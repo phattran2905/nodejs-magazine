@@ -48,6 +48,7 @@
     "@types/express-session": "^1.17.5",
     "@types/morgan": "^1.9.3",
     "@types/node": "^18.7.18",
+    "@types/nodemailer": "^6.4.7",
     "@types/passport": "^1.0.12",
     "@types/passport-local": "^1.0.35",
     "@types/passport-remember-me": "^0.0.0",

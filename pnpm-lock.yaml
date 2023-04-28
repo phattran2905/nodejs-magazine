@@ -81,6 +81,9 @@ devDependencies:
   '@types/node':
     specifier: ^18.7.18
     version: 18.7.18
+  '@types/nodemailer':
+    specifier: ^6.4.7
+    version: 6.4.7
   '@types/passport':
     specifier: ^1.0.12
     version: 1.0.12
@@ -1001,6 +1004,12 @@ packages:
 
   /@types/node@18.7.18:
     resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}
+
+  /@types/nodemailer@6.4.7:
+    resolution: {integrity: sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==}
+    dependencies:
+      '@types/node': 18.7.18
+    dev: true
 
   /@types/passport-local@1.0.35:
     resolution: {integrity: sha512-K4eLTJ8R0yYW8TvCqkjB0pTKoqfUSdl5PfZdidTjV2ETV3604fQxtY6BHKjQWAx50WUS0lqzBvKv3LoI1ZBPeA==}

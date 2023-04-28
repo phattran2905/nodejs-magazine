@@ -1,32 +1,73 @@
-import { Router } from "express"
-import { login } from "../../controller/auth.controller"
+import { Router, Request, Response, NextFunction } from "express"
+import { login, signUp } from "../../controller/auth.controller"
+import passport from "passport"
 import { showLoginForm, showSignUpForm } from "../../view/user/auth.view"
 import { authenticate, checkNotAuthenticatedUser } from "../../middlewares/auth.middleware"
+import * as validateAuth from "../../validation/validateAuth"
 
 const router = Router()
 
 router.get("/login", checkNotAuthenticatedUser, showLoginForm)
 
-router.post("/login", checkNotAuthenticatedUser, login)
+router.post(
+	"/login",
+	checkNotAuthenticatedUser,
+	passport.authenticate("auth-user", {
+		failureRedirect: "/login",
+		failureFlash: true,
+	}),
+	login,
+	(req: Request, res: Response) => {
+		console.log(req.session)
+		console.log(req.user)
+		// if (typeof req.session.user !== "undefined") {
+		// 	req.session.user = req.user
+		// }
+		return res.redirect("/")
+	}
+)
 
 // router.get('/logout', logout)
 
-router.get('/signup', checkNotAuthenticatedUser, showSignUpForm)
+router.get("/signup", checkNotAuthenticatedUser, showSignUpForm)
 
-// router.post('/signup', checkNotAuthenticatedAuthor, signUp)
+router.post(
+	"/signup",
+	checkNotAuthenticatedUser,
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const result = await Promise.all(
+				validateAuth.signup.map(async (v) => {
+					try {
+						const validation = await v.run(req)
 
-// router.get('/verify/:verify_token', checkNotAuthenticatedAuthor, showVerifyTokenForm);
+						console.log(validation)
+					} catch (error) {
+						console.log(error)
+					}
+				})
+			)
+			console.log(result)
+		} catch (error) {
+			console.log(error)
+		}
+		next()
+	},
+	signUp
+)
 
-// router.get('/send_verification/', checkNotAuthenticatedAuthor, showSendVerificationForm)
+// router.get('/verify/:verify_token', checkNotAuthenticatedUser, showVerifyTokenForm);
 
-// router.post('/send_verification/', checkNotAuthenticatedAuthor, sendVerification);
+// router.get('/send_verification/', checkNotAuthenticatedUser, showSendVerificationForm)
 
-// router.get('/send_reset_pwd_email/', checkNotAuthenticatedAuthor, showSendResetPwdEmailForm);
+// router.post('/send_verification/', checkNotAuthenticatedUser, sendVerification);
 
-// router.post('/send_reset_pwd_email/', checkNotAuthenticatedAuthor, sendResetPwdEmail);
+// router.get('/send_reset_pwd_email/', checkNotAuthenticatedUser, showSendResetPwdEmailForm);
 
-// router.get('/reset_pwd/:verify_token', checkNotAuthenticatedAuthor, showResetPwdForm);
+// router.post('/send_reset_pwd_email/', checkNotAuthenticatedUser, sendResetPwdEmail);
 
-// router.post('/reset_pwd/:verify_token', checkNotAuthenticatedAuthor, resetPwd);
+// router.get('/reset_pwd/:verify_token', checkNotAuthenticatedUser, showResetPwdForm);
+
+// router.post('/reset_pwd/:verify_token', checkNotAuthenticatedUser, resetPwd);
 
 export default router

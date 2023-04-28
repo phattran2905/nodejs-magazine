@@ -3,6 +3,11 @@ import { IAccount, ACCOUNT_ROLES, ACCOUNT_STATUS } from "../types/Account"
 
 const AccountSchema = new Schema<IAccount>(
 	{
+		username: {
+			type: String,
+			required: true,
+			unique: true,
+		},
 		email: {
 			type: String,
 			required: true,
