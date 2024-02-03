@@ -1,5 +1,5 @@
 {
-	"name": "electronic_newspaper",
+	"name": "mern-newspaper",
 	"version": "1.0.0",
 	"description": "",
 	"main": "server.js",
@@ -17,7 +17,6 @@
 	"bugs": {
 		"url": "https://github.com/phatductran/nodejs_electronic_newspaper/issues"
 	},
-	"homepage": "https://github.com/phatductran/nodejs_electronic_newspaper#readme",
 	"dependencies": {
 		"bcrypt": "^5.1.1",
 		"body-parser": "^1.19.0",
@@ -40,6 +39,8 @@
 	},
 	"devDependencies": {
 		"cross-env": "^7.0.2",
-		"nodemon": "^2.0.3"
+		"nodemon": "^2.0.3",
+		"typescript": "^5.3.3"
 	}
+  
 }
