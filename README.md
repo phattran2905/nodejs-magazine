@@ -1,60 +1,84 @@
-# Introduction
-This is my first __Nodejs__ project. It provides some features which relate to blogs, articles, posts. With this application, the administrator can manage the authors, audiences as well as articles.
+# Turborepo starter
 
-I have deploy it on [heroku](http://heroku.com/) server, you can visit it by this link below:
-> https://e-newspaper.herokuapp.com/
+This Turborepo starter is maintained by the Turborepo core team.
 
-For administration page:
->https://e-newspaper.herokuapp.com/admin
+## Using this example
 
-# Installation
-After you cloned my project. There are a few things you need to set up.
+Run the following command:
 
-### Requisite
-Make sure that you have installed these things below:
-* [Npm](https://nodejs.org/en/) (version 6.x)
-* [Nodejs](https://nodejs.org/en/) (version 12.x)
-* [Mongodb](https://www.mongodb.com/) (version 4.x)
-
-### Install npm packages
-To install all the packages that were involved in this project, run this command on your terminal:
-
-```shell
-npm install
+```sh
+npx create-turbo@latest
 ```
 
-### Create enviroment variables
-You have to install enviroment variables and grab it inside a __*.env*__ file. Make sure you have included these variable:
+## What's inside?
+
+This Turborepo includes the following packages/apps:
+
+### Apps and Packages
+
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+
+### Utilities
+
+This Turborepo has some additional tools already setup for you:
+
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
+
+### Build
+
+To build all apps and packages, run the following command:
 
 ```
-DATABASE_URI="your connect string with mongodb"
-PORT="port for server to run on"
-SECRET_KEY="key for session and hashing"
-NODE_ENV="whether it is 'development' or 'production'"
+cd my-turborepo
+pnpm build
 ```
 
-### Run project
-After defining enviroment variables, run this command to start the server:
-```shell
-npm run dev
+### Develop
+
+To develop all apps and packages, run the following command:
+
+```
+cd my-turborepo
+pnpm dev
 ```
 
-Or for production:
-```shell
-npm run start
+### Remote Caching
+
+> [!TIP]
+> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+
+Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+
+```
+cd my-turborepo
+npx turbo login
 ```
 
-If errors occurred, please add on "cross-env" in [package.json](https://github.com/phatductran/nodejs_electronic_newspaper/blob/master/package.json) like this:
-```json
-"scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
-    "dev": "nodemon server.js"
-}
-``` 
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-### Import sample data
-I have prepared sample data in folder [dump_data](https://github.com/phatductran/nodejs_electronic_newspaper/tree/master/dump_data) for conveniently testing.
-You can find out how to import data from a file with json extension to mongodb database by [mongoimport](https://docs.mongodb.com/manual/reference/program/mongoimport/).
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
 
-## Avoid
-> Since it was my first __Nodejs__ project, it should not be for commercial due to my lack of working experience. Hackers might want to take advantages of bugs to harm your business.
+```
+npx turbo link
+```
+
+## Useful Links
+
+Learn more about the power of Turborepo:
+
+- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
+- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
+- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
+- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
+- [Configuration Options](https://turborepo.com/docs/reference/configuration)
+- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
